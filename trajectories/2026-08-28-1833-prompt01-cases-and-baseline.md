@@ -431,3 +431,86 @@ DIAGNOSIS               -> three distinct causes behind the gate failure:
 > prompt back to basic instructions in ONE principled step, then accept the re-run's
 > gate outcome without iterating — tuning the baseline down until cases fail would bend
 > the eval). Freeze, run 2, CHANGELOG [0] all withheld until the ruling.
+
+### Step 5 (cont.) — Checkpoint: rebuild approved under conditions; bar set before the number
+
+> **HUMAN: approved** — fix the lookup defect and roll the prompt back, re-run, bring
+> the new gate table before freezing. Conditions, verbatim in substance:
+>
+> **A — one rollback, then accept.** The prompt goes back to basic instructions ONCE.
+> Whatever the re-gate produces is the baseline. If a fair prompt with correct rows
+> still reads the route column right on 07, that is a finding about current models and
+> those cases are re-designated check-level discriminators with a DECISIONS entry.
+> No second pass.
+> **B — defect fix scoped as a defect fix.** The guard encodes "this is not a name",
+> never "this case needs help". No stoplist additions, no per-case tuning. Pinned by a
+> test that fails on the old behaviour. The pre-fix numbers were depressed by a defect
+> and are NOT the baseline — the rubric asks for gains over a FAIR baseline.
+> **C — the same prompt discipline binds the advanced solution.** Coaching removed from
+> the baseline does not reappear as hardcoded rules in the advanced extraction prompt.
+> Going-rate logic lives in the rules engine, reading floor_config. Code decides, the
+> model extracts.
+> Also ordered: case-01 verdict-level limitation -> DECISIONS + README limitations
+> (case stays as check-level discriminator). Problem framing rewritten — the scarce
+> resource is attention/calendar time under a visa deadline, not "irreplaceable"
+> applications; the 10-20 min manual cost is the author's own measurement and gets
+> actually measured Sunday. Two new metrics (decisive_accuracy, decisive_rate) with a
+> pre-registered target BEFORE Saturday's build: advanced must beat baseline on
+> verdict_utility AND beat always_abstain on decisive_rate while holding
+> decisive_accuracy high — passing verdict_utility by abstaining more is not the claim.
+> Rubric inventory due with the re-gate report. Timebox: this is the last
+> measurement-axis work before the advanced build.
+
+**ACCEPTANCE CRITERION — recorded before the re-run, per Condition A.**
+The re-gate runs once, on the fixed lookup and the rolled-back prompt. Its outcome is
+final:
+- A gate case the baseline now answers correctly WITH correct evidence is a finding
+  about current models; the case is re-designated a check-level discriminator
+  (DECISIONS entry + README limitations). No prompt change follows.
+- A gate case answered correctly with WRONG evidence (e.g. 01 via no_match) is recorded
+  as verdict-level non-discriminating, check-level discriminating.
+- Gate cases that fail as designed stay verdict-level discriminators.
+Predictions logged ahead of the number: 01 correct-by-coincidence (structural); 26
+fails as designed (RTW misread survived even the strong prompt); 13 likely correct
+legitimately (Sonnet chose the body salary over the wrapper unprompted in run 1);
+07 and 11 genuinely open — they are what the re-gate decides.
+
+### Step 5 (cont.) — Rebuild implemented under the conditions; framing corrected mid-flight
+
+**Agent action + tool responses, in order**
+
+```
+TDD                     -> 8 tests written/revised first, all RED as intended: lookup
+                           pin (case-07 employer must beat "Integrations"), hit-flood
+                           pin ("Software" -> NO ROWS MATCHED), coaching-absence pin,
+                           2x decisive_accuracy, 2x decisive_rate, locked-name-set.
+guard design deviation  -> the sketched fix (skip candidates with >20 hits) does NOT
+                           fix case-07: "Integrations" matches only 6 register orgs.
+                           Any threshold separating 6 from a real name's 1-3 hits would
+                           be case-tuned — forbidden by Condition B's own scope. Chosen
+                           instead: specificity ordering (fewest hits wins; >cap means
+                           generic). Parameter-free; recorded in DECISIONS.
+implement               -> register_context rewritten; build_prompt rolled back ONCE:
+                           four plain questions, floor figures as data, output
+                           contract; removed reason enums, "higher of the two",
+                           guaranteed-basic exclusions, verdict rules.
+gates                   -> 38/38 green; mypy --strict clean; ruff clean. The alias-
+                           blindness pin (case-01 -> NO ROWS MATCHED) held UNCHANGED
+                           under the new lookup — blindness preserved, not widened.
+delivery map (no API)   -> all 14 exact-name dev cases now deliver the employer's row
+                           (case-25 delivers all 3 ambiguous-group rows); 01/15/24
+                           NO_MATCH by design; 04/06 junk-or-nothing by design.
+commits                 -> 150b0c8 fix(baseline), 51af9fa eval(metrics)
+```
+
+> **HUMAN: redirected (mid-implementation)** — human-time claim corrected before it
+> reaches README: the 10–20-minute figure described CSV-era manual work, not the
+> author's actual process (one prompt against a chat with the register loaded, ~1 min —
+> which is exactly what the baseline implements). Consequences ordered: (1) README
+> states the baseline is a faithful reproduction of the manual process in use today —
+> the brief's own legitimate-baseline category, qualifying literally; (2) human time is
+> measured as TIME-TO-A-TRUSTWORTHY-ANSWER — Sunday protocol: three requisitions, both
+> variants, timed to the act-on-it point INCLUDING verification of wrong/unsupported
+> answers; (3) "10–20 minutes" banned from the repo outside this record. PLAN §1
+> rewritten (attention under a visa deadline, form-cheap/process-expensive,
+> asymmetric-and-unauditable errors); DECISIONS entry pre-registers the protocol.

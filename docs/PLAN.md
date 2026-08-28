@@ -32,28 +32,47 @@ extracts — a model is never the last thing between evidence and a verdict.**
 
 ## 1. Restatement
 
+*(§1 rewritten 2026-08-29 per checkpoint: cost basis corrected from "irreplaceable
+applications" to attention under a deadline, and the bottleneck restated as
+time-to-a-trustworthy-answer. The verdict-asymmetry design is unchanged; only its
+justification is. See the trajectory record.)*
+
 An early-career software engineer already working in the UK needs Skilled Worker
-sponsorship to keep working there, and every job application spent on a requisition that
-could never produce a Certificate of Sponsorship is runway burned for nothing. Whether a
-requisition is viable rests on four independent facts that live in three different places:
-the hiring **legal entity** appears on the Home Office sponsor register (published under
-registered names, while postings use trading names); that entity's licence covers the
-**Skilled Worker route** specifically (a Global Business Mobility-only licence is an
-intra-company route this user cannot use); the employer is **willing** to sponsor *this*
-requisition (holding a licence and using it are different facts); and the advertised
-**salary** clears the applicable floor — £38,300 for SOC 2134 new-entrant per the
-confirmed rules snapshot. Any single failed check kills the application, the checks fail
-independently, and the manual cross-referencing takes 10–20 minutes per requisition,
-repeated dozens of times.
+sponsorship to keep working there, and works against a visa deadline in a market where
+roles at their level close within 48 hours. Whether a requisition is viable rests on
+four independent facts that live in three different places: the hiring **legal entity**
+appears on the Home Office sponsor register (published under registered names, while
+postings use trading names); that entity's licence covers the **Skilled Worker route**
+specifically (a Global Business Mobility-only licence is an intra-company route this
+user cannot use); the employer is **willing** to sponsor *this* requisition (holding a
+licence and using it are different facts); and the advertised **salary** clears the
+applicable floor — £38,300 for SOC 2134 new-entrant per the confirmed rules snapshot.
+Any single failed check kills the application, and the checks fail independently. The
+application form is the cheap part of getting this wrong. The expensive part is what
+follows — screening call, recruiter conversation, technical interview: hours spent
+before the sponsorship constraint surfaces, on a process that could never have ended in
+an offer. The scarce resource is attention and calendar time under that deadline; every
+requisition examined pointlessly is one not examined instead.
+
+What this user does today — the author's actual current process, stated as such — is
+paste the requisition into a chat session that already has the register loaded and get
+an answer in about a minute. Producing an answer was never the bottleneck; trusting it
+is. That one-minute answer is confidently wrong on a large fraction of its definitive
+verdicts and cites evidence that does not survive checking, so acting on it means
+re-deriving it against the register by hand — which costs more than the answer did. The
+honest measure is therefore **time-to-a-trustworthy-answer**: the time until the user
+can act, including the time spent verifying — or failing to verify — what the tool
+claimed. This is what the Sunday timing measurement captures, per the protocol in §6.
 
 The system takes a requisition (pasted text; URL only in demo mode) plus the public
 sponsor register snapshot and returns **SPONSORABLE / NOT SPONSORABLE / UNVERIFIABLE**,
-delivered as a plain-English verification report a person reads before spending an
-application: the evidence behind each of the four checks and an explicit uncertainty
-statement. The cost structure is asymmetric and the metric encodes it: a confident wrong
-SPONSORABLE burns an irreplaceable application; a confident wrong NOT SPONSORABLE silently
-discards a viable role; an honest UNVERIFIABLE costs only a manual re-check. False
-confidence is the cardinal failure, in both directions but worst toward SPONSORABLE.
+delivered as a plain-English verification report a person reads before spending time on
+a role: the evidence behind each of the four checks and an explicit uncertainty
+statement. The error costs are asymmetric and — worse — unauditable by the user, and
+the metric encodes it: a false SPONSORABLE sends hours into a pipeline that cannot end
+in an offer; a false NOT SPONSORABLE silently discards a viable role and the user never
+learns it existed; an honest UNVERIFIABLE costs one manual re-check. False confidence
+is the cardinal failure, in both directions.
 
 The output is advisory only — the human decides whether to apply. No consequential action
 is ever executed by the system (brief ground rules 04/05 satisfied by construction; CN-6
@@ -272,10 +291,15 @@ statuses) — a metric-definition change, recorded in DECISIONS.md **before** th
 freeze so no results are ever incomparable.
 
 **Brief's summary-table mapping:** Primary outcome = `verdict_utility`. Human time per
-task = manual baseline measured honestly (the author times three requisitions done by hand
-on Sunday, committed as an evidence file) vs. system runtime + ~1–2 min report review,
-stated as an estimate. Cost per task = `cost_per_case`. Every number in README traces to
-an `eval/results/` file (CN-1).
+task = **time-to-a-trustworthy-answer**, measured Sunday (checkpoint 2026-08-29): three
+requisitions, both variants, timed to the point the user could act on the output —
+including the time to verify or refute a wrong or unsupported answer against the
+register. Raw latency is not the claim: the baseline answers in about a minute and is
+confidently wrong on a large fraction of definitive verdicts, so its verification cost
+is part of its time. The advanced system's claim is that its output can be acted on
+without re-derivation because every check carries a mechanically grounded citation.
+Committed as an evidence file. Cost per task = `cost_per_case`. Every number in README
+traces to an `eval/results/` file (CN-1).
 
 **Metric integrity — three reference lines.** With the labelled mix (14/6/10), always
 answering UNVERIFIABLE scores `verdict_utility` 0.5 for free. The harness therefore runs
@@ -361,7 +385,7 @@ Kickoff was 16:00 London, Fri 28 Aug.
 | **Sat eve** | Verification report renderer + tests → `[3]` (moves no eval metric — stated per BP-4); self-consistency experiment run through the same eval → `[x]` rejected by its numbers. | Report renders on every dev case; changelog has a rejected experiment with numbers. |
 | **Sun AM** | Prompt 03 hardening: QREPRO from a clean container, hostile inputs (T-9), staleness warnings. | REPRODUCTION.md executes literally, clean clone. |
 | **Sun midday** | Final eval: full 30 + held-out breakdown + variance. | The README headline numbers exist in `eval/results/`. |
-| **Sun PM** | README, CHANGELOG, REPRODUCTION, DATA, DECISIONS complete; manual-timing sample; trajectories audit. | Every claim traces to a file (CN-1). |
+| **Sun PM** | README, CHANGELOG, REPRODUCTION, DATA, DECISIONS complete; time-to-a-trustworthy-answer measurement (three requisitions, both variants, verification time included — checkpoint 2026-08-29); trajectories audit. | Every claim traces to a file (CN-1). |
 | **Sun eve** | Video (≤5 min: problem → baseline failing live on the hard case → advanced producing the verification report on the same case → metric table → the removed experiment) → **submit**. | Submitted Sunday night. |
 | **Mon ≤18:00 UTC** | Reserve only: re-verify reproduction from a fresh clone; re-record video if needed. Nothing new lands Monday. | — |
 

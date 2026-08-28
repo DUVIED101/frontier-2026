@@ -49,7 +49,15 @@ Every number in this document comes from that file. Reproduce with
 Located in `src/baseline/`. Frozen after its first green run and never modified since —
 it is the measurement reference, not a fallback implementation.
 
-TODO
+The baseline is not a straw man; it is a faithful reproduction of the manual process in
+use today. The author's actual current workflow for this problem is to paste the
+requisition into a chat session that already has the sponsor register loaded and take
+the one-minute answer — which is exactly what `src/baseline/solve.py` implements: one
+direct prompt with basic instructions and a naive name lookup over the same committed
+register snapshot. The challenge brief lists "the manual process people use today" as a
+legitimate baseline; this one qualifies literally rather than by analogy.
+
+TODO — fill measured failure profile from the frozen-baseline results file.
 
 ## Advanced solution
 
@@ -95,6 +103,16 @@ commands for the solution, the baseline, and the evaluation.
 <!-- Where this breaks. Judges reward the honest answer, not the absence of one.
      Name the specific input class that defeats it and say what it would take to fix. -->
 TODO
+
+**Known evaluation limitation (recorded 2026-08-29, DECISIONS.md).** The highest-harm
+failure mode in the design — world-knowledge substitution, where a model asserts a
+household-name employer "obviously" sponsors without a register row — is one this
+evaluation structurally cannot elicit: every employer in the fixtures is fictional, so
+no model holds a prior about any of them. Case-01 was designed to trigger that failure
+and cannot at verdict level; it discriminates at check level instead (which evidence
+chain produced the verdict). The failure mode is real in production use on real
+employers; measuring it would require real-brand cases, which the synthetic-fixture
+decision (CN-7) deliberately traded away.
 
 ## Hot take
 

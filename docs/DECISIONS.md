@@ -160,3 +160,98 @@ for an eval loop whose baseline exists to be beaten. C — cheapest, but weakens
 baseline for no reason the metrics need.
 **Evidence.** Parameter support and prices from the API reference; the SDK signature
 verified against anthropic==1.2.0 under mypy --strict.
+
+### 2026-08-29 — Baseline lookup guard is specificity, not a threshold; prompt rolled back once
+**Context.** The first noise-floor run exposed two problems before the freeze. (1) A
+defect: the lookup's first-candidate-wins rule let job-title segments that survive the
+stopword list ("Integrations", "Payments", "Reporting") substring-match unrelated
+register rows and shadow the employer's name — on 5 of 20 dev cases the employer's row
+never reached the model, which then truthfully reported the employer absent. (2) The
+system prompt narrated the author's expertise: both thresholds with "the higher of the
+two applies", the guaranteed-basic-pay exclusion list, the full reason vocabulary, the
+verdict-combination rules. Case-11 was answered correctly *because the prompt contained
+the answer key*.
+**Options.** For (1): a hit-count threshold ("skip candidates matching > N rows") — but
+"Integrations" matches only 6 register orgs, so any threshold separating it from a real
+name's 1–3 hits would be tuned to cases, which the fix's own scope condition forbids.
+Or specificity ordering: among candidates with 1..MAX_REGISTER_ROWS hits, fewest hits
+wins; more hits than the excerpt carries means "generic word, not a name". For (2): keep
+the strong prompt and accept a baseline that answers its own exam, or roll back once to
+plain-language questions with the floor figures attached as data, then accept the
+re-gate outcome without iterating.
+**Chosen.** Specificity ordering (parameter-free, encodes only "this is not a name"),
+pinned by a test that fails on the old behaviour; and the one-time rollback. Binding
+conditions recorded at approval: the rollback happens once and the re-gate outcome is
+final — tuning the baseline downward until designed failures fire would bend the eval;
+and the same discipline binds the advanced variant: interpretation coaching removed
+from the baseline prompt must not reappear hardcoded in the advanced extraction prompt.
+Threshold logic lives in the rules engine, as code, reading floor_config. Code decides,
+the model extracts.
+**Rejected.** Stoplist additions (whack-a-mole; per-case knowledge in disguise) and any
+second prompt pass.
+**Evidence.** eval/results/20260828-224144.json (the defect-depressed run — recorded as
+superseded, NOT the baseline; the rubric asks for gains over a fair baseline) and the
+post-fix rerun committed alongside the freeze.
+
+### 2026-08-29 — Case-01 cannot discriminate at verdict level; kept as a check-level case
+**Context.** Case-01's designed failure is world-knowledge substitution: a naive agent
+resolves a brand by prior ("of course they sponsor") and reads register presence as
+sponsorability, pushing toward false SPONSORABLE. Under a live model the trap never
+fired — and inspection shows it cannot: every fixture employer is fictional, so no
+model holds a prior about any of them. For a fictional brand the lookup finds nothing
+and NOT_SPONSORABLE-via-no_match collapses onto the correct verdict for any baseline.
+**Options.** (A) Introduce real-brand cases to elicit the failure — reopens the
+redistribution and staleness problems the synthetic decision closed. (B) Relabel or
+drop the case. (C) Keep it as a check-level discriminator: at verdict level it cannot
+separate variants, but the evidence chain (register pass/alias_lookup with the entity's
+row, versus fail/no_match) separates them fully via check_accuracy and grounding_rate.
+**Chosen.** C, with the limitation stated in README's failure-mode section: the
+highest-harm failure mode in the design is one this evaluation structurally cannot
+elicit. The honest sentence is worth more than a case that pretends to measure it.
+**Rejected.** A — it would trade a stated limitation for a data-provenance problem two
+days before submission.
+**Evidence.** eval/results/20260828-224144.json (case-01: correct verdict, wrong
+evidence chain, exactly as the structural argument predicts).
+
+### 2026-08-29 — decisive_accuracy and decisive_rate added, with a pre-registered target
+**Context.** always_abstain scores verdict_utility 0.5125 on the dev mix. The advanced
+design's verification layer works by downgrading unsupported claims to indeterminate —
+it moves the system toward abstention. There is a real outcome where advanced lands at
+0.55–0.60: above both reference lines, and barely better than answering UNVERIFIABLE to
+everything. verdict_utility cannot tell that outcome from a good one.
+**Options.** (A) Rebalance utility weights to punish abstention — bends the metric that
+encodes the domain's real asymmetry. (B) Add a coverage/precision pair:
+decisive_accuracy = correct definitive verdicts ÷ definitive verdicts issued;
+decisive_rate = definitive verdicts issued on determinable cases ÷ determinable cases.
+always_abstain scores 0 on decisive_rate by construction.
+**Chosen.** B, before any advanced code exists, with the target recorded now so it
+cannot be adjusted afterwards: **advanced must beat the baseline on verdict_utility AND
+beat always_abstain on decisive_rate while holding decisive_accuracy high. Passing
+verdict_utility by abstaining more is not the claimed result.**
+**Rejected.** A. The asymmetry is the point of the primary metric; coverage is a
+separate axis and gets its own metrics.
+**Evidence.** Arithmetic from the labels; metrics added with hand-computed unit tests
+before the freeze, so every recorded run from the freeze onward carries them.
+
+### 2026-08-29 — Human time is measured as time-to-a-trustworthy-answer
+**Context.** The draft framing claimed 10–20 minutes of manual cross-referencing per
+requisition. That describes someone working with the raw CSV; the author's actual
+process is one direct prompt against a chat with the register loaded — about a minute,
+and exactly what src/baseline/solve.py implements. "15 minutes versus one minute" is
+therefore not an honest claim, and raw latency is not the bottleneck at all.
+**Options.** (A) Report solver latency as the human-time win. (B) Define the metric as
+time-to-a-trustworthy-answer: time until the user can act on the output, including the
+time to verify or refute a wrong or unsupported answer against the register.
+**Chosen.** B. The baseline produces text in a minute and is confidently wrong on
+roughly half its definitive verdicts, so acting on it requires re-deriving it — the
+verification cost is part of its time. The advanced system's claim is that its output
+can be acted on without re-derivation because every check carries a mechanically
+grounded citation. Sunday protocol, fixed now: three requisitions, both variants, timed
+to the act-on-it point, wrong/unsupported answers verified by hand, committed as an
+evidence file. A second consequence is recorded in README: the baseline is a faithful
+reproduction of the manual process in use today — the brief's "manual process people
+use today" baseline, qualifying literally.
+**Rejected.** A, and the 10–20-minute figure everywhere — it survives nowhere in the
+repo outside the trajectory record of this correction.
+**Evidence.** To be produced Sunday as the timing evidence file; until then no
+human-time number appears in any judged document.
