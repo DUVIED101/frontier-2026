@@ -332,3 +332,102 @@ comparison). Run 2 produces the three-line reference table (baseline, always_abs
 advanced slot empty — the stub errors by design, error_rate 1.0). After run 2:
 CHANGELOG `[0]` citing the results files, baseline FREEZE (CN-3), commit. Estimated
 cost of both runs ~140 Sonnet calls ≈ $2.
+
+### Step 5 (cont.) — Unblocking the API key: two dead ends before a single successful call
+
+**Agent action + tool responses, in order**
+
+```
+operator sets .env      -> HUMAN provides the key (value REDACTED here per TR-6)
+git tree                -> committed the operator's pending prompts/00-bootstrap.md
+                           supersession note first, so both results files record
+                           git_dirty=false (evidence must be reproducible from a commit)
+smoke test 1 (1 token)  -> FAILED before reaching the API: .env had the key on its own
+                           line below "ANTHROPIC_API_KEY=", so sourcing set nothing and
+                           zsh tried to EXECUTE the key line ("command not found",
+                           printing the key into the local error trace — flagged to the
+                           operator with a rotation recommendation). Repaired .env
+                           programmatically without displaying it; variable then set.
+smoke test 2 (1 token)  -> 400: "anthropic-workspace-id is required when authenticating
+                           with an identity-linked API key". The key type demands a
+                           workspace header on EVERY request.
+discovery probes        -> models.list: same 400 (no unauthenticated discovery path).
+                           Literal workspace id "default": 400 "must be a valid
+                           workspace ID". Nothing local (no ant CLI, no workspace env
+                           var, no ~/.anthropic) knows the id. Genuinely operator-only.
+```
+
+> **HUMAN: redirected** — offered two unblocks: paste the workspace ID and wire an
+> optional `anthropic-workspace-id` header into the solver pre-freeze, or rotate to a
+> standard workspace-scoped key (no header requirement; also retires the key that
+> surfaced in the local error trace). Operator chose **rotation** — the solver stays
+> untouched and minimal, which is the better shape for a baseline about to freeze.
+
+```
+REPRODUCTION.md         -> troubleshooting row added: identity-linked keys 400 on every
+                           call demanding anthropic-workspace-id; use a standard
+                           workspace-scoped key. A judge reproducing from an org that
+                           issues identity-linked keys would hit this wall.
+watcher                 -> background wait on .env mtime; smoke test re-runs on save
+```
+
+### Step 5 (cont.) — Run 1 (noise floor) complete; gate FAILED; freeze STOPPED
+
+**Agent action + tool responses, in order**
+
+```
+run 1                   -> eval/results/20260828-224144.{json,md}: 120 calls, 0 errors,
+                           ~26 min, ~$1.32. Noise floor: verdict_utility 0.1 stdev 0.0,
+                           confident_wrong_rate 0.4737 stdev 0.0 across 5 repeats —
+                           verdict-level metrics are perfectly stable at temperature 0;
+                           check_accuracy/grounding jitter <=~0.02 across 6 passes.
+                           NOTE: the run recorded git_dirty=true — the REPRODUCTION.md
+                           troubleshooting row and this trajectory's own live appends
+                           were uncommitted at launch (doc-only, content-inert to the
+                           eval; named here for honesty). Committed before any next run.
+gate check              -> operator's pre-freeze condition: baseline must FAIL cases
+                           01, 07, 11, 13, 26. RESULT: 4 of 5 produced the CORRECT
+                           verdict (only 26 failed as predicted). STOP condition fired:
+                           no CHANGELOG [0], no freeze, run 2 withheld.
+mechanism dig           -> per-check outputs revealed register fail/no_match on cases
+                           whose expected reason is legal_name_exact (07,13,20,26,27).
+                           First probe of register_context() printed "HIT" for those
+                           cases — misleading (it tested only != NO ROWS MATCHED).
+                           Second probe printed the rows actually delivered: for 07 the
+                           first candidate "Integrations" substring-matched 6 unrelated
+                           orgs (BI INTEGRATIONS LTD, Power Integrations UK Limited...);
+                           for 20 "Payments" matched 20 payment companies. The employer
+                           row NEVER reached the model; the model truthfully reported
+                           the employer absent from the rows it was given.
+DIAGNOSIS               -> three distinct causes behind the gate failure:
+                           (a) DEFECT: first-candidate-with-hits wins + substring
+                               containment lets surviving job-title segments
+                               ("Integrations", "Payments", "Reporting", "ETL") shadow
+                               the real employer name. By the baseline's own docstring
+                               (a person Ctrl-Fs the employer's NAME) this is a bug,
+                               not designed blindness. Corrupts 07/13/20/26/27; the
+                               route trap in 07 was never administered (GBM rows never
+                               reached the model).
+                           (b) PROMPT TOO STRONG: case-11 passed legitimately — the
+                               system prompt narrates BOTH thresholds plus "the higher
+                               of the two applies" plus the guaranteed-basic exclusion
+                               list plus reason enums: the author's expert knowledge,
+                               beyond PLAN §4's "checks described in plain language".
+                           (c) STRUCTURAL: case-01's false-SPONSORABLE trap requires
+                               world-knowledge priors that fictional brands cannot
+                               trigger; no-match -> NS collapses onto the correct
+                               verdict for ANY baseline. The case discriminates at
+                               check level (register pass/alias vs fail/no_match), not
+                               at verdict level. A consequence of the synthetic-fixture
+                               decision, discovered only under a live model.
+                           Also observed: 13's wrapper trap half-failed on model
+                           strength (Sonnet chose the body salary over the wrapper's
+                           £45,000 even with junk register rows); 26 fired as designed
+                           even with the strong prompt (RTW boilerplate -> "refused").
+```
+
+> **HUMAN checkpoint pending** — stop report delivered with per-case attribution and a
+> recommendation (fix the shadow-candidate defect with a generic-term guard; roll the
+> prompt back to basic instructions in ONE principled step, then accept the re-run's
+> gate outcome without iterating — tuning the baseline down until cases fail would bend
+> the eval). Freeze, run 2, CHANGELOG [0] all withheld until the ruling.

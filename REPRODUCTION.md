@@ -147,4 +147,5 @@ All tests are expected to pass on a clean clone.
 |---|---|---|
 | `python3 -m venv` fails at `ensurepip` | Some Python 3.14 builds (e.g. Homebrew's) ship without ensurepip wheels | Use `python3.12 -m venv .venv` — the pinned toolchain targets 3.12 |
 | `400 invalid_request_error` mentioning `temperature` | The pinned model/parameter combination changed — newest models reject sampling parameters | Keep the pinned `claude-sonnet-4-6`; the temperature pin is deliberate (DECISIONS.md 2026-08-28) |
+| `400` demanding `anthropic-workspace-id` on every call | Identity-linked API keys require a workspace header the code does not send | Use a standard workspace-scoped API key (created inside a Console workspace) for `ANTHROPIC_API_KEY` |
 | `No cases with split=...` from `run_eval.py` | `--split` filter matched nothing | Use `--split dev` during development, `--split all` for the final run |
