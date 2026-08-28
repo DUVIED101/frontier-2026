@@ -44,6 +44,7 @@ RESULTS_DIR = ROOT / "eval" / "results"
 # 1. Cases — EDIT THIS after the problem statement is published
 # --------------------------------------------------------------------------
 
+
 @dataclass
 class Case:
     """One evaluation case. `expected` is an independently derived answer,
@@ -73,8 +74,14 @@ def load_cases(limit: int | None = None, split: str = "dev") -> list[Case]:
         case_split = raw.get("meta", {}).get("split", "dev")
         if split != "all" and case_split != split:
             continue
-        cases.append(Case(id=raw.get("id", f.stem), payload=raw["payload"],
-                          expected=raw.get("expected", {}), split=case_split))
+        cases.append(
+            Case(
+                id=raw.get("id", f.stem),
+                payload=raw["payload"],
+                expected=raw.get("expected", {}),
+                split=case_split,
+            )
+        )
     if not cases:
         raise SystemExit(f"No cases with split={split!r} in {CASES_DIR}.")
     return cases[:limit] if limit else cases
@@ -83,6 +90,7 @@ def load_cases(limit: int | None = None, split: str = "dev") -> list[Case]:
 # --------------------------------------------------------------------------
 # 2. Variants — EDIT THIS after the problem statement is published
 # --------------------------------------------------------------------------
+
 
 def run_baseline(case: Case, seed: int) -> dict[str, Any]:
     """Deliberately simple reference implementation. FROZEN — see CLAUDE.md CN-3."""
@@ -122,6 +130,7 @@ VARIANTS: dict[str, Callable[[Case, int], dict[str, Any]]] = {
 # Runner — do not edit below this line without a reason recorded in DECISIONS.md
 # --------------------------------------------------------------------------
 
+
 def git_sha() -> str:
     try:
         return subprocess.check_output(
@@ -133,7 +142,9 @@ def git_sha() -> str:
 
 def git_dirty() -> bool:
     try:
-        out = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)
+        out = subprocess.check_output(
+            ["git", "status", "--porcelain"], cwd=ROOT, text=True
+        )
         return bool(out.strip())
     except Exception:
         return False
@@ -191,7 +202,9 @@ def summarize(runs: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def variance_report(name: str, cases: list[Case], seed: int, repeats: int) -> dict[str, Any]:
+def variance_report(
+    name: str, cases: list[Case], seed: int, repeats: int
+) -> dict[str, Any]:
     """Run one variant several times so a real delta can be told apart from noise."""
     runs = [run_variant(name, cases, seed + i) for i in range(repeats)]
     out: dict[str, Any] = {}
@@ -210,16 +223,28 @@ def variance_report(name: str, cases: list[Case], seed: int, repeats: int) -> di
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="frontier-2026 evaluation harness")
-    ap.add_argument("--variant", action="append", choices=list(VARIANTS),
-                    help="repeatable; default is baseline then advanced")
+    ap.add_argument(
+        "--variant",
+        action="append",
+        choices=list(VARIANTS),
+        help="repeatable; default is baseline then advanced",
+    )
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--limit", type=int, default=None, help="cap number of cases")
-    ap.add_argument("--repeats", type=int, default=1,
-                    help="repeat each variant N times and report variance")
+    ap.add_argument(
+        "--repeats",
+        type=int,
+        default=1,
+        help="repeat each variant N times and report variance",
+    )
     ap.add_argument("--tag", default="", help="label written into the results file")
-    ap.add_argument("--split", choices=["dev", "holdout", "all"], default="dev",
-                    help="dev during development (default); all for the final run "
-                         "(docs/PLAN.md §7 holdout discipline)")
+    ap.add_argument(
+        "--split",
+        choices=["dev", "holdout", "all"],
+        default="dev",
+        help="dev during development (default); all for the final run "
+        "(docs/PLAN.md §7 holdout discipline)",
+    )
     args = ap.parse_args()
 
     variants = args.variant or ["baseline", "always_abstain", "advanced"]
@@ -229,7 +254,9 @@ def main() -> int:
 
     variance = {}
     if args.repeats > 1:
-        variance = {v: variance_report(v, cases, args.seed, args.repeats) for v in variants}
+        variance = {
+            v: variance_report(v, cases, args.seed, args.repeats) for v in variants
+        }
 
     stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
     record = {
@@ -246,13 +273,16 @@ def main() -> int:
     }
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    (RESULTS_DIR / f"{stamp}.json").write_text(json.dumps(record, indent=2, default=str))
+    (RESULTS_DIR / f"{stamp}.json").write_text(
+        json.dumps(record, indent=2, default=str)
+    )
 
     table = summarize(runs)
     md = [
         f"# Eval run {stamp}",
         "",
-        f"- commit: `{record['git_sha']}`" + ("  **(working tree dirty)**" if record["git_dirty"] else ""),
+        f"- commit: `{record['git_sha']}`"
+        + ("  **(working tree dirty)**" if record["git_dirty"] else ""),
         f"- seed: `{args.seed}` · split: `{args.split}` · cases: {len(cases)} · repeats: {args.repeats}",
         "",
         table,
@@ -277,7 +307,9 @@ def main() -> int:
     print("\n".join(md))
     print(f"\nwritten: eval/results/{stamp}.json  eval/results/{stamp}.md")
     if record["git_dirty"]:
-        print("WARNING: working tree is dirty — this run is not reproducible from the commit.")
+        print(
+            "WARNING: working tree is dirty — this run is not reproducible from the commit."
+        )
     return 0
 
 

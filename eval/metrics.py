@@ -39,6 +39,7 @@ class Metric:
 # Generic metrics — valid on day one, before the problem is known
 # --------------------------------------------------------------------------
 
+
 def _exact_match(results: list[CaseResult]) -> float:
     scored = [r for r in results if r.expected]
     if not scored:
