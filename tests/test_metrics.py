@@ -15,6 +15,8 @@ from eval.metrics import METRICS, CaseResult
 EXPECTED_METRIC_NAMES = {
     "verdict_utility",
     "confident_wrong_rate",
+    "decisive_accuracy",
+    "decisive_rate",
     "check_accuracy",
     "grounding_rate",
     "cost_per_case_usd",
@@ -117,6 +119,39 @@ def test_confident_wrong_rate_counts_only_definitive_outputs() -> None:
         _cr({}, EXPECTED_NS, error="crash"),  # no verdict: excluded
     ]
     assert _metric("confident_wrong_rate").aggregate(results) == 0.5
+
+
+def test_decisive_accuracy_scores_only_issued_definitive_verdicts() -> None:
+    results = [
+        _cr({"verdict": "NOT_SPONSORABLE"}, EXPECTED_NS),  # definitive, right
+        _cr({"verdict": "SPONSORABLE"}, EXPECTED_NS),  # definitive, wrong
+        _cr({"verdict": "UNVERIFIABLE"}, EXPECTED_NS),  # abstention: excluded
+        _cr({}, EXPECTED_NS, error="crash"),  # no verdict: excluded
+    ]
+    assert _metric("decisive_accuracy").aggregate(results) == 0.5
+
+
+def test_decisive_accuracy_counts_definitive_on_unverifiable_truth_as_wrong() -> None:
+    results = [
+        _cr({"verdict": "NOT_SPONSORABLE"}, EXPECTED_U),  # truth is U: wrong
+        _cr({"verdict": "NOT_SPONSORABLE"}, EXPECTED_NS),  # right
+    ]
+    assert _metric("decisive_accuracy").aggregate(results) == 0.5
+
+
+def test_decisive_rate_measures_coverage_of_determinable_truth() -> None:
+    results = [
+        _cr({"verdict": "NOT_SPONSORABLE"}, EXPECTED_NS),  # determinable, answered
+        _cr({"verdict": "UNVERIFIABLE"}, EXPECTED_NS),  # determinable, abstained
+        _cr({"verdict": "SPONSORABLE"}, EXPECTED_NS),  # answered wrongly: still issued
+        _cr({"verdict": "NOT_SPONSORABLE"}, EXPECTED_U),  # truth U: not determinable
+    ]
+    assert _metric("decisive_rate").aggregate(results) == 2 / 3
+
+
+def test_decisive_rate_is_zero_when_always_abstaining() -> None:
+    results = [_cr({"verdict": "UNVERIFIABLE"}, EXPECTED_NS) for _ in range(3)]
+    assert _metric("decisive_rate").aggregate(results) == 0.0
 
 
 def test_check_accuracy_is_a_macro_average_over_the_four_checks() -> None:

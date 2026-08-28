@@ -11,7 +11,10 @@ below an honest abstention (`verdict_utility`), because a wasted application cos
 user more than a manual re-check. `exact_match` was narrowed to a subset comparison
 before the baseline freeze (DECISIONS.md 2026-08-28): label-only fields
 (`determining_fact`, `evidence_anchors`) are excluded — they are verified by dedicated
-tests and by `grounding_rate`, not echoed by solvers.
+tests and by `grounding_rate`, not echoed by solvers. `decisive_accuracy` and
+`decisive_rate` were added 2026-08-29, also before the freeze, with a pre-registered
+target for the advanced variant (DECISIONS.md); the one prior recorded run predates
+them and is superseded by the defect-fix rerun regardless.
 """
 
 from __future__ import annotations
@@ -27,6 +30,7 @@ from typing import Any, Callable
 
 VERDICTS = ("SPONSORABLE", "NOT_SPONSORABLE", "UNVERIFIABLE")
 ABSTAIN = "UNVERIFIABLE"
+DEFINITIVE_VERDICTS = ("SPONSORABLE", "NOT_SPONSORABLE")
 CHECKS = ("register", "route", "willingness", "salary")
 
 UTILITY_CORRECT = 1.0
@@ -104,6 +108,40 @@ def _confident_wrong_rate(results: list[CaseResult]) -> float:
         return 0.0
     wrong = sum(1 for r in definitive if _verdict(r) != r.expected["verdict"])
     return wrong / len(definitive)
+
+
+def _decisive_accuracy(results: list[CaseResult]) -> float:
+    """Correct definitive verdicts ÷ definitive verdicts issued.
+
+    Added 2026-08-29, before the baseline freeze (DECISIONS.md): paired with
+    decisive_rate so a variant cannot pass verdict_utility by drifting toward
+    abstention. A definitive verdict where the truth is UNVERIFIABLE counts as wrong.
+    """
+    definitive = [
+        r
+        for r in results
+        if r.expected.get("verdict") and _verdict(r) in DEFINITIVE_VERDICTS
+    ]
+    if not definitive:
+        return 0.0
+    correct = sum(1 for r in definitive if _verdict(r) == r.expected["verdict"])
+    return correct / len(definitive)
+
+
+def _decisive_rate(results: list[CaseResult]) -> float:
+    """Definitive verdicts issued on determinable cases ÷ determinable cases.
+
+    always_abstain scores 0 by construction — that is the point: the pre-registered
+    target (DECISIONS.md 2026-08-29) requires advanced to beat always_abstain here
+    while holding decisive_accuracy high, so abstention cannot masquerade as skill.
+    """
+    determinable = [
+        r for r in results if r.expected.get("verdict") in DEFINITIVE_VERDICTS
+    ]
+    if not determinable:
+        return 0.0
+    issued = sum(1 for r in determinable if _verdict(r) in DEFINITIVE_VERDICTS)
+    return issued / len(determinable)
 
 
 def _check_accuracy(results: list[CaseResult]) -> float:
@@ -260,6 +298,25 @@ METRICS: list[Metric] = [
         ),
         higher_is_better=False,
         aggregate=_confident_wrong_rate,
+    ),
+    Metric(
+        name="decisive_accuracy",
+        description=(
+            "Correct definitive verdicts ÷ definitive verdicts issued. Definitive "
+            "answers on UNVERIFIABLE truth count as wrong."
+        ),
+        higher_is_better=True,
+        aggregate=_decisive_accuracy,
+    ),
+    Metric(
+        name="decisive_rate",
+        description=(
+            "Definitive verdicts issued on determinable cases ÷ determinable cases. "
+            "always_abstain scores 0 by construction; abstention cannot masquerade "
+            "as improvement."
+        ),
+        higher_is_better=True,
+        aggregate=_decisive_rate,
     ),
     Metric(
         name="check_accuracy",
