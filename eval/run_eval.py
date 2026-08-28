@@ -52,12 +52,15 @@ class Case:
     id: str
     payload: dict[str, Any]
     expected: dict[str, Any] = field(default_factory=dict)
+    split: str = "dev"
 
 
-def load_cases(limit: int | None = None) -> list[Case]:
+def load_cases(limit: int | None = None, split: str = "dev") -> list[Case]:
     """Read cases from eval/cases/*.json.
 
-    Each file is {"id": ..., "payload": {...}, "expected": {...}}.
+    Each file is {"id": ..., "meta": {"split": ...}, "payload": {...}, "expected": {...}}.
+    split: "dev" (default — holdout stays unread during development, docs/PLAN.md §7),
+    "holdout", or "all" (the final run).
     """
     files = sorted(CASES_DIR.glob("*.json"))
     if not files:
@@ -67,8 +70,13 @@ def load_cases(limit: int | None = None) -> list[Case]:
     cases = []
     for f in files:
         raw = json.loads(f.read_text())
+        case_split = raw.get("meta", {}).get("split", "dev")
+        if split != "all" and case_split != split:
+            continue
         cases.append(Case(id=raw.get("id", f.stem), payload=raw["payload"],
-                          expected=raw.get("expected", {})))
+                          expected=raw.get("expected", {}), split=case_split))
+    if not cases:
+        raise SystemExit(f"No cases with split={split!r} in {CASES_DIR}.")
     return cases[:limit] if limit else cases
 
 
@@ -90,8 +98,22 @@ def run_advanced(case: Case, seed: int) -> dict[str, Any]:
     return solve(case.payload, seed=seed)
 
 
+def run_always_abstain(case: Case, seed: int) -> dict[str, Any]:
+    """Trivial-abstention floor: UNVERIFIABLE on every case, no evidence, no model call.
+
+    Metric-integrity reference (DECISIONS.md 2026-08-28): with this verdict mix, always
+    abstaining scores verdict_utility 0.5 for free. Every results table shows that floor
+    so the claim is "beats both the baseline and trivial abstention"."""
+    return {
+        "verdict": "UNVERIFIABLE",
+        "checks": {},
+        "uncertainty": "always_abstain reference variant: no checks attempted",
+    }
+
+
 VARIANTS: dict[str, Callable[[Case, int], dict[str, Any]]] = {
     "baseline": run_baseline,
+    "always_abstain": run_always_abstain,
     "advanced": run_advanced,
 }
 
@@ -195,10 +217,13 @@ def main() -> int:
     ap.add_argument("--repeats", type=int, default=1,
                     help="repeat each variant N times and report variance")
     ap.add_argument("--tag", default="", help="label written into the results file")
+    ap.add_argument("--split", choices=["dev", "holdout", "all"], default="dev",
+                    help="dev during development (default); all for the final run "
+                         "(docs/PLAN.md §7 holdout discipline)")
     args = ap.parse_args()
 
-    variants = args.variant or ["baseline", "advanced"]
-    cases = load_cases(args.limit)
+    variants = args.variant or ["baseline", "always_abstain", "advanced"]
+    cases = load_cases(args.limit, args.split)
 
     runs = [run_variant(v, cases, args.seed) for v in variants]
 
@@ -210,6 +235,7 @@ def main() -> int:
     record = {
         "timestamp_utc": stamp,
         "tag": args.tag,
+        "split": args.split,
         "seed": args.seed,
         "git_sha": git_sha(),
         "git_dirty": git_dirty(),
@@ -227,7 +253,7 @@ def main() -> int:
         f"# Eval run {stamp}",
         "",
         f"- commit: `{record['git_sha']}`" + ("  **(working tree dirty)**" if record["git_dirty"] else ""),
-        f"- seed: `{args.seed}` · cases: {len(cases)} · repeats: {args.repeats}",
+        f"- seed: `{args.seed}` · split: `{args.split}` · cases: {len(cases)} · repeats: {args.repeats}",
         "",
         table,
         "",

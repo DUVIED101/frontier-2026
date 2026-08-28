@@ -104,3 +104,38 @@ the binding principle that code decides and the model extracts.
 across requisitions is a feature for comparison, not a defect.
 **Evidence.** Reasoned, not measured. Moves no eval metric (BP-4); targets the judged
 End-to-End Quality criterion.
+
+### 2026-08-28 — always_abstain added as a third reference variant (metric integrity)
+**Context.** The labelled verdict mix is 14 NOT_SPONSORABLE / 6 SPONSORABLE /
+10 UNVERIFIABLE, so the strategy "always answer UNVERIFIABLE" scores verdict_utility
+0.5 — half of maximum — with no model call. A property of the metric, not a labelling
+error, and one a judge will find.
+**Options.** (A) Rebalance the case distribution or re-weight the scoring to punish
+abstention. (B) Expose the floor: a zero-cost `always_abstain` variant in the harness,
+run by default alongside baseline and advanced.
+**Chosen.** B. The distribution reflects the real archetype mix and the scoring asymmetry
+is the point of the metric; tuning either to defeat a degenerate strategy would bend the
+eval toward the metric. Making the floor visible turns the claim into "advanced beats
+both the baseline and the trivial-abstention floor", which survives scrutiny. This entry
+also sanctions the runner edits (default variant list of three; `summarize()` shows no
+pairwise delta at three columns — deltas for README come from the results JSON).
+**Rejected.** Rebalancing. It would also have destroyed comparability with the authored
+archetype coverage.
+**Evidence.** Arithmetic from the labels: (10 × 1.0 + 20 × 0.25) / 30 = 0.5. Recorded
+before the baseline freeze.
+
+### 2026-08-28 — Holdout enforced mechanically via --split, default dev
+**Context.** All 30 cases including the 10 holdout were necessarily read at authoring.
+The discipline that matters is that Saturday's prompts and resolution rules are not tuned
+against holdout content, and a promise is not a mechanism.
+**Options.** (A) Rely on conduct alone. (B) Add `--split dev|holdout|all` to the harness
+with `dev` as the default, so the development loop cannot silently include holdout cases;
+the final Sunday run passes `--split all` explicitly.
+**Chosen.** B, plus the conduct rule in force from the case-set commit: do not open,
+read, quote, or reason about `split: holdout` files while building the solution; if
+holdout content is recalled during design, record it in the trajectory rather than
+silently proceeding. This entry sanctions the runner edits below the do-not-edit line
+(split argument, split filtering in `load_cases`, split recorded in the results file).
+**Rejected.** Default `all` — it would make the canonical dev command include holdout by
+default, inverting the failure mode the flag exists to prevent.
+**Evidence.** Reasoned, not measured. Recorded before the baseline freeze.
