@@ -13,10 +13,10 @@ Re-verify this document from a fresh clone before submitting — do not assume i
 | Requirement | Version | Notes |
 |---|---|---|
 | Docker | TODO | Recommended path. Everything is pinned inside the image. |
-| Python | TODO | Only if running without Docker |
-| Node.js | TODO | Only if running without Docker |
-| API access | TODO | Which provider, which model, which env var. **No key is included in this repo.** |
-| Disk | TODO | |
+| Python | 3.12 | Only if running without Docker. 3.14 fails on this repo's toolchain — see Troubleshooting. |
+| Node.js | — | Not used; the solution is Python-only. |
+| API access | Anthropic API | Model `claude-sonnet-4-6` (pinned, both variants — see DECISIONS.md). Env var `ANTHROPIC_API_KEY`. **No key is included in this repo.** |
+| Disk | ~50 MB | Repo incl. the gzipped register snapshot (~2 MB). |
 
 Approximate cost of a full evaluation run: **TODO** (model calls: TODO, tokens: TODO).
 Approximate wall-clock time: **TODO**.
@@ -40,10 +40,8 @@ docker compose -f docker/docker-compose.yml run --rm app bash
 ### Option B — Local
 
 ```bash
-python -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r docker/requirements.txt
-# and/or
-npm ci
 ```
 
 ---
@@ -58,7 +56,7 @@ cp .env.example .env
 
 | Variable | Required | Purpose |
 |---|---|---|
-| TODO | yes/no | TODO |
+| `ANTHROPIC_API_KEY` | yes | Model calls made by the baseline and advanced solvers. The `always_abstain` reference variant and the test suite run without it. |
 
 No credential is committed to this repository. Nothing here will work without your own key.
 
@@ -134,9 +132,9 @@ file and stated explicitly in `CHANGELOG.md`, so a delta can be told apart from 
 ## 7. Run the tests
 
 ```bash
-TODO   # pytest -q   and/or   npm test
-npx tsc --noEmit      # if TypeScript
-mypy --strict src     # if Python
+python -m pytest tests/ -q
+python -m mypy --strict src
+python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
 All tests are expected to pass on a clean clone.
@@ -147,4 +145,6 @@ All tests are expected to pass on a clean clone.
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| TODO | TODO | TODO |
+| `python3 -m venv` fails at `ensurepip` | Some Python 3.14 builds (e.g. Homebrew's) ship without ensurepip wheels | Use `python3.12 -m venv .venv` — the pinned toolchain targets 3.12 |
+| `400 invalid_request_error` mentioning `temperature` | The pinned model/parameter combination changed — newest models reject sampling parameters | Keep the pinned `claude-sonnet-4-6`; the temperature pin is deliberate (DECISIONS.md 2026-08-28) |
+| `No cases with split=...` from `run_eval.py` | `--split` filter matched nothing | Use `--split dev` during development, `--split all` for the final run |

@@ -265,3 +265,70 @@ the README/video ("even the official table has a trap column"). floor_config.jso
 carries the full derivation (standard rate, 70% rule, rounding) rather than a bare
 number, so the report's uncertainty statement can cite it. Sunday's REPRODUCTION.md must
 document the venv-on-3.12 requirement. `git archive` size checked after commit.
+
+---
+
+> **HUMAN: approved** — steps 4 and 5 authorised, with instructions: report the
+> `--repeats 5` variance before any comparison is drawn; the results table carries three
+> lines from tonight (baseline, always_abstain, empty advanced slot); the going-rate
+> column finding is elevated to a finding in DATA.md and earmarked for README and video;
+> the Python 3.14 ensurepip dead end goes into REPRODUCTION.md.
+
+### Steps 4–5 — Metrics implemented; baseline built; runs BLOCKED on the API key
+
+**Agent action + tool responses, in order**
+
+```
+env check               -> NO ANTHROPIC_API_KEY (no .env, nothing in the shell env).
+                           Build proceeds; the two eval runs are blocked at the end.
+Edit docs/DATA.md       -> going-rate trap column promoted to a titled Finding
+API reference loaded    -> decision-relevant: temperature is REMOVED on Opus 4.7/4.8 and
+                           Fable 5 (400) but accepted on the 4.6 family. The C-6
+                           temperature pin therefore fixes the model choice:
+                           claude-sonnet-4-6, $3/$15 per MTok (price table recorded in
+                           metrics.py). DECISIONS entry written.
+TDD metrics             -> tests/test_metrics.py first: 17 tests RED (payload field and
+                           problem-specific metrics absent) -> implemented
+                           verdict_utility / confident_wrong_rate / check_accuracy /
+                           grounding_rate / cost_per_case_usd + narrowed exact_match;
+                           CaseResult gained payload (run_eval passes it through).
+                           Design decision while implementing: exact_match compares a
+                           PROJECTION of expected — determining_fact and
+                           evidence_anchors are label-only fields solvers never echo,
+                           so they are excluded (SCHEMA.md updated to say so); the
+                           delete-a-reason labelling lever is preserved and tested.
+TDD baseline            -> tests/test_baseline.py first: RED (stub) -> implemented
+                           src/baseline/solve.py. Candidate extraction needed one
+                           honest refinement: raw header segments include "Engineering"
+                           and "London", which match thousands of register rows, so a
+                           stopword list keeps job-title/location segments out of the
+                           search — a person Ctrl-Fs the employer's name, not the words
+                           "Software Engineer". The designed failures are pinned as
+                           tests: test_baseline_lookup_is_blind_to_brand_aliases
+                           asserts case-01 yields NO ROWS MATCHED.
+DEAD END (recorded)     -> mypy --strict rejected temperature= on messages.create:
+                           anthropic SDK 1.2.0 has dropped sampling parameters from the
+                           typed signature entirely. The API still accepts temperature
+                           on Sonnet 4.6, so the pin passes via extra_body with a
+                           caveat comment — a wrong combination fails loudly (400),
+                           never silently samples. anthropic==1.2.0 pinned (C-9).
+gates                   -> 33/33 tests green; mypy --strict src clean; ruff clean
+REPRODUCTION.md         -> prerequisites, env var, test commands, troubleshooting rows
+                           filled (3.14 ensurepip dead end + temperature/SDK note)
+```
+
+**What this changed about the plan**
+
+Nothing structural; one blocker. The two runs that close step 5 are ready to fire and
+BLOCKED only on the operator providing ANTHROPIC_API_KEY:
+
+```
+.venv/bin/python eval/run_eval.py --variant baseline --repeats 5 --split dev --seed 42 --tag baseline-noise-floor
+.venv/bin/python eval/run_eval.py --split dev --seed 42 --tag baseline-frozen
+```
+
+Run 1 establishes the noise floor FIRST (per instruction: variance before any
+comparison). Run 2 produces the three-line reference table (baseline, always_abstain,
+advanced slot empty — the stub errors by design, error_rate 1.0). After run 2:
+CHANGELOG `[0]` citing the results files, baseline FREEZE (CN-3), commit. Estimated
+cost of both runs ~140 Sonnet calls ≈ $2.
