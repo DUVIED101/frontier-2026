@@ -1,0 +1,220 @@
+{
+  "snapshot_date": "2026-08-28",
+  "source_page": "https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers",
+  "asset_url": "https://assets.publishing.service.gov.uk/media/6a91566801bbff0bf8f97b48/SP_-_Worker_and_Temporary_Worker_Web_Register_-_2026-08-28.csv",
+  "retrieved_at": "2026-08-28",
+  "real_row_count": 142988,
+  "note": "Fictional sponsor rows inserted at name-sorted positions among the real rows; real rows byte-identical to the source. This manifest is the only marker of which rows are fixtures - see docs/DATA.md.",
+  "rows": [
+    {
+      "organisation_name": "Arkenfield Systems Ltd",
+      "town_city": "Reading",
+      "county": "Berkshire",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Ashcombe Digital Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Bryelock Systems Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Global Business Mobility: Senior or Specialist Worker"
+    },
+    {
+      "organisation_name": "Duncastle Tech Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Elvermere Systems Ltd",
+      "town_city": "Cambridge",
+      "county": "Cambridgeshire",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Farrowgate Analytics Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Ferrowdale Cloud Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Halcyon Consulting (UK) Ltd",
+      "town_city": "Leeds",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Global Business Mobility: Senior or Specialist Worker"
+    },
+    {
+      "organisation_name": "Halcyon Technologies Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Hazelmoor Interactive Ltd",
+      "town_city": "Leeds",
+      "county": "West Yorkshire",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Kestrel Dynamics Ltd",
+      "town_city": "Manchester",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Larchdown Consulting Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Marlowe & Finch Technology Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Merrivale Software Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Merrivale Studios Ltd",
+      "town_city": "Brighton",
+      "county": "East Sussex",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Nordwick Data Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Ondrell Technologies Ltd",
+      "town_city": "Bristol",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Global Business Mobility: Senior or Specialist Worker"
+    },
+    {
+      "organisation_name": "Ostermere Technologies Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Pellbrook Digital Ltd",
+      "town_city": "Manchester",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Quenby Applications Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Quillstone Apps Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Redegate Software Ltd",
+      "town_city": "Edinburgh",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Silverbeck Software Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Stonebridge Softworks Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (B rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Tarnbrook Software Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Thornber Computing Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Veltrix Software Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Global Business Mobility: Senior or Specialist Worker"
+    },
+    {
+      "organisation_name": "Windlecombe Software Ltd",
+      "town_city": "Bath",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Wrenfield Payments Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Wrexfell Digital Ltd",
+      "town_city": "Glasgow",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    }
+  ]
+}

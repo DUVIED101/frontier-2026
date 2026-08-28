@@ -201,3 +201,67 @@ written. The baseline system prompt (step 5) and the advanced extraction schema
 (Saturday) must instruct base-pay-vs-extras separation per correction 5. Step 3 acquires
 two verification obligations that can STOP the evening: the general-threshold source
 check (correction 4) and the two-way collision check (correction 6).
+
+---
+
+> **HUMAN: redirected** — mid-step addition to correction 6, before fixture rows are
+> appended: fixture rows must be indistinguishable from real rows **by shape** — same
+> column count, capitalisation conventions, empty-field treatment, city/county values
+> drawn from the vocabulary real rows actually use; after appending, sample ten real rows
+> and all thirty fixture rows and confirm no field-level pattern separates them.
+> Stated reason: if a solver could learn "fixture rows look like X", the register check
+> passes on an artifact rather than on the data, and every register number in the eval is
+> worthless. Consequence taken beyond the letter of the instruction: the real file is
+> ~alphabetically sorted, so fixtures are **inserted at name-sorted positions**, not
+> appended — a tail of 30 fixture rows would have been the most learnable pattern of all.
+
+### Step 3 — Register snapshot, threshold verification, fixtures, integrity tests
+
+**Agent action + tool responses, in order**
+
+```
+curl publication page   -> CSV asset dated 2026-08-28 (placeholder date correct, no bulk fix)
+curl CSV                -> 10.9MB raw, 142,988 rows; header matches anchored columns;
+                           CRLF endings; quoting only for comma-fields; County 66% empty;
+                           ~24% of names ALL-CAPS; file ~sorted (not strictly)
+vocabulary extraction   -> anchored strings verbatim in real vocab: Worker (A rating),
+                           Worker (B rating), Skilled Worker, Global Business Mobility:
+                           Senior or Specialist Worker
+two-way collision scan  -> 37 fictional names (30 entities + 4 brands + 3 asserted-absent)
+                           vs 142,988 rows under normalise + token-set: NONE
+threshold verification  -> pay page via content API: general threshold new entrant
+                           £33,400 CONFIRMED ("70% of going rate, min £33,400/yr")
+                        -> going-rates table (updated 2025-07-22): SOC 2134 standard
+                           £54,700; second column showed £40,000 — POTENTIAL STOP:
+                           if that were the new-entrant rate, case-16's salary label
+                           (£39,500, above_floor) would flip
+                        -> column headers + intro extracted: "Lower going rate" applies
+                           only to Health & Care visas and pre-2024-04-04 transitional
+                           holders. Not this user. New entrant = 70% × 54,700 = 38,290
+                           → £38,300 rounded to £100: operator figure CONFIRMED.
+                           No label within £700 of the boundary. NO STOP.
+venv                    -> python3.14 ensurepip broken; rebuilt on python3.12 with exact
+                           pins: pytest 8.3.4, mypy 1.14.1, ruff 0.9.2
+TDD                     -> tests/test_fixture_integrity.py written first; RED
+                           (normalize module and fixtures absent), then implementation:
+                           src/advanced/normalize.py (shared resolver/tests definition),
+                           snapshot built (fixtures inserted at sorted positions, real
+                           rows byte-identical, gzip mtime=0 for determinism), manifest,
+                           aliases.json, floor_config.json → GREEN 8/8
+gates                   -> ruff format applied (3 files reflowed); format --check clean;
+                           mypy --strict src clean
+shape sample            -> 10 real + all 30 fixture rows: every fixture feature-class is
+                           one of the top-2 real classes (mixed/no-county/Ltd 35%,
+                           mixed/county/Ltd 18%); no field separates any single fixture
+                           row. Aggregate skew toward the modal class = the software-
+                           sector subpopulation, stated openly.
+```
+
+**What this changed about the plan**
+
+The £40,000 "Lower going rate" column is exactly the class of confusion the tool exists
+to prevent — it goes into DATA.md as documentation and becomes candidate material for
+the README/video ("even the official table has a trap column"). floor_config.json now
+carries the full derivation (standard rate, 70% rule, rounding) rather than a bare
+number, so the report's uncertainty statement can cite it. Sunday's REPRODUCTION.md must
+document the venv-on-3.12 requirement. `git archive` size checked after commit.

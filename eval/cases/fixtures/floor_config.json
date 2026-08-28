@@ -1,0 +1,36 @@
+{
+  "soc_code": "2134",
+  "basis": "new_entrant",
+  "general_threshold_gbp": {
+    "amount": 33400,
+    "effective_date": "2025-07-22",
+    "source_url": "https://www.gov.uk/skilled-worker-visa/how-much-youll-be-paid",
+    "retrieved": "2026-08-28",
+    "note": "Stated by the live page on the retrieval date: new entrant may be paid 70-90% of the going rate if salary is at least 33,400 GBP/year."
+  },
+  "going_rate_gbp": {
+    "amount": 38300,
+    "standard_rate_gbp": 54700,
+    "derivation": "New entrant floor is 70% of the SOC 2134 standard going rate: 0.7 x 54,700 = 38,290, rounded to the nearest 100 per the published convention. Operator-supplied working figure confirmed against source.",
+    "effective_date": "2025-07-22",
+    "source_url": "https://www.gov.uk/government/publications/skilled-worker-visa-going-rates-for-eligible-occupations/skilled-worker-visa-going-rates-for-eligible-occupation-codes",
+    "retrieved": "2026-08-28"
+  },
+  "counts_toward_floor": {
+    "policy": "guaranteed_basic_gross_annual_only",
+    "excludes": [
+      "bonus",
+      "profit share",
+      "equity",
+      "options",
+      "allowances",
+      "overtime"
+    ],
+    "source_url": "https://www.gov.uk/skilled-worker-visa/how-much-youll-be-paid",
+    "note": "Operator-confirmed at the label gate (gate-2 correction 5). Salaries are pro-rated for non-37.5h patterns; labels in this eval use the stated annual base."
+  },
+  "not_applicable_lower_going_rate_gbp": {
+    "amount": 40000,
+    "note": "The going-rates table's 'Lower going rate' column for SOC 2134. Applies only to Health and Care Worker visas and pre-2024-04-04 transitional holders - NOT to new entrants. Documented to preempt confusion; see docs/DATA.md."
+  }
+}

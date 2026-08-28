@@ -1,0 +1,7 @@
+{
+  "provenance": "Synthetic fixtures mirroring the shape of Companies House trading-name records for the fictional brands in eval/cases/. No real Companies House data - see docs/DATA.md.",
+  "aliases": {
+    "Ottervale": "Bryelock Systems Ltd",
+    "Loopwork": "Ashcombe Digital Ltd"
+  }
+}
