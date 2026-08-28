@@ -143,9 +143,12 @@ Either test failing at step 3 forces a fixture rename before anything runs.
 ## Scoring hooks (metric contract, lands in step 4)
 
 - `check_accuracy` compares the four `status` fields only.
-- `exact_match` subset-compares every key present in `expected` (so `reason` is scored
-  strictly wherever a case carries it). **Labelling lever:** deleting a `reason` from a
-  case's `expected` during the label pass relaxes that case to status-only strictness.
+- `exact_match` subset-compares every **comparable** key present in `expected` — verdict,
+  per-check status and (where a case carries it) reason, snapshot date. The label-only
+  fields `determining_fact` and `evidence_anchors` are excluded: solvers never echo them;
+  they are verified by dedicated tests and by `grounding_rate` instead. **Labelling
+  lever:** deleting a `reason` from a case's `expected` during the label pass relaxes
+  that case to status-only strictness.
 - `verdict_utility` reads `verdict` alone: +1.0 correct (UNVERIFIABLE is *correct* when
   ground truth is UNVERIFIABLE); +0.25 UNVERIFIABLE where truth was determinable; −1.0
   confident wrong.

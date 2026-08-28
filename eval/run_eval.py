@@ -170,6 +170,7 @@ def run_variant(name: str, cases: list[Case], seed: int) -> dict[str, Any]:
                 expected=case.expected,
                 seconds=elapsed,
                 error=error,
+                payload=case.payload,
             )
         )
 
