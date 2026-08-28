@@ -1,5 +1,11 @@
 # Prompt 01 — Build and freeze the baseline (Friday evening)
 
+> **Ordering superseded (2026-08-28).** This file predates the approved plan; its
+> sequence is replaced by `docs/PLAN.md` §8 (cases → fixtures → metrics → baseline). It
+> is kept for its discipline — TDD, gates, freeze, changelog, trajectory — not its
+> sequence. The executed sequence and the human gates are recorded in
+> `trajectories/2026-08-28-1833-prompt01-cases-and-baseline.md`.
+
 QNEW. Read CLAUDE.md.
 
 Implement the approved baseline in `src/baseline/solve.py`.

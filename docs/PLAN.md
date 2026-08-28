@@ -97,7 +97,7 @@ Stable vocabulary used everywhere (code, metrics, JSON, test names): `register`,
 | # | Predicate | Signature | Definitive outcomes | Tests (T-4: named after the criterion) |
 |---|---|---|---|---|
 | C1 | `register` | `resolve_entity(employer_text, register_snapshot, aliases) -> Match \| NoMatch \| Ambiguous` | Match → pass; NoMatch after full alias resolution → fail; Ambiguous → indeterminate | `test_register_exact_legal_name_matches`, `test_register_trading_name_resolves_to_legal_entity`, `test_register_unlisted_employer_is_no_match`, `test_register_ambiguous_multi_entity_is_indeterminate` |
-| C2 | `route` | `skilled_worker_route(entity_rows) -> pass \| fail` | Skilled Worker row present → pass; rows exist but GBM/other only → fail | `test_route_skilled_worker_present`, `test_route_gbm_only_fails`, `test_route_rating_b_downgrades_to_indeterminate` *(only if Saturday holds; otherwise the uncertainty statement covers it — do not let it grow)* |
+| C2 | `route` | `skilled_worker_route(entity_rows) -> pass \| fail` | Skilled Worker row present → pass; rows exist but GBM/other only → fail | `test_route_skilled_worker_present`, `test_route_gbm_only_fails`, `test_route_rating_blocks_cos_fails` *(ground truth per the case-schema amendment: a rating that blocks new CoS issuance is a definitive fail — archetype `licence_rating_blocks`. The solver-side sub-check stays Saturday-only-if-holds; until it lands, the case scores against the solver honestly)* |
 | C3 | `willingness` | `sponsorship_stance(posting_text) -> offered \| refused \| silent \| ambiguous`, with verbatim quote spans | refused → fail; offered → pass; silent/ambiguous → indeterminate | `test_willingness_explicit_refusal_detected`, `test_willingness_negated_availability_detected`, `test_willingness_silence_is_not_refusal`, `test_willingness_right_to_work_boilerplate_is_ambiguous` |
 | C4 | `salary` | `salary_clears_floor(parsed_salary, floor_config) -> pass \| fail \| indeterminate` | max of stated range < floor → fail; min ≥ floor → pass; range straddles floor, non-annual units, OTE, or absent → indeterminate | `test_salary_below_floor_fails`, `test_salary_range_straddling_floor_is_indeterminate`, `test_salary_above_floor_passes`, `test_salary_absent_is_indeterminate` |
 
@@ -119,10 +119,17 @@ Two approved policy points inside the predicates:
   (normalisation + trading-name resolution). A NoMatch reached with unresolved ambiguity
   is indeterminate, not a fail.
 
-The salary floor is **data, not code**: a versioned `floor_config` carrying the rate
-(£38,300), the SOC code (2134), the effective date and the source URL — never a literal in
-code. Thresholds change (April 2024, July 2025 revisions); which rules snapshot was
-applied is part of the uncertainty statement.
+The salary floor is **two thresholds, not one** (amendment at the case-schema review): a
+Skilled Worker salary must clear BOTH the general threshold AND the SOC-specific going
+rate — whichever is higher applies. `floor_config` carries both
+(`general_threshold_gbp`, `going_rate_gbp` for SOC 2134 at the new-entrant basis), each
+with its own effective date and source URL, and `salary_clears_floor` takes the maximum.
+£38,300 is the operator-supplied going rate; the general-threshold amount is verified at
+the label pass. Data, not code — never a literal. Thresholds change (April 2024,
+July 2025 revisions); which rules snapshot was applied is part of the uncertainty
+statement. `below_general_threshold` and `below_going_rate` are distinct fail reasons: a
+solver checking one number passes a between-band salary wrongly, toward false
+SPONSORABLE.
 
 ---
 
@@ -270,6 +277,12 @@ on Sunday, committed as an evidence file) vs. system runtime + ~1–2 min report
 stated as an estimate. Cost per task = `cost_per_case`. Every number in README traces to
 an `eval/results/` file (CN-1).
 
+**Metric integrity — three reference lines.** With the labelled mix (14/6/10), always
+answering UNVERIFIABLE scores `verdict_utility` 0.5 for free. The harness therefore runs
+a zero-cost `always_abstain` variant by default alongside baseline and advanced; every
+results table carries all three, and the claim is "advanced beats both the baseline and
+the trivial-abstention floor". Recorded in DECISIONS.md before the baseline freeze.
+
 ---
 
 ## 7. Evaluation design
@@ -297,7 +310,10 @@ labels, and coverage built from the matrix rather than from whatever happened to
   genuinely absent under every alias · clean positive (licensed, route, salary,
   sponsorship offered) · clean silent — ground truth UNVERIFIABLE · salary absent — ground
   truth UNVERIFIABLE · ambiguous multi-entity group — ground truth UNVERIFIABLE ·
-  right-to-work boilerplate that is NOT a refusal · compound hard case (below).
+  right-to-work boilerplate that is NOT a refusal · salary clearing the general
+  threshold but below the SOC going rate (the strongest salary case: a one-number solver
+  passes it wrongly) · licence rating that blocks new CoS issuance despite a Skilled
+  Worker route row · compound hard case (below).
   Genuine-UNVERIFIABLE archetypes ensure abstention has true positives, so
   `verdict_utility` can't be gamed by never abstaining or always abstaining.
 - **Register snapshot stays REAL** — public, Open Government Licence, and what makes the
@@ -311,9 +327,13 @@ labels, and coverage built from the matrix rather than from whatever happened to
   split}, payload: {requisition_text}, expected: {verdict, checks: {register, route,
   willingness, salary}, evidence_anchors}}`. Aggregator cases embed the wrapper text in
   `requisition_text` exactly as a person would paste the whole page.
-- **Split.** Develop against ~20; hold out ~10 untouched until the final Sunday eval.
+- **Split.** Develop against 20; hold out 10 untouched until the final Sunday eval.
   Changelog entries cite dev-set numbers; the README headline table reports the full set
-  with the held-out breakdown.
+  with the held-out breakdown. **Holdout discipline, in force from the case-set commit:**
+  while building the solution, no `split: holdout` file is opened, read, quoted, or
+  reasoned about; the eval runs `--split dev` (the harness default) until the final
+  Sunday `--split all` run. Recalled holdout content is recorded in the trajectory, not
+  silently used. Mechanical guard: the `--split` flag in `eval/run_eval.py`.
 - **The hard case.** The compound: aggregator-hosted posting, brand name only, whose legal
   entity holds a **GBM-only** licence. A naive agent fails twice in sequence — resolves
   the name by vibes, then reads register presence as sponsorability — and both failures
@@ -352,6 +372,15 @@ full-set numbers and disclose); 4) the removed-experiment run — last resort, s
 costs the changelog its rejected-experiment entry. **Never cut:** the frozen baseline, the
 evidence chain, REPRODUCTION.md, trajectories, the video, the verification report — each
 is a MUST, a deliverable, or 20 judged points.
+
+**Submission-form constraints (discovered at the form, 2026-08-28):** source code is
+submitted as a zip with a **hard 50MB limit**; the video is submitted as a **URL only**
+(no file upload). The register snapshot is the only artifact that threatens the limit: it
+is committed gzipped, never raw, and `git archive HEAD | wc -c` is checked after the
+snapshot commit. If the archive does not fit comfortably, the snapshot is filtered to the
+rows the cases and resolution tests need, with the filter script committed and the
+before/after row counts documented in `docs/DATA.md` — a filtered snapshot is honest if
+the filter is committed and described; a snapshot that silently omits rows is not.
 
 ---
 
