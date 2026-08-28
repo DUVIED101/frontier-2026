@@ -1,0 +1,26 @@
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# eval/results/ IS committed — it is the evidence. Do not ignore it.
