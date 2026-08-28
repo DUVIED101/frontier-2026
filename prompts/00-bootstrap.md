@@ -1,3 +1,5 @@
+> Executed 2026-08-28 at kickoff. Output, with amendments, is docs/PLAN.md.
+> The domain is not prescribed by the PDF — see docs/PLAN.md §1.
 # Prompt 00 — Bootstrap (run this FIRST, right after the problem PDF drops)
 
 Paste into a fresh Claude Code session in the repo root. Do not let it write code yet.
