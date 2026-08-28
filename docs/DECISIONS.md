@@ -139,3 +139,24 @@ silently proceeding. This entry sanctions the runner edits below the do-not-edit
 **Rejected.** Default `all` — it would make the canonical dev command include holdout by
 default, inverting the failure mode the flag exists to prevent.
 **Evidence.** Reasoned, not measured. Recorded before the baseline freeze.
+
+### 2026-08-28 — Model pinned to claude-sonnet-4-6, temperature 0 via extra_body
+**Context.** The approval record requires one identical pinned model for baseline and
+advanced, and a pinned temperature (C-6). The current API reference (cached 2026-06-04,
+checked tonight): sampling parameters are removed on Opus 4.7/4.8 and Fable 5 — sending
+`temperature` returns a 400 — but remain accepted on the 4.6 family.
+**Options.** (A) claude-opus-4-8 without a temperature pin. (B) claude-sonnet-4-6 with
+temperature 0. (C) claude-haiku-4-5 with temperature 0.
+**Chosen.** B. Only the 4.6 family satisfies the temperature pin; Sonnet 4.6 is the
+strongest of them; $3/$15 per MTok keeps a ~150-call evening (noise floor + reference
+table) around $2; both variants use the identical model per the fairness statement.
+Dead end worth recording: anthropic SDK 1.2.0 has already dropped sampling parameters
+from the typed `messages.create` signature (caught by mypy --strict), so the pin passes
+through `extra_body` — the API accepts it for this model, and a wrong model/parameter
+combination fails loudly with a 400 rather than silently sampling. Prices recorded in
+`eval/metrics.py::MODEL_PRICES_USD_PER_MTOK` for `cost_per_case_usd`.
+**Rejected.** A — highest capability, but no temperature pin and several times the price
+for an eval loop whose baseline exists to be beaten. C — cheapest, but weakens the
+baseline for no reason the metrics need.
+**Evidence.** Parameter support and prices from the API reference; the SDK signature
+verified against anthropic==1.2.0 under mypy --strict.
