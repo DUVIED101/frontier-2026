@@ -60,15 +60,29 @@ Studio, Glimmerforth Labs, TalentBridge Recruitment. Tests:
   rounded to the nearest £100 per the published convention. The operator-supplied working
   figure was confirmed against this computation. No evaluation label sits within £700 of
   the boundary.
-- **The £40,000 trap:** the going-rates table also shows a "Lower going rate" column
-  (£40,000 for SOC 2134). It applies **only** to Health and Care Worker visas and to
-  transitional holders whose first CoS predates 4 April 2024 — not to new entrants. A
-  reader checking the table will meet this figure; it is documented here so the
-  discrepancy is explained rather than discovered.
 - **What counts:** only guaranteed basic gross annual pay counts toward either threshold;
   bonuses, profit share, equity, options, allowances and overtime do not
   (`counts_toward_floor`). Annual rates are based on a 37.5-hour week and pro-rated
   otherwise; labels in this evaluation use the stated annual base salary.
+
+### Finding: the official going-rates table carries a trap column for exactly this user
+
+This is a finding of the project, not a footnote. The going-rates table shows two figures
+for SOC 2134: the standard rate (£54,700) and a **"Lower going rate" of £40,000**. Read
+without its header qualification — which lives in prose above the table — the £40,000
+column looks like the discounted floor for a new entrant. It is not: it applies **only**
+to Health and Care Worker visas and to transitional holders whose first CoS predates
+4 April 2024. The actual new-entrant floor is 70% of the standard rate (£38,290 →
+£38,300), a figure that appears **nowhere in the table** and must be derived.
+
+An early-career applicant checking their own eligibility against the primary source will
+meet a wrong-but-official-looking number that differs from their true floor by £1,700 —
+enough to wrongly disqualify a £39,000 offer. The failure mode this system exists to
+prevent — a confidently wrong sponsorability conclusion drawn from a correctly retrieved
+but misread source — appears in the government's own reference table. This was
+encountered live during threshold verification (see the step-3 trajectory: it nearly
+triggered a stop on case-16's label) and is why `floor_config.json` records the full
+derivation and why the verification report cites which rules snapshot it applied.
 
 ## Synthetic fixtures
 
