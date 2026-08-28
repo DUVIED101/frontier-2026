@@ -1,0 +1,49 @@
+{
+  "id": "case-29-salary-straddles",
+  "meta": {
+    "archetype": "salary_straddles_floor",
+    "title": "Advertised range straddles the going rate",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Quenby Applications Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer\nQuenby Applications Ltd · Clerkenwell, London\n\nQuenby builds citizen-reporting tools for UK local councils: potholes, fly-tipping, streetlights. Residents report; our routing gets the right crew there with the right kit.\n\nYou'd work across a Django backend and a React Native app used by 60 councils' field teams, with a fortnightly release train and real accessibility requirements.\n\nWe'd like 1-3 years of experience and one example of making software humane for non-technical users.\n\nThe range is £36,000-£41,000 depending on experience. Visa sponsorship is available for this role. 26 days holiday, civic-tech conference budget, bikes in the basement. Two interviews and a reference chat."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "The advertised range straddles the £38,300 going rate: an offer in the lower part of the band could not be sponsored and one in the upper part could — sponsorability depends on the actual offer, which the posting does not fix.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "indeterminate",
+        "reason": "straddles_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Quenby Applications Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Visa sponsorship is available for this role",
+      "salary_text": "£36,000-£41,000"
+    }
+  },
+  "design_notes": "Authoring-addition archetype (veto at label pass by deleting the case): the straddling range is the true positive for the straddles_floor reason — without it that enum value is untestable. An optimistic solver anchors on £41,000 and issues a false SPONSORABLE; a pessimistic one anchors low and discards the role. The honest answer names the number to negotiate past."
+}

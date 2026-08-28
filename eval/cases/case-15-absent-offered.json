@@ -1,0 +1,44 @@
+{
+  "id": "case-15-absent-offered",
+  "meta": {
+    "archetype": "absent_all_aliases",
+    "title": "Employer absent from the register under every alias; posting offers sponsorship",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [],
+    "asserted_absent_names": [
+      "Copperwaite Studio"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Founding Engineer\nCopperwaite Studio · Hackney, London\n\nCopperwaite is a two-founder studio building collaborative tooling for architecture practices: drawing review, issue tracking on plans, client sign-off. Four design partners, first paying customer last month, pre-seed closed.\n\nAs the first engineering hire you'd own the stack end to end: Rails API, React front end, Postgres, deployed on Render. You'd talk to users weekly.\n\nWe want 2+ years somewhere you shipped fast, comfort with ambiguity, and the instinct to delete code.\n\n£41,000 plus meaningful equity. We are happy to sponsor visas for international candidates. Coffee walks along Regent's Canal count as meetings."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Copperwaite Studio appears on no row of the sponsor register under any name or alias — without a licence, no Certificate of Sponsorship can be issued, whatever the posting promises.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "fail",
+        "reason": "no_match"
+      },
+      "route": {
+        "status": "indeterminate",
+        "reason": "no_entity"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "willingness_quote": "We are happy to sponsor visas for international candidates",
+      "salary_text": "£41,000"
+    }
+  },
+  "design_notes": "The inversion of refusal_licensed: stated willingness without a licence. Early-stage companies say yes in good faith and cannot deliver; the register is the fact, the promise is not. register_fixture_orgs is empty and Copperwaite Studio is in asserted_absent_names — the absence is verified against the committed snapshot under every normalisation and alias (amendment 4)."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "case-12-salary-range-below-going-rate",
+  "meta": {
+    "archetype": "salary_below_going_rate",
+    "title": "Whole range sits between the two thresholds",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Elvermere Systems Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Graduate Software Engineer (two openings)\nElvermere Systems Ltd — Cambridge\n\nElvermere builds laboratory-information systems used by NHS pathology networks. Correctness here is not a slogan: our software carries results that clinicians act on.\n\nThe graduate scheme pairs you with a senior for six months in either the LIMS core team (Java) or the integrations team (HL7, C#). Expect real code review and a lot of it.\n\nWe ask for a 2:1 in a STEM subject or equivalent project evidence, and we sponsor Skilled Worker visas for these positions.\n\nBanding for graduate entry is £35,000-£37,500. Cambridge station office, 3 days on site. Assessment day format, one round."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "The whole advertised band (£35,000-£37,500) clears the general threshold but stays below the £38,300 going rate, so no offer within the band can be sponsored.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "fail",
+        "reason": "below_going_rate"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Elvermere Systems Ltd",
+        "town_city": "Cambridge",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "we sponsor Skilled Worker visas for these positions",
+      "salary_text": "£35,000-£37,500"
+    }
+  },
+  "design_notes": "Range variant of case-11: definitive fail because even the band maximum is under the going rate. Range minimum keeps 1,600 of margin over the assumed general threshold, so a correction there does not flip the label."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "case-02-refusal-licensed",
+  "meta": {
+    "archetype": "refusal_licensed",
+    "title": "Licensed employer, posting refuses sponsorship outright",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Farrowgate Analytics Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Data Platform\nFarrowgate Analytics Ltd · London (hybrid, 2 days in office)\n\nFarrowgate Analytics builds forecasting tools used by UK grocery chains to cut waste in fresh-food ordering. Our platform team is eight engineers; you would join the ingestion squad.\n\nWhat you'll work on\n- Python services that pull EPOS feeds from 200+ stores nightly\n- Data-quality checks that block bad feeds before they reach forecasting\n- Migrating our oldest pipelines from cron to our internal scheduler\n\nYou should have 1-3 years of experience with Python and SQL, and enough curiosity to chase a data discrepancy to its source.\n\nSalary is £41,000 plus 5% bonus. 25 days holiday. Please note: we are unable to offer visa sponsorship for this position. Applications close 12 September."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Farrowgate Analytics Ltd is a licensed Skilled Worker sponsor, but this requisition explicitly excludes sponsorship.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "fail",
+        "reason": "refused"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Farrowgate Analytics Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "we are unable to offer visa sponsorship for this position",
+      "salary_text": "£41,000"
+    }
+  },
+  "design_notes": "The holding-a-licence-vs-using-it archetype. Every register signal is green; only the posting text blocks it. A solver that checks the register and stops issues a false SPONSORABLE."
+}

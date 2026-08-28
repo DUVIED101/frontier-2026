@@ -1,0 +1,49 @@
+{
+  "id": "case-27-rtw-boilerplate-plus-refusal",
+  "meta": {
+    "archetype": "rtw_boilerplate",
+    "title": "Boilerplate early, explicit refusal later — the refusal governs",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Wrexfell Digital Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer, Reporting\nWrexfell Digital Ltd — Glasgow (hybrid)\n\nWrexfell builds financial-reporting software for UK housing associations: regulatory returns, board packs, audit files. Unglamorous and essential.\n\nCandidates must have the right to work in the UK. The team is twelve engineers across Glasgow and remote; the codebase is C# with a disciplined service layer and tests that mean something.\n\nWhat you'd do: build the next generation of our returns engine as regulators move to quarterly digital submission.\n\nWhat we need: 1-3 years with C# or Java and an eye for numbers that don't add up.\n\nSalary £42,500. Please note we are unable to provide visa sponsorship, now or during the tenure of this role. 33 days holiday total, flexible core hours, annual profit share."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "The posting contains an explicit refusal — unable to provide visa sponsorship — which settles the stance regardless of the right-to-work boilerplate earlier in the text.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "fail",
+        "reason": "refused"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Wrexfell Digital Ltd",
+        "town_city": "Glasgow",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "we are unable to provide visa sponsorship",
+      "salary_text": "£42,500"
+    }
+  },
+  "design_notes": "Companion to case-26: boilerplate and a real refusal coexist, and the refusal governs. Tests that stance detection reads the whole posting and ranks a settling statement over an ambiguous one, rather than stopping at the first sponsorship-adjacent sentence."
+}

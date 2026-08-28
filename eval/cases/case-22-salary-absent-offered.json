@@ -1,0 +1,49 @@
+{
+  "id": "case-22-salary-absent-offered",
+  "meta": {
+    "archetype": "salary_absent",
+    "title": "No salary figure; everything else green including an explicit offer",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Pellbrook Digital Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer (Platform)\nPellbrook Digital Ltd · Manchester or London\n\nPellbrook runs e-commerce infrastructure for UK homeware brands: catalogue, checkout, fulfilment integrations. 130 brands at last count.\n\nThe platform team keeps 400 services honest: golden paths, deploy tooling, cost dashboards the CFO actually reads. You'd write Go and Terraform daily.\n\nWe ask for 2+ years of production experience and a view on what platform teams owe product teams.\n\nCompetitive salary and benefits. We sponsor Skilled Worker visas — several of the platform team joined us that way. Hybrid, either office, 25 days holiday. One technical interview, one team conversation, decision in five working days."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "The employer is licensed and offers sponsorship, but the posting states no salary figure — the floor comparison cannot be made, so sponsorability cannot be established from the requisition.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "indeterminate",
+        "reason": "absent"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Pellbrook Digital Ltd",
+        "town_city": "Manchester",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We sponsor Skilled Worker visas",
+      "salary_text": "Competitive salary and benefits"
+    }
+  },
+  "design_notes": "Sharp single-blocker abstention: three checks pass including an explicit offer, and the missing number still blocks a verdict. Competitive salary is the evidence of absence, anchored so the report can quote it. The uncertainty statement should say exactly what to ask: the figure, against a £38,300 floor."
+}

@@ -1,0 +1,43 @@
+{
+  "id": "case-16-absent-silent",
+  "meta": {
+    "archetype": "absent_all_aliases",
+    "title": "Employer absent from the register; posting silent",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [],
+    "asserted_absent_names": [
+      "Glimmerforth Labs"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Machine Learning Engineer\nGlimmerforth Labs — remote-first (UK), monthly London meetups\n\nGlimmerforth builds demand-forecasting models for independent fashion brands: 40 brands, weekly retraining, real inventory decisions riding on our accuracy.\n\nYou'd own the feature pipeline (Python, DuckDB, Prefect) and split your time between model work and the unglamorous data plumbing that makes model work possible.\n\nLooking for: 1-3 years of applied ML or data engineering, evidence of shipping models that survived contact with production, writing we'd enjoy reading.\n\n£39,500. 30 days holiday, no meetings on Wednesdays, a real laptop budget. Apply with a short note about a model of yours that failed and what it taught you."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Glimmerforth Labs is on no row of the sponsor register under any name or alias, so this requisition cannot produce a Certificate of Sponsorship.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "fail",
+        "reason": "no_match"
+      },
+      "route": {
+        "status": "indeterminate",
+        "reason": "no_entity"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "salary_text": "£39,500"
+    }
+  },
+  "design_notes": "Plain absence case. Salary keeps 1,200 of margin over the going rate so the label depends only on the register. Glimmerforth Labs is in asserted_absent_names for the both-ways check."
+}

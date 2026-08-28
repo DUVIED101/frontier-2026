@@ -1,0 +1,47 @@
+{
+  "id": "case-23-salary-absent-silent",
+  "meta": {
+    "archetype": "salary_absent",
+    "title": "No salary, no sponsorship mention — double indeterminate",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Arkenfield Systems Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Junior Backend Engineer\nArkenfield Systems Ltd — Reading\n\nArkenfield supplies fleet-telematics software to UK haulage operators: live tracking, tachograph compliance, fuel analytics across 40,000 vehicles.\n\nYou will join the ingestion team, keeping data flowing from a zoo of vehicle hardware into our Kafka pipeline, and building the validation that keeps bad GPS out of customer reports.\n\nAbout you: some professional or strong project experience with Java or Kotlin, and an interest in systems that talk to the physical world.\n\nBenefits include 25 days holiday, hybrid working (3 days in Reading), private medical after probation, and a subsidised canteen that is better than it needs to be. Apply via the careers portal with CV and a short intro."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "The employer is a licensed Skilled Worker sponsor, but the posting states neither a salary nor a sponsorship position — two of the four checks cannot be established.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "indeterminate",
+        "reason": "absent"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Arkenfield Systems Ltd",
+        "town_city": "Reading",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      }
+    }
+  },
+  "design_notes": "Double-indeterminate case: the uncertainty statement must name BOTH unresolved checks and what would resolve each. Tests that abstention reporting enumerates rather than collapses."
+}

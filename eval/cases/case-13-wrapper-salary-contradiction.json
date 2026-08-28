@@ -1,0 +1,49 @@
+{
+  "id": "case-13-wrapper-salary-contradiction",
+  "meta": {
+    "archetype": "wrapper_contradiction",
+    "title": "Aggregator salary field contradicts the body; body is primary",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Nordwick Data Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Jobsprint › Engineering › London\nSoftware Engineer, ETL — Nordwick Data Ltd\nLondon, UK (Hybrid) · Full-time · Entry level · £45,000\nPosted 2 days ago · 87 applicants\n[ Apply on Jobsprint ]\n\nSoftware Engineer, ETL\nNordwick Data Ltd · Farringdon, London\n\nNordwick cleans and standardises property data for UK mortgage lenders. Our ETL platform ingests 300+ source formats; you'd build and harden connectors in Python.\n\nAbout you: 0-2 years of experience, strong SQL, and the temperament to find missing commas in other people's CSVs genuinely satisfying.\n\nSalary: £29,000 per annum. We are happy to sponsor Skilled Worker visas. 24 days holiday plus bank holidays, cycle-to-work scheme, Friday team lunch on the company."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "The posting body states £29,000, below the general threshold; the aggregator's £45,000 salary field contradicts the primary source and does not change what the employer is offering.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "fail",
+        "reason": "below_general_threshold"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Nordwick Data Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We are happy to sponsor Skilled Worker visas",
+      "salary_text": "£29,000 per annum"
+    }
+  },
+  "design_notes": "Wrapper says £45,000, body says £29,000. Labelling convention 4: the body is primary. A solver that reads the structured-looking wrapper field passes salary and issues a false SPONSORABLE. The £45,000 string is present in the payload as bait by design."
+}

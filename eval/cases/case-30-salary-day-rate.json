@@ -1,0 +1,49 @@
+{
+  "id": "case-30-salary-day-rate",
+  "meta": {
+    "archetype": "salary_non_annual",
+    "title": "Day-rate contract; annual comparison not computable",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Larchdown Consulting Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Backend Engineer (Contract)\nLarchdown Consulting Ltd — City of London\n\nLarchdown delivers data-platform projects for UK insurers. We are staffing a 6-month engagement modernising a quoting pipeline (Python, Snowflake, dbt) for a specialty insurer.\n\nRate: £350 per day (outside IR35), six-month initial term with likely extension. Start within a month.\n\nYou'll need 3+ years of data-engineering experience, previous delivery in a regulated environment, and your own limited company or umbrella arrangement. Visa sponsorship considered for permanent conversions.\n\nRemote-first with roughly one client day per fortnight in EC3. Interviews this week: one technical, one delivery-fit."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "The role is priced as a £350 day rate on a six-month term — an annual salary meeting the Skilled Worker floor cannot be established from a short-term day rate, and the engagement model itself is unresolved.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "boilerplate_ambiguous"
+      },
+      "salary": {
+        "status": "indeterminate",
+        "reason": "non_annual_unclear"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Larchdown Consulting Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Visa sponsorship considered for permanent conversions",
+      "salary_text": "£350 per day (outside IR35), six-month initial term"
+    }
+  },
+  "design_notes": "Authoring-addition archetype (veto by deleting): true positive for non_annual_unclear. Policy: no annualising day rates — a 6-month outside-IR35 term is not an annual salary against the floor, and contract-basis employment raises sponsorship questions beyond the four checks; the report's uncertainty statement carries that. Willingness is boilerplate_ambiguous, not offered: considered for permanent conversions touches the topic without settling it for THIS engagement."
+}

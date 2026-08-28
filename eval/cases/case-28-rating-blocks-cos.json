@@ -1,0 +1,49 @@
+{
+  "id": "case-28-rating-blocks-cos",
+  "meta": {
+    "archetype": "licence_rating_blocks",
+    "title": "Skilled Worker route present, but the rating blocks new CoS",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Stonebridge Softworks Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Core Product\nStonebridge Softworks Ltd · Borough, London\n\nStonebridge builds inspection-management software for UK construction: snagging, handover, compliance evidence. Site managers use us on 2,000 active projects.\n\nThe core team works in Kotlin and PostgreSQL on the offline-first sync engine that makes the product work in a basement with no signal.\n\nWe're after 2+ years of backend experience; mobile sync experience is a strong plus.\n\n£44,000 base. Visa sponsorship offered. 25 days holiday, hybrid (2 days Borough), quarterly hack weeks that ship. Process: intro call, technical deep-dive on a sync problem, team lunch."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Stonebridge Softworks Ltd has a Skilled Worker route row, but its licence rating means no new Certificate of Sponsorship can be issued while the rating stands.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "fail",
+        "reason": "rating_blocks_cos"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Stonebridge Softworks Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (B rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Visa sponsorship offered",
+      "salary_text": "£44,000"
+    }
+  },
+  "design_notes": "The amendment-3 archetype: same shape as gbm_only — the row exists and the verdict is still NOT_SPONSORABLE — but the disqualifier is the Type & Rating column, not the Route column. Every naive signal is green here (offer, salary, route row). The solver-side rating sub-check remains Saturday-only-if-holds; until it lands this case scores against the solver, honestly."
+}

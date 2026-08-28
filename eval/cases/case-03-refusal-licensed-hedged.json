@@ -1,0 +1,49 @@
+{
+  "id": "case-03-refusal-licensed-hedged",
+  "meta": {
+    "archetype": "refusal_licensed",
+    "title": "Licensed employer, hedged refusal buried mid-posting",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Kestrel Dynamics Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Graduate Software Engineer\nKestrel Dynamics Ltd — Manchester\n\nKestrel Dynamics develops route-optimisation software for regional bus operators. We are a 40-person company with a 6-person engineering team and a genuinely flat structure.\n\nThe programme\nTwo-year rotation across our scheduling engine (C#/.NET), our driver app (Flutter) and our data team. A dedicated mentor throughout, plus a training budget of £1,500 a year.\n\nRequirements: a numerate degree completed within the last two years, some programming coursework or personal projects, and the ability to explain your thinking clearly. Unfortunately we are not in a position to support visa sponsorship at this time, so please only apply if you already hold the right to work in the UK on a long-term basis. Compensation is £44,500 with annual review each April."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Kestrel Dynamics Ltd holds a Skilled Worker licence, but the posting states it will not support sponsorship for this role.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "fail",
+        "reason": "refused"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Kestrel Dynamics Ltd",
+        "town_city": "Manchester",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Unfortunately we are not in a position to support visa sponsorship at this time",
+      "salary_text": "£44,500"
+    }
+  },
+  "design_notes": "The refusal is hedged (not in a position to... at this time) and buried inside the requirements paragraph next to right-to-work language. Single-pass readers miss the negation; ground truth is refused, not boilerplate_ambiguous, because the sentence settles the stance."
+}

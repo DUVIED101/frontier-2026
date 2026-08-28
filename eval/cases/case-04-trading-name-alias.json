@@ -1,0 +1,54 @@
+{
+  "id": "case-04-trading-name-alias",
+  "meta": {
+    "archetype": "trading_name_gap",
+    "title": "Brand name only; legal entity reachable via alias fixture; sponsorship offered",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Ashcombe Digital Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Backend Engineer (Python) at Loopwork\nLondon Bridge · Hybrid (3 days/week)\n\nLoopwork is the rota and payroll app used by 900+ UK hospitality venues. Shift workers see their hours, swap shifts and get paid correctly; managers stop doing rotas in spreadsheets at midnight.\n\nYou'll build the payroll calculation engine: pension auto-enrolment, holiday accrual, tribunal-proof audit trails. Python, PostgreSQL, a little Go at the edges.\n\nWe look for 1-2 years of production backend experience and care for getting money calculations exactly right.\n\n£43,000 + options. 25 days holiday plus your birthday. We sponsor Skilled Worker visas for this role and have done so for several of the team. Interviews are two stages plus a paid half-day pairing session."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Loopwork is operated by Ashcombe Digital Ltd, a licensed A-rated Skilled Worker sponsor; the posting offers sponsorship and the salary clears both thresholds.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "alias_lookup"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Ashcombe Digital Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "alias": {
+        "brand": "Loopwork",
+        "registered_name": "Ashcombe Digital Ltd",
+        "source": "companies_house_fixture"
+      },
+      "willingness_quote": "We sponsor Skilled Worker visas for this role",
+      "salary_text": "£43,000"
+    }
+  },
+  "design_notes": "The Deliveroo/Roofoods archetype pointed the harmful direction: everything is genuinely sponsorable, but Loopwork appears on no register row and the legal entity is never named in the posting. Ctrl-F resolution returns no match and produces a false NOT_SPONSORABLE, discarding a viable role. Resolution must come from aliases.json."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "case-19-clean-positive-third",
+  "meta": {
+    "archetype": "clean_positive",
+    "title": "Clean positive, held out",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Ferrowdale Cloud Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Site Reliability Engineer\nFerrowdale Cloud Ltd · Kings Cross, London (hybrid)\n\nFerrowdale hosts managed Postgres for UK fintechs: 4,000 databases, four nines, a team that owns its pager and its roadmap.\n\nThe job: automation in Go and Python, capacity planning with real numbers, incident reviews that change things. You'll rotate on-call one week in five with a genuine handover culture.\n\nWe look for 2+ years operating production systems and one story about capacity planning you got wrong and fixed.\n\n£43,250 base plus on-call allowance. We sponsor Skilled Worker visas and cover the associated fees. 26 days holiday, L&D budget, sabbatical at five years. Interview loop is three hours total, scheduled inside ten days."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Ferrowdale Cloud Ltd is an A-rated Skilled Worker sponsor, commits to sponsorship including fees, and £43,250 clears both thresholds.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Ferrowdale Cloud Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We sponsor Skilled Worker visas and cover the associated fees",
+      "salary_text": "£43,250"
+    }
+  },
+  "design_notes": "Held-out clean positive so the final eval checks the S class on unseen data, not only on cases the prompts were tuned against."
+}

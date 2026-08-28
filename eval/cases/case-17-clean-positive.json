@@ -1,0 +1,49 @@
+{
+  "id": "case-17-clean-positive",
+  "meta": {
+    "archetype": "clean_positive",
+    "title": "Everything green: licensed, Skilled Worker route, salary clear, sponsorship offered",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Thornber Computing Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Scheduling Systems\nThornber Computing Ltd · Victoria, London\n\nThornber builds workforce-scheduling software for NHS trusts: safe staffing levels, skill-mix rules, audit trails that survive inspection. 70 trusts, 15 years, profitable throughout.\n\nThe role sits in the rules-engine team (Java 21, a well-tended codebase with 85% meaningful coverage). You would implement new rostering constraints with clinicians in the room.\n\nWe need 1-3 years of JVM experience and the patience to model rules written by committees.\n\n£45,000, pension matched to 6%, 27 days holiday. We will sponsor a Skilled Worker visa for the successful applicant; our HR team handles the CoS process and has done so dozens of times. Two interviews, one week turnaround."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Thornber Computing Ltd is an A-rated Skilled Worker sponsor, the posting commits to sponsorship, and £45,000 clears both thresholds — all four checks pass with evidence.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Thornber Computing Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We will sponsor a Skilled Worker visa for the successful applicant",
+      "salary_text": "£45,000"
+    }
+  },
+  "design_notes": "Anchor case for the SPONSORABLE class: no traps, every check individually evidenced. A solver that abstains here is over-abstaining and verdict_utility docks it 0.75 relative to the correct call."
+}

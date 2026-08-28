@@ -1,0 +1,49 @@
+{
+  "id": "case-18-clean-positive-range",
+  "meta": {
+    "archetype": "clean_positive",
+    "title": "Clean positive with a salary range entirely above both thresholds",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Redegate Software Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Backend Engineer (Go)\nRedegate Software Ltd — Edinburgh or remote (UK)\n\nRedegate runs the booking infrastructure behind 300 UK tour and activity operators. August is our Black Friday, every day.\n\nYou'd join a six-person backend team working in Go and Postgres on availability search, payments reconciliation and the public API. We deploy on merge and keep a written decision log.\n\nRequirements: 2+ years of production backend work in any typed language, and a worked example of an API you made faster or simpler.\n\nThe band is £40,000-£48,000 depending on level. Visa sponsorship is available; we currently sponsor three of the team. 33 days holiday including public holidays. One pairing interview, one systems conversation, offers within a week."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Redegate Software Ltd holds an A-rated Skilled Worker licence, sponsorship is offered, and the whole band (£40,000-£48,000) clears both thresholds.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Redegate Software Ltd",
+        "town_city": "Edinburgh",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Visa sponsorship is available; we currently sponsor three of the team",
+      "salary_text": "£40,000-£48,000"
+    }
+  },
+  "design_notes": "Range variant of the clean positive: pass is definitive because the band minimum (40,000) clears the going rate with 1,700 of margin. Distinguishes solvers that evaluate range minima from those that anchor on the maximum."
+}

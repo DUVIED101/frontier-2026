@@ -1,0 +1,48 @@
+{
+  "id": "case-21-clean-silent-range",
+  "meta": {
+    "archetype": "clean_silent",
+    "title": "Clean silent, range salary, held out",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Windlecombe Software Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Full-Stack Developer\nWindlecombe Software Ltd — Bath (2 days/week in office)\n\nWindlecombe builds practice-management software for UK veterinary clinics: appointments, clinical notes, insurance claims. 800 practices and a decade of steady growth.\n\nYou'd work across a Rails monolith we're proud of and a growing set of Hotwire front ends, shipping features vets actually request at our twice-yearly user days.\n\nWe'd like 1-3 years of web development experience; Rails specifically is teachable.\n\nSalary £40,000-£46,000 by experience. 25 days holiday plus your birthday off, profit share, and a genuinely walkable office by Bath Spa station. Two-stage interview, both remote-friendly."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "All verifiable checks pass — Windlecombe Software Ltd is a licensed Skilled Worker sponsor and the whole range clears both thresholds — but the posting says nothing about sponsorship.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Windlecombe Software Ltd",
+        "town_city": "Bath",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "salary_text": "£40,000-£46,000"
+    }
+  },
+  "design_notes": "Held-out abstention case; range minimum clears the going rate so salary is a clean pass and willingness is the only unresolved check."
+}

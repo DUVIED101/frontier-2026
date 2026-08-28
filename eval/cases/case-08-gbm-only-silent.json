@@ -1,0 +1,48 @@
+{
+  "id": "case-08-gbm-only-silent",
+  "meta": {
+    "archetype": "gbm_only",
+    "title": "GBM-only licence; posting silent",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Ondrell Technologies Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "DevOps Engineer\nOndrell Technologies Ltd — Bristol (hybrid)\n\nOndrell provides simulation software for offshore wind-farm design. Engineering is 30 people across Bristol and Oslo.\n\nYou will own our GitLab CI estate, our Kubernetes clusters (EKS, three environments) and the internal developer platform we are building on Backstage. On-call is one week in six, compensated.\n\nWe want to see: 2+ years running production Kubernetes, one language beyond YAML, and a habit of writing runbooks.\n\n£42,500 · 26 days holiday · private medical · Bristol harbourside office with actual natural light.\n\nTo apply, send a CV and a paragraph about an outage you made boring."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Ondrell Technologies Ltd appears on the register under Global Business Mobility only; the Skilled Worker route is not covered, so this role cannot lead to a CoS.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "fail",
+        "reason": "gbm_only"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Ondrell Technologies Ltd",
+        "town_city": "Bristol",
+        "type_rating": "Worker (A rating)",
+        "route": "Global Business Mobility: Senior or Specialist Worker"
+      },
+      "salary_text": "£42,500"
+    }
+  },
+  "design_notes": "Plain GBM-only case without the offered-sponsorship twist of case-07. The route fail is definitive, so silence on willingness does not soften the verdict to UNVERIFIABLE."
+}

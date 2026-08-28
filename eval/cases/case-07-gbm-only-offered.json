@@ -1,0 +1,49 @@
+{
+  "id": "case-07-gbm-only-offered",
+  "meta": {
+    "archetype": "gbm_only",
+    "title": "GBM-only licence; posting says sponsorship available",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Veltrix Software Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer, Integrations\nVeltrix Software Ltd · Paddington, London\n\nVeltrix is the UK arm of a global logistics-software group. Our London team builds carrier integrations for the European parcel network: label generation, customs documents, tracking webhooks.\n\nDay to day\n- Ship and maintain integrations with UK and EU carriers (Java/Kotlin)\n- Debug live parcel-flow incidents with our Rotterdam operations centre\n- Improve our integration test harness, which currently replays 1.2m real events nightly\n\nWe're looking for 2-4 years of JVM experience and comfort reading other people's specs.\n\nThe package is £46,000 plus a 10% group bonus. Visa sponsorship available. Start date flexible for the right person."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Veltrix Software Ltd's licence covers Global Business Mobility only — an intra-company route — so no Skilled Worker Certificate of Sponsorship can be issued, whatever the posting says.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "fail",
+        "reason": "gbm_only"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Veltrix Software Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Global Business Mobility: Senior or Specialist Worker"
+      },
+      "willingness_quote": "Visa sponsorship available",
+      "salary_text": "£46,000"
+    }
+  },
+  "design_notes": "The most deceptive shape in the set after case-01: the employer honestly offers sponsorship (they sponsor intra-company transfers from the group), the register row exists, salary is high — and the route column still kills it for this user. Presence is a route-qualified fact; stated willingness cannot repair the route."
+}

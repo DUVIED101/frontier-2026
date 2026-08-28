@@ -1,0 +1,43 @@
+{
+  "id": "case-25-ambiguous-group-same-route",
+  "meta": {
+    "archetype": "ambiguous_group",
+    "title": "Brand matches two entities, both Skilled Worker licensed",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Merrivale Software Ltd",
+      "Merrivale Studios Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Developer\nMerrivale · London / Brighton\n\nMerrivale makes creative production software: a render-farm scheduler used by UK animation studios and a review tool for episodic TV. Two products, two offices, one engineering culture built on short feedback loops.\n\nThe role is product engineering in TypeScript and Rust (the scheduler's core is Rust; the review tool is a TypeScript monorepo). You'd choose a home team after onboarding in both.\n\nWe want 1-3 years of experience and a portfolio, side project or contribution we can actually run.\n\n£41,500, 25 days holiday, annual company week in the Brighton office. Kit budget on day one. Apply with something you built."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "Merrivale matches two registered entities and the posting does not establish which one would employ this role; without the employing entity, the licence backing any CoS cannot be identified.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "indeterminate",
+        "reason": "ambiguous_group"
+      },
+      "route": {
+        "status": "indeterminate",
+        "reason": "no_entity"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "salary_text": "£41,500"
+    }
+  },
+  "design_notes": "Deliberate policy probe: BOTH candidate entities hold Skilled Worker licences, so one could argue route passes by any path. The C1 policy still labels register indeterminate on one ground only: a Certificate of Sponsorship is issued by one specific licensed entity, so an unidentifiable employer means the licence backing any CoS cannot be established. This convention was reviewed and confirmed at the label gate; overriding it would change the C1 policy, not just this case."
+}

@@ -1,0 +1,52 @@
+{
+  "id": "case-14-wrapper-agency-contradiction",
+  "meta": {
+    "archetype": "wrapper_contradiction",
+    "title": "Aggregator attributes the role to an unlicensed agency; body names the real employer",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Silverbeck Software Ltd"
+    ],
+    "asserted_absent_names": [
+      "TalentBridge Recruitment"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Jobsprint › Engineering › London\nFull-Stack Engineer — TalentBridge Recruitment\nLondon, UK (Hybrid) · Full-time · Mid level · £44,000\nPosted 2 days ago · 87 applicants\n[ Apply on Jobsprint ]\n\nFull-Stack Engineer (TypeScript)\nPosted by TalentBridge Recruitment on behalf of our client\n\nOur client builds subscription-billing infrastructure for UK SaaS companies. Following a Series A, they are growing the product team from six to ten engineers this year.\n\nThe role is hands-on across a React front end and a Node/TypeScript API, with real ownership of billing-critical code paths.\n\nYou will be employed directly by Silverbeck Software Ltd. The package is £44,000 with share options, 25 days holiday and hybrid working from their London Bridge office. Silverbeck sponsors Skilled Worker visas and has an established process for it.\n\nTo apply, reply with your CV; TalentBridge will arrange an intro call this week."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "The hiring employer is Silverbeck Software Ltd — named in the body as the direct employer — which holds an A-rated Skilled Worker licence, offers sponsorship, and the salary clears both thresholds; the agency in the aggregator header is not the employer.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Silverbeck Software Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Silverbeck sponsors Skilled Worker visas",
+      "salary_text": "£44,000"
+    }
+  },
+  "design_notes": "Entity contradiction: the wrapper's company field is a recruitment agency that appears on no register row; the true employer is named once, mid-body. A solver that checks the wrapper name gets no_match and issues a false NOT_SPONSORABLE. TalentBridge Recruitment is in asserted_absent_names so the trap is verified against the committed snapshot both ways."
+}

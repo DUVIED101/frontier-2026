@@ -1,0 +1,49 @@
+{
+  "id": "case-06-trading-name-stated-offered",
+  "meta": {
+    "archetype": "trading_name_gap",
+    "title": "Trading name stated in footer; sponsorship offered; fully sponsorable",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Marlowe & Finch Technology Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Senior-track Software Engineer II — Brightgate\nHolborn, London (3 days office)\n\nBrightgate is the compliance platform for UK letting agents: deposits, right-to-rent checks, gas certificates, all tracked and audit-ready. 2,100 agencies run on us.\n\nWhat the job is\nOwning features end to end in a Django + React codebase with unusually good tests. Recent projects: an e-signature flow, a document OCR pipeline, a landlord payment ledger.\n\nWhat we need\n2+ years with a mainstream backend framework. You write about your decisions clearly. You have opinions about naming things.\n\nPay and process\n£45,000. Pension matched to 5%. Visa sponsorship is available for this position. One take-home (90 minutes, paid), one onsite.\n\nBrightgate is a trading name of Marlowe & Finch Technology Ltd."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Marlowe & Finch Technology Ltd (trading as Brightgate) holds an A-rated Skilled Worker licence, offers sponsorship for this role, and the salary clears both thresholds.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "trading_name_stated"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Marlowe & Finch Technology Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "Visa sponsorship is available for this position",
+      "salary_text": "£45,000"
+    }
+  },
+  "design_notes": "Companion to case-05: same trading_name_stated mechanism, but with an explicit offer, so the ground truth is a full SPONSORABLE through the footer-resolution path. The ampersand in the legal name exercises normalisation."
+}

@@ -1,0 +1,44 @@
+{
+  "id": "case-24-ambiguous-group-diverging",
+  "meta": {
+    "archetype": "ambiguous_group",
+    "title": "Group name matches two entities whose routes diverge",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Halcyon Technologies Ltd",
+      "Halcyon Consulting (UK) Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Client Solutions\nHalcyon Group · London\n\nHalcyon Group is a UK technology group serving the insurance sector: a product arm building claims-automation software and a consulting arm delivering integrations for carriers.\n\nThis role sits with the group's engineering function in London, building claims-triage workflows in Python and TypeScript for household-name insurers. Visa sponsorship can be arranged for the right candidate.\n\nWe're looking for 2+ years of software delivery experience; insurance knowledge is a bonus, not a requirement.\n\nPackage: £44,000, discretionary bonus, 26 days holiday. Offices at Fenchurch Street; hybrid by team agreement. Apply with CV to careers@ the group domain."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "Halcyon Group matches two registered entities whose licences diverge — Halcyon Technologies Ltd (Skilled Worker) and Halcyon Consulting (UK) Ltd (Global Business Mobility only) — and the posting does not establish which one employs this role.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "indeterminate",
+        "reason": "ambiguous_group"
+      },
+      "route": {
+        "status": "indeterminate",
+        "reason": "no_entity"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "willingness_quote": "Visa sponsorship can be arranged for the right candidate",
+      "salary_text": "£44,000"
+    }
+  },
+  "design_notes": "The resolution genuinely decides the verdict: one candidate entity would make this sponsorable-shaped, the other kills it. Guessing either way is confident-wrong by construction. The uncertainty statement should tell the user exactly what to ask: which legal entity issues the contract."
+}

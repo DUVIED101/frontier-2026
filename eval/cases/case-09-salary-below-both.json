@@ -1,0 +1,49 @@
+{
+  "id": "case-09-salary-below-both",
+  "meta": {
+    "archetype": "salary_below_floor",
+    "title": "Salary below the general threshold at an otherwise perfect employer",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Quillstone Apps Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Junior Software Engineer\nQuillstone Apps Ltd · Old Street, London\n\nQuillstone builds white-label loyalty apps for independent coffee chains. Small team, real users, your code in production in week one.\n\nThe work: React Native features, a Node.js API, and the occasional dashboard for a franchise owner who wants to know which flat white sells best.\n\nWe hire for trajectory over polish: 0-2 years of experience, a project you can demo, and evidence you finish things.\n\nSalary £29,500. 24 days holiday. We can support Skilled Worker visa sponsorship. Coffee, obviously, is free."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "At £29,500 the advertised salary is below the Skilled Worker general threshold, so this role cannot be sponsored regardless of the licence or the stated willingness.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "fail",
+        "reason": "below_general_threshold"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Quillstone Apps Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We can support Skilled Worker visa sponsorship",
+      "salary_text": "£29,500"
+    }
+  },
+  "design_notes": "Licence green, route green, sponsorship offered in good faith — and the number disqualifies it. £29,500 sits below the general threshold under both plausible values (30,960 and 33,400), so the label survives the threshold verification."
+}

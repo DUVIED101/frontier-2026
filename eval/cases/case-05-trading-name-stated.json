@@ -1,0 +1,48 @@
+{
+  "id": "case-05-trading-name-stated",
+  "meta": {
+    "archetype": "trading_name_gap",
+    "title": "Trading name with legal entity stated in footer fine print; posting silent on sponsorship",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Wrenfield Payments Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Platform Engineer — Paylark\nShoreditch, London · Hybrid\n\nPaylark moves money for UK marketplaces: split payments, escrow, instant payouts. We process £40m a month and are doubling every year.\n\nThe platform team owns our AWS estate (ECS, RDS, Terraform), our observability stack and the deploy pipeline the product teams ship through 20 times a day.\n\nWe'd like to see solid Linux fundamentals, one strong IaC tool, and an incident story you tell with pride rather than blame.\n\nCompensation: £40,500 base, reviewed twice yearly. 24 days holiday. Remote Fridays are sacred.\n\nPaylark is the trading name of Wrenfield Payments Ltd, registered in England and Wales. Paylark is an equal opportunity employer."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "Wrenfield Payments Ltd (trading as Paylark) is a licensed Skilled Worker sponsor and the salary clears both thresholds, but the posting says nothing about sponsorship for this role.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "trading_name_stated"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Wrenfield Payments Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "salary_text": "£40,500"
+    }
+  },
+  "design_notes": "The tie IS in the posting, one line of footer fine print — easier than case-04 (trading_name_stated, not alias_lookup). Honest outcome is abstention on willingness: register, route and salary verified, stance unestablished. Tests that a resolver reads to the bottom of the page. Salary above_floor margin over going rate is 2,200."
+}

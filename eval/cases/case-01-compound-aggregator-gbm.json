@@ -1,0 +1,39 @@
+{
+  "id": "case-01-compound-aggregator-gbm",
+  "meta": {
+    "archetype": "compound_brand_gbm",
+    "title": "Aggregator-hosted, brand name only, legal entity holds GBM-only licence",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": ["Bryelock Systems Ltd"]
+  },
+  "payload": {
+    "requisition_text": "Jobsprint › Engineering › London\nSoftware Engineer, Early Careers — Ottervale\nLondon, UK (Hybrid) · Full-time · Entry level · £42,000\nPosted 4 days ago · 118 applicants\n[ Apply on Jobsprint ]\n\nSoftware Engineer (Early Careers)\nOttervale · London (hybrid)\n\nAbout Ottervale\nOttervale runs real-time payments reconciliation for online marketplaces. Finance teams at 40+ marketplaces use Ottervale to match provider payouts against order ledgers, catching missing funds before month-end close.\n\nThe role\nYou'll join our settlements team in London, working across the matching engine (Python) and the dashboard (TypeScript/React). You will own small features end to end within your first quarter, with a named mentor and a written progression framework.\n\nWhat you'll do\n- Build and test matching rules for new payment providers\n- Investigate reconciliation breaks reported by customer finance teams\n- Contribute to our internal data-quality tooling\n\nWhat we're looking for\n- 0–2 years of professional experience, or strong internship/project work\n- Working knowledge of Python; TypeScript is a plus\n- Care for correctness: you write tests without being asked\n\nCompensation & benefits\n- £42,000 base + equity\n- 26 days holiday + bank holidays\n- Hybrid: 3 days/week at our London Bridge office\n\nInterview process\n1. 30-minute intro call\n2. Take-home exercise (2 hours max)\n3. Onsite loop: pairing + systems + values\n\nOttervale is an equal opportunity employer."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "Ottervale's legal entity, Bryelock Systems Ltd, holds a Global Business Mobility licence only — no Skilled Worker route, so no Certificate of Sponsorship can be issued for this role.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": { "status": "pass", "reason": "alias_lookup" },
+      "route": { "status": "fail", "reason": "gbm_only" },
+      "willingness": { "status": "indeterminate", "reason": "silent" },
+      "salary": { "status": "pass", "reason": "above_floor" }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Bryelock Systems Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Global Business Mobility: Senior or Specialist Worker"
+      },
+      "alias": {
+        "brand": "Ottervale",
+        "registered_name": "Bryelock Systems Ltd",
+        "source": "companies_house_fixture"
+      },
+      "salary_text": "£42,000 base + equity"
+    }
+  },
+  "design_notes": "The two-hop trap from docs/PLAN.md §7. Hop 1: 'Ottervale' appears nowhere in the register; the tie to Bryelock Systems Ltd is deliberately NOT stated in the posting and exists only in the alias fixture (aliases.json), so naive Ctrl-F resolution dead-ends. Hop 2: Bryelock IS on the register, but GBM-only — presence without the Skilled Worker route. Expected naive failures, both toward the expensive direction: (a) world-knowledge substitution — 'known brand, surely licensed' → false SPONSORABLE; (b) grep-literalism — no CSV hit → NOT_SPONSORABLE with reason no_match, the right verdict for the wrong reason; verdict_utility alone would reward it, which is exactly what check_accuracy (register=fail, route=indeterminate vs truth pass/fail) and grounding_rate exist to catch. The aggregator wrapper is intentionally CONSISTENT with the body (Entry level, £42,000): the wrapper-contradiction failure belongs to archetype wrapper_contradiction, and mixing it in would muddy what this case measures. Willingness is silent by design — even without the route fail this could never exceed UNVERIFIABLE under the C3 policy, but the route fail makes it definitively NOT_SPONSORABLE. Step-3 obligations this case creates: the Bryelock fixture row must copy the real snapshot's exact Route and Type & Rating vocabulary at commit time, and the collision check must confirm neither 'Ottervale' nor 'Bryelock Systems Ltd' matches any real register row."
+}

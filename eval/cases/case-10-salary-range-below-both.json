@@ -1,0 +1,48 @@
+{
+  "id": "case-10-salary-range-below-both",
+  "meta": {
+    "archetype": "salary_below_floor",
+    "title": "Salary range entirely below the general threshold",
+    "authored": "2026-08-28",
+    "split": "holdout",
+    "register_fixture_orgs": [
+      "Hazelmoor Interactive Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Associate Developer (Games Tools)\nHazelmoor Interactive Ltd — Leeds city centre\n\nHazelmoor makes tooling for mid-size game studios: asset pipelines, build farms, crash triage. Our tools ship inside 60+ studios' workflows.\n\nAs an associate you'll fix real tickets from week one in our C++/Python codebase, pair daily, and rotate through the three product teams in your first year.\n\nRequirements: some C++ or Python beyond coursework, and patience for other people's build systems.\n\nThe range for this role is £27,000-£29,800 depending on experience. Hybrid, 2 days in the Leeds office. Applications reviewed weekly."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "The entire advertised range (£27,000-£29,800) sits below the Skilled Worker general threshold, so the role cannot be sponsored at any point in the range.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "silent"
+      },
+      "salary": {
+        "status": "fail",
+        "reason": "below_general_threshold"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Hazelmoor Interactive Ltd",
+        "town_city": "Leeds",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "salary_text": "£27,000-£29,800"
+    }
+  },
+  "design_notes": "Range variant of case-09: the fail is definitive because the range maximum is below the threshold — no optimistic reading rescues it. Willingness silence is irrelevant once salary fails."
+}

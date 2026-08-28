@@ -1,0 +1,49 @@
+{
+  "id": "case-11-salary-below-going-rate",
+  "meta": {
+    "archetype": "salary_below_going_rate",
+    "title": "Clears the general threshold, fails the SOC going rate — the strongest salary case",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Tarnbrook Software Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Client Reporting\nTarnbrook Software Ltd · Liverpool Street, London\n\nTarnbrook supplies portfolio-reporting software to 90 UK wealth managers. The reporting engine renders 40,000 client documents a night; you would work on the pipeline that makes that boringly reliable.\n\nStack: Python, Celery, Postgres, a front end in Vue you'd touch occasionally. The team is nine engineers, median tenure four years.\n\nWe're after 1-3 years of backend experience and a low tolerance for flaky tests.\n\nSalary for this opening is £35,500. We offer visa sponsorship. 25 days holiday, pension matched at 4%, annual profit share averaging 6% over the last five years."
+  },
+  "expected": {
+    "verdict": "NOT_SPONSORABLE",
+    "determining_fact": "£35,500 clears the general threshold but falls below the SOC 2134 going rate of £38,300, and the applicable floor is the higher of the two — the role cannot be sponsored at this salary.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "fail",
+        "reason": "below_going_rate"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Tarnbrook Software Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We offer visa sponsorship",
+      "salary_text": "£35,500"
+    }
+  },
+  "design_notes": "THE two-threshold case from the schema-review amendment. A solver carrying one number — the general threshold — passes this wrongly, and the failure pushes toward false SPONSORABLE, the expensive direction. Everything else is green by design so salary is the only live check. Thinnest margin in the set: base £35,500; even if the ~6% profit share (~£2,130) counted toward the floor it would reach ~£37,630, still £670 below the £38,300 going rate — and under the counts_toward_floor rule (guaranteed basic gross annual only) it does not count, so the label holds either way. Any future threshold correction gets re-checked against this case first."
+}

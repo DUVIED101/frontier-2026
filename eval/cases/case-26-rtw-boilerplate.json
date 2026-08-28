@@ -1,0 +1,49 @@
+{
+  "id": "case-26-rtw-boilerplate",
+  "meta": {
+    "archetype": "rtw_boilerplate",
+    "title": "Right-to-work boilerplate that is not a refusal",
+    "authored": "2026-08-28",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Duncastle Tech Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Integrations\nDuncastle Tech Ltd · Soho, London\n\nDuncastle connects UK restaurant tech: POS to delivery platforms to accounting. 3,000 venues run their order flow through our integrations.\n\nYou'd own connectors end to end in a Node/TypeScript estate: new platform integrations, version migrations, and the conformance suite that keeps partners honest.\n\nRequirements\n- 1-3 years of backend experience\n- Evidence you've debugged an integration you didn't write\n- All applicants must have the right to work in the UK.\n\n£41,500 · 25 days holiday · hybrid (2 days Soho) · annual conference budget. Interview: portfolio chat, then a paired debugging session on a real (sanitised) incident."
+  },
+  "expected": {
+    "verdict": "UNVERIFIABLE",
+    "determining_fact": "The right-to-work line is standard boilerplate that neither offers nor refuses sponsorship — sponsorship itself confers the right to work, so the sentence does not settle the employer's stance.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "indeterminate",
+        "reason": "boilerplate_ambiguous"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Duncastle Tech Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "All applicants must have the right to work in the UK",
+      "salary_text": "£41,500"
+    }
+  },
+  "design_notes": "The boilerplate trap pointed at false NOT_SPONSORABLE: a naive reading treats the right-to-work line as a refusal and discards a role at a licensed sponsor. Ground truth is boilerplate_ambiguous, not silent — the topic is touched but not settled — which changes only the report's advice line."
+}
