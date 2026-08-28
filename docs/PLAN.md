@@ -61,6 +61,34 @@ trivially).
 
 ---
 
+## Why existing tools don't answer this
+
+Job-board and scraper sponsorship filters answer "does the posting mention sponsorship",
+not "can this requisition produce a Certificate of Sponsorship". In the author's own
+search, a scrape of roughly 400 mid-level London software roles over a six-month window
+returned 2 rows flagged as mentioning sponsorship. Employers who sponsor overwhelmingly
+say nothing about it, so the filter's negatives are meaningless and its recall is near
+zero — which is why C3 treats silence as indeterminate rather than as a refusal.
+
+Register lookup tools answer presence only. They do not read the licence category, so a
+Global Business Mobility-only licence — an intra-company transfer route, unreachable for
+this user — reads as a positive. That is failure mode 2 in the ranked failure surface, and
+it is the most expensive one, because it produces a confident false SPONSORABLE.
+
+Nothing checks willingness at the requisition level. A licensed, A-rated employer
+routinely publishes a role stating it cannot offer sponsorship. Holding a licence and
+using it on this requisition are different facts, and only the posting settles the second
+one.
+
+Nothing applies the salary floor as a disqualifier. A role advertised below the
+new-entrant rate cannot be sponsored regardless of licence or willingness, which silently
+removes a whole band of otherwise-plausible early-career roles. The four checks are
+individually available and never composed — and the composition is where the two-hop
+failures live, which is exactly what the compound hard case in the evaluation
+demonstrates.
+
+---
+
 ## 2. The four checks as testable predicates
 
 Stable vocabulary used everywhere (code, metrics, JSON, test names): `register`, `route`,

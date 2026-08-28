@@ -18,6 +18,12 @@ TODO
      Be specific enough that a judge who has never met this user can picture the failure. -->
 TODO
 
+## Why existing tools don't answer this
+
+<!-- Prior art and the specific way each partial solution fails.
+     Filled from the section of the same name in docs/PLAN.md. -->
+TODO
+
 ## Why solving it is valuable
 
 <!-- What changes for that user when this works. Quantify if the eval supports it. -->
