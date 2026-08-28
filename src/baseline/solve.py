@@ -6,13 +6,23 @@ against this file exactly as it stands.
 
 One direct prompt with basic instructions (docs/PLAN.md §4): a single pinned-model call
 carrying the requisition text plus a naive register lookup — rows whose Organisation
-Name contains one of the posting's header-line name candidates, case-insensitively,
-capped at 20, or the literal line NO ROWS MATCHED. That is the honest automation of the
-manual process (read the header, Ctrl-F the CSV); a small stopword list keeps job-title
-and location segments out of the search because a person searches the employer's name,
-not the words "Software Engineer" or "London". The lookup's blindness to trading names,
-routes, ratings and negations is the measured failure surface, not a defect. No retries,
-no tools, no verification, no second pass.
+Name contains one of the posting's header-line name candidates, case-insensitively, or
+the literal line NO ROWS MATCHED. That is the honest automation of the manual process
+(read the header, Ctrl-F the CSV); a small stopword list keeps job-title and location
+segments out of the search, and among surviving candidates the most specific one (the
+fewest register hits) wins, because a person whose search lights up half the register
+searches again rather than reading unrelated companies. A candidate matching more rows
+than the excerpt can carry is a generic word, not a name. The lookup's blindness to
+trading names, routes, ratings and negations is the measured failure surface, not a
+defect — the specificity guard exists so that failure surface is the employer's, never
+an artifact of a job-title word shadowing the name (defect fixed 2026-08-29, trajectory
+record; the pre-fix noise-floor run is superseded).
+
+The prompt carries the four checks as plain-language questions, the floor figures as
+data, and the output contract — no reason vocabulary, no threshold-combination rule,
+no pay-composition rule. That expertise belongs to the advanced system; a baseline
+prompt that narrates it is answering its own exam (Condition A, trajectory 2026-08-29).
+No retries, no tools, no verification, no second pass.
 """
 
 from __future__ import annotations
@@ -97,42 +107,47 @@ def _register() -> tuple[tuple[str, str], ...]:
 
 
 def register_context(candidates: Sequence[str]) -> str:
-    """Naive lookup: first candidate with case-insensitive substring hits wins."""
+    """Naive lookup: the most specific candidate wins (fewest substring hits).
+
+    A candidate with more hits than MAX_REGISTER_ROWS is a generic word, not a name,
+    and is skipped entirely; ties on hit count go to reading order. This is a guard
+    against job-title words shadowing the employer's name, not an alias resolver —
+    a name absent from the register under its posted spelling still yields NO_MATCH.
+    """
+    best: list[str] | None = None
     for candidate in candidates:
         needle = candidate.casefold().strip()
         if not needle:
             continue
         hits = [line for name, line in _register() if needle in name]
-        if hits:
-            return "\n".join(hits[:MAX_REGISTER_ROWS])
-    return NO_MATCH
+        if not hits or len(hits) > MAX_REGISTER_ROWS:
+            continue
+        if best is None or len(hits) < len(best):
+            best = hits
+    return "\n".join(best) if best else NO_MATCH
 
 
 def build_prompt(requisition_text: str, register_excerpt: str) -> tuple[str, str]:
-    general = int(FLOOR["general_threshold_gbp"]["amount"])
-    going = int(FLOOR["going_rate_gbp"]["amount"])
-    system = f"""You assess whether a UK job requisition can lead to a Skilled Worker \
-Certificate of Sponsorship for an early-career software engineer (SOC 2134, \
-new-entrant basis). Four checks decide it:
+    floor_data = json.dumps(
+        {
+            "general_threshold_gbp": int(FLOOR["general_threshold_gbp"]["amount"]),
+            "soc_2134_new_entrant_going_rate_gbp": int(
+                FLOOR["going_rate_gbp"]["amount"]
+            ),
+        }
+    )
+    system = f"""You check whether a UK job posting could lead to Skilled Worker visa \
+sponsorship for an early-career software engineer. Decide four things from the \
+posting and the register rows you are given (or the line {NO_MATCH}):
 
-1. "register": the employer appears on the Home Office sponsor register. You are given \
-the register rows a name search found for this posting, or the line {NO_MATCH}.
-2. "route": the employer's register rows cover the Skilled Worker route specifically.
-3. "willingness": the posting itself is willing to sponsor this role.
-4. "salary": the advertised salary must clear BOTH the general threshold (£{general:,}) \
-AND the SOC 2134 new-entrant going rate (£{going:,}) — the higher of the two applies. \
-Only guaranteed basic gross annual pay counts; bonuses, profit share, equity, options, \
-allowances and overtime do not.
+1. "register": is the employer on the Home Office sponsor register?
+2. "route": does the employer's licence cover the route this job would need?
+3. "willingness": does the posting offer sponsorship for this role?
+4. "salary": is the advertised pay enough? Salary requirements: {floor_data}
 
-Each check gets a "status": "pass", "fail" or "indeterminate", and a short "reason" \
-from: register: legal_name_exact|trading_name_stated|alias_lookup|no_match|\
-ambiguous_group; route: skilled_worker|gbm_only|other_routes_only|rating_blocks_cos|\
-no_entity; willingness: offered|refused|silent|boilerplate_ambiguous; salary: \
-above_floor|below_general_threshold|below_going_rate|straddles_floor|absent|\
-non_annual_unclear.
-
-Verdict rules: any failed check means "NOT_SPONSORABLE"; all four passing means \
-"SPONSORABLE"; otherwise "UNVERIFIABLE".
+Each check gets a "status" of "pass", "fail" or "indeterminate", and a short \
+free-text "reason". The verdict is "SPONSORABLE", "NOT_SPONSORABLE" or \
+"UNVERIFIABLE".
 
 The register snapshot is dated {SNAPSHOT_DATE}.
 

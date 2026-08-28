@@ -3,8 +3,11 @@
 The model call itself is exercised by the eval run, not unit tests (T-2). What is
 pinned here: the naive register lookup behaves exactly as designed — including its
 designed blindness to brand aliases, which is a documented baseline failure mode, not
-a defect (docs/PLAN.md §4) — and the prompt states the rules the labels are scored
-against (two thresholds, guaranteed-basic-only, output contract).
+a defect (docs/PLAN.md §4) — that generic job-title words can never shadow the
+employer's name (the 2026-08-29 defect fix, trajectory record), and that the prompt
+carries the floor figures as data WITHOUT interpretation coaching: no reason
+vocabulary, no threshold-combination rule, no pay-composition rule. That expertise is
+the advanced system's job (Condition A/C, trajectory 2026-08-29).
 """
 
 from __future__ import annotations
@@ -53,21 +56,35 @@ def test_baseline_lookup_is_blind_to_brand_aliases() -> None:
     assert register_context(candidate_strings(text)) == "NO ROWS MATCHED"
 
 
-def test_baseline_lookup_caps_rows() -> None:
-    lines = register_context(["Software"]).splitlines()
-    assert len(lines) == MAX_ROWS
-    assert all("software" in line.casefold() for line in lines)
+def test_baseline_lookup_treats_a_hit_flood_as_no_name_found() -> None:
+    assert register_context(["Software"]) == "NO ROWS MATCHED"
 
 
-def test_baseline_prompt_states_both_thresholds_and_base_pay_rule() -> None:
+def test_baseline_lookup_prefers_the_employer_name_over_a_generic_term() -> None:
+    text = _case_text("case-07-gbm-only-offered.json")
+    context = register_context(candidate_strings(text))
+    assert "Veltrix Software Ltd" in context
+    assert len(context.splitlines()) <= MAX_ROWS
+
+
+def test_baseline_prompt_carries_floor_data_without_interpretation_coaching() -> None:
     system, _ = build_prompt("posting text", "NO ROWS MATCHED")
     general = FLOOR["general_threshold_gbp"]["amount"]
     going = FLOOR["going_rate_gbp"]["amount"]
-    assert f"£{general:,}" in system
-    assert f"£{going:,}" in system
-    assert "guaranteed basic" in system
-    for excluded in ("bonus", "profit share", "equity"):
-        assert excluded in system
+    assert str(general) in system
+    assert str(going) in system
+    lowered = system.casefold()
+    for coaching in (
+        "higher of the two",
+        "guaranteed basic",
+        "bonus",
+        "gbm",
+        "any failed check",
+        "legal_name_exact",
+        "below_going_rate",
+        "boilerplate_ambiguous",
+    ):
+        assert coaching not in lowered
 
 
 def test_baseline_prompt_includes_output_contract_and_snapshot_date() -> None:
