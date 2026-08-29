@@ -429,3 +429,40 @@ STOPPED                 -> Sunday order unchanged: collision sweep (31 cases),
                            QREPRO, --split all, then README / note grouping /
                            timing / video.
 ```
+
+### Post-close checkpoint 4 — Live timing result; a citation defect visible in it
+
+> **HUMAN: redirected** — timing measured on a live Sony Music posting: baseline 130s
+> (two questions plus manual register verification), advanced 7s, same verdict, and
+> advanced reached it for better reasons — the baseline substituted a market estimate
+> ("£70-90k for a London SWE role") for a salary the posting does not state, while
+> advanced returned indeterminate and quoted what the posting actually says. That is
+> §3 failure mode 1 (world-knowledge substitution) caught on live input — the failure
+> the synthetic fixtures structurally cannot elicit (DECISIONS 2026-08-29), observed
+> in the wild on the first real employer.
+>
+> Defect visible in that output, ordered fixed tonight alongside the wrapped-quote
+> work (both are evidence-selection bugs): Sony Music holds four register rows across
+> four routes and _register_check cites rows[0] — the report said "on the register —
+> Temporary Worker (A rating) · Creative Worker" while the route check cited the
+> Skilled Worker row. A user is misled about what was established. The register check
+> must cite deliberately (the row the verdict rests on) and the multi-licence fact
+> must reach the user. A dev fixture with a multi-row entity is required — same
+> reasoning as case-31: the defect survived because no fixture had this shape.
+
+### Post-close checkpoint 5 — Sourcing finding: the affirmative-sponsorship posting does not exist in the wild
+
+> **HUMAN: redirected** — for the evidence file and the README, as a finding: no live
+> posting could be sourced that affirmatively offers sponsorship for a specific role.
+> That matches the domain — sponsorship is rarely stated; silence is the common case,
+> not the edge case. It is the empirical justification for the C3 silence policy:
+> silence blocks SPONSORABLE without producing NOT_SPONSORABLE, so the system's most
+> frequent honest output is UNVERIFIABLE with a named question to ask. A judge who
+> assumes silence means refusal reaches the opposite policy and discards viable
+> roles. The timing sample is three requisitions across the classes that could
+> actually be sourced — three requisitions illustrate; the full case eval carries the
+> statistical weight. Also ordered for README: present the case-31 denominator shift
+> plainly (abstain floor 0.5125 -> 0.5; baseline grounding 0.9304 because its
+> unwrapped quote does not ground either) as the fixture set becoming slightly more
+> like the world and slightly less like its author — per-case verdicts are what carry
+> across the change.
