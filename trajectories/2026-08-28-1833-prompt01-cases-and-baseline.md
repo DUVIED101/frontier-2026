@@ -591,3 +591,69 @@ report                  -> pre-freeze report delivered to the operator: re-gate 
                            ($3.11 total), rubric inventory. CHANGELOG [0] and the
                            CN-3 freeze declaration staged, awaiting the go.
 ```
+
+### Step 5 (close) — GO received: baseline FROZEN; Saturday scope set; session closed
+
+> **HUMAN: approved** — freeze authorized on the reported numbers. Saturday scope
+> ruled: B-rating sub-check CUT (same mechanic as the GBM case, no new evidence; lives
+> in the uncertainty statement per PLAN §8). Alias layer KEPT, reversing the earlier
+> cut order — cases 01 and 04 need it to discriminate at verdict level, and 04 is the
+> only SPONSORABLE the baseline loses to name resolution. Morning: extract -> resolve
+> -> rules engine, with a measured advanced-vs-baseline dev run before stopping,
+> however incomplete — "a number at midday is worth more than a better architecture at
+> 14:00 with nothing measured"; no delta by midday -> alias layer goes first. Evening:
+> the verifier. Sunday morning: the report renderer, FIRST, ahead of hardening.
+> Condition C carried forward verbatim: an instruction that tells the model what the
+> answer should be is logic that belongs in code. prompts/02-improve-loop.md governs
+> from the first improvement after the pipeline runs; the initial build is
+> construction, not iteration.
+
+**Agent action + tool responses, in order**
+
+```
+CHANGELOG [0]           -> written against 20260829-002858.json (reference) and
+                           20260829-002003.json (noise floor); freeze declared from
+                           cde01b2; superseded runs named as record-not-baseline.
+scaffold (red)          -> stage boundaries pinned as 4 typed stubs + 20 failing
+                           tests: rules (13: salary x5 against floor_config, route x2,
+                           willingness x2, combinator x4 incl. never-S-without-all-
+                           four), resolve (5: exact / suffix-variation / alias /
+                           no-match / ambiguous, on fixture vocabulary), verify (2:
+                           fabricated quote downgraded, supported quote untouched).
+                           mypy --strict clean on stubs; suite 38 green + 20 red BY
+                           DESIGN — Saturday starts red with the shape fixed.
+split discipline        -> confirmed --split default "dev" (eval/run_eval.py:245);
+                           holdout shut until Sunday's explicit --split all.
+```
+
+---
+
+## Session close (TR-5)
+
+**What changed.** 30 labelled synthetic cases over a real 142,988-row register
+snapshot with 30 shape-indistinguishable fixture rows; both salary thresholds verified
+against live gov.uk sources (the £40,000 trap column resolved and promoted to a
+Finding); 11 metrics implemented TDD including the confident-wrong asymmetry,
+mechanical grounding, and the decisive pair with a pre-registered target; the baseline
+built, defect-fixed (specificity guard), rolled back once to basic instructions under
+recorded conditions, and FROZEN at cde01b2; problem framing corrected to
+time-to-a-trustworthy-answer; advanced stage boundaries scaffolded red for Saturday.
+
+**Which metric moved.** None claimed — this session established the reference:
+baseline verdict_utility 0.225 (noise 2σ ≈ 0.1), confident_wrong_rate 0.4667,
+decisive_rate 0.8462, grounding 0.99, vs always_abstain 0.5125/0. Every Saturday delta
+is measured against these numbers in eval/results/20260829-002858.json.
+
+**Discarded, and why.** The coached baseline prompt (answered its own exam — enums,
+threshold rules, pay-composition rules removed once, outcome accepted, no second
+pass); the first-candidate-wins lookup (defect: generic words shadowed employer names;
+pre-fix run 20260828-224144 superseded); the "10–20 minutes" and "irreplaceable
+application" framing (does not survive scrutiny; the scarce resource is attention
+under a visa deadline and the honest metric is time-to-a-trustworthy-answer); the
+B-rating sub-check (cut to the uncertainty statement); case-01 and case-13 as
+verdict-level discriminators (structural finding re fictional brands; wrapper
+resistance of the pinned model — both re-designated with DECISIONS entries). Two
+process errors of the agent's own are part of this record: the tree dirtied during
+runs, twice, the second costing a $0.22 clean rerun.
+
+**Session cost.** $3.12 API spend, 4 committed results files, 1 frozen baseline.
