@@ -146,3 +146,23 @@ loop 2 (verifier)       -> TDD: fabricated-quote red test; assemble() now verifi
                            downgrades on dev as hypothesised. CHANGELOG [3]: the
                            change buys a guarantee, not a number.
 ```
+
+### Step 6 — Evening loop 3: stance refinement lands exactly on hypothesis
+
+```
+change                  -> one stance-definition refinement in the extraction prompt,
+                           stated as the general principle (sponsorship itself
+                           confers the right to work; RTW wording alone is ambiguous,
+                           never refused; refused requires an explicit exclusion).
+                           No threshold/route/verdict logic (Condition C).
+measured run            -> 20260829-085330.json (clean, f9f9c31): advanced 0.9 /
+                           cwr 0.0769 / decisive_accuracy 0.9231 / check_accuracy
+                           0.9875 / exact_match 0.75. case-26 -> UNVERIFIABLE with
+                           the exact labelled reason (boilerplate_ambiguous);
+                           case-27 sentinel held (fail/refused). +0.10 on advanced
+                           after four identical 0.8 runs: signal, not noise.
+                           19/20 — the single wrong verdict is case-28, the
+                           deliberately cut B-rating check, priced and disclosed in
+                           its own output. Baseline same-run 0.225 (low end of its
+                           spread); same-run delta +0.675.
+```

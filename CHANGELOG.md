@@ -37,6 +37,46 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [4] Stance extractor learns that right-to-work wording settles nothing
+`f9f9c31` · 2026-08-29 08:53 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** case-26 flips NOT_SPONSORABLE → UNVERIFIABLE (correct abstention):
+verdict_utility +0.10 (a −1.0 becomes +1.0 on one of twenty cases), with case-27 (RTW
+wording PLUS an explicit refusal) as the regression sentinel that must stay
+NOT_SPONSORABLE.
+
+**Change.** One stance-definition refinement in `extract.py`'s prompt, stated as the
+general principle rather than the case: sponsorship itself confers the right to work,
+so an RTW requirement alone is "ambiguous", never "refused"; "refused" now requires
+an explicit statement that sponsorship is unavailable or sponsorship-needing
+candidates excluded. No threshold, route or verdict logic — extraction semantics only
+(Condition C respected).
+
+**Measurement.** Evidence: `eval/results/20260829-085330.json`
+
+| Metric | baseline (same run) | advanced | Delta |
+|---|---|---|---|
+| verdict_utility | 0.225 | **0.9** | +0.675 |
+| confident_wrong_rate | 0.4667 | **0.0769** | −0.390 |
+| decisive_accuracy | 0.5333 | 0.9231 | +0.390 |
+| decisive_rate | 0.8462 | 1.0 | +0.154 |
+| check_accuracy | 0.8 | 0.9875 | +0.188 |
+| grounding_rate | 0.9691 | 1.0 | +0.031 |
+| cost_per_case_usd | 0.01111 | 0.00312 | −72% |
+
+case-26: UNVERIFIABLE with `willingness: indeterminate/boilerplate_ambiguous` — the
+exact labelled reason. case-27 sentinel: NOT_SPONSORABLE with `fail/refused` — no
+regression. Advanced verdict delta vs its own previous runs: +0.10, exactly the
+hypothesis; four prior runs were identical at 0.8, so this is signal, not noise.
+
+**Verdict.** KEPT. 19/20; the single remaining wrong verdict is case-28, the
+deliberately cut B-rating sub-check (scope ruling 2026-08-29), whose price is known,
+bounded, and stated in that output's own uncertainty statement.
+
+**What this told me to do next.** The dev-split failure surface inside scope is
+clear. Next per plan: the verification report renderer (Sunday morning, first), the
+removed-experiment run (self-consistency), and the final `--split all` evaluation.
+
 ### [3] Verifier gates model-sourced quotes ahead of the combinator
 `7c85ed0` · 2026-08-29 08:47 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
