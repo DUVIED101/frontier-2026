@@ -12,17 +12,22 @@ Re-verify this document from a fresh clone before submitting — do not assume i
 
 | Requirement | Version | Notes |
 |---|---|---|
-| Docker | TODO | Recommended path. Everything is pinned inside the image. |
-| Python | 3.12 | Only if running without Docker. 3.14 fails on this repo's toolchain — see Troubleshooting. |
-| Node.js | — | Not used; the solution is Python-only. |
-| API access | Anthropic API | Model `claude-sonnet-4-6` (pinned, both variants — see DECISIONS.md). Env var `ANTHROPIC_API_KEY`. **No key is included in this repo.** |
-| Disk | ~50 MB | Repo incl. the gzipped register snapshot (~2 MB). |
+| Python | **3.12** | Required for the local path. **3.14 fails at `venv` creation** (Homebrew builds ship without ensurepip wheels) — use 3.12, see Troubleshooting. |
+| Docker | 28.x (tested 28.4.0, 2026-08-29) | Optional alternative path. Image `python:3.12-slim-bookworm`; build + full test suite + eval harness verified in-container. |
+| Node.js | — | Not used; the solution is Python-only. The `docker/Dockerfile.node` scaffold is unused and declared in README. |
+| API access | Anthropic API | Model `claude-sonnet-4-6` (pinned, both variants — DECISIONS.md 2026-08-28). Env var `ANTHROPIC_API_KEY`. **No key is included in this repo.** |
+| Disk | ~60 MB | Repo (~2.4 MB archive incl. the gzipped register snapshot) + venv. |
 
-Approximate cost of a full evaluation run (dev split, all three variants): **~$0.25**
-(20 model calls for the baseline at ~$0.011/case; `always_abstain` and the eval itself
-make no model calls). A `--repeats 5` variance run adds ~120 calls ≈ **$1.35**.
-Approximate wall-clock time: **~4 minutes** for a single pass, **~25 minutes** with
-`--repeats 5` (calls are sequential).
+Measured cost and wall-clock per command (from the committed results files, model calls
+priced at $3/$15 per MTok):
+
+| Command | Model calls | Cost | Wall clock |
+|---|---|---|---|
+| Test suite (§7) | 0 | $0 | ~5 s |
+| Baseline eval (§4) | 20 | ~$0.22 | ~4 min |
+| Advanced eval (§5) | 20 | ~$0.06 | ~1 min |
+| Full three-variant eval (§6) | 40 | ~$0.28 | ~8 min |
+| Optional noise floor (`--repeats 5`, §6) | 120 | ~$1.35 | ~25 min |
 
 ---
 
@@ -33,19 +38,22 @@ git clone <REPO_URL>
 cd frontier-2026
 ```
 
-### Option A — Docker (recommended)
-
-```bash
-docker compose -f docker/docker-compose.yml build
-docker compose -f docker/docker-compose.yml run --rm app bash
-```
-
-### Option B — Local
+### Option A — Local venv (primary; every committed number was produced this way)
 
 ```bash
 python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r docker/requirements.txt
 ```
+
+### Option B — Docker (verified 2026-08-29: build, full suite and eval harness in-container)
+
+```bash
+docker compose -f docker/docker-compose.yml build app
+docker compose -f docker/docker-compose.yml run --rm app bash
+```
+
+Inside the container the repo is mounted at `/app` and `.env` is loaded via
+`env_file`; run the same commands as the local path, without the `.venv` activation.
 
 ---
 
@@ -62,73 +70,136 @@ cp .env.example .env
 | `ANTHROPIC_API_KEY` | yes | Model calls made by the baseline and advanced solvers. The `always_abstain` reference variant and the test suite run without it. |
 
 No credential is committed to this repository. Nothing here will work without your own key.
+The eval runner reads the environment, not `.env` — export the variable or source the file:
+
+```bash
+set -a; source .env; set +a
+```
 
 ---
 
 ## 3. Data
 
-<!-- Which data is required, where it comes from, how to obtain or generate it. -->
+**Nothing to download, generate, or fetch — the evaluation never touches the network.**
+All data ships committed in `eval/cases/`:
 
-```bash
-TODO   # e.g. python eval/generate_fixtures.py --seed 42
-```
+- `fixtures/sponsor-register-2026-08-28.csv.gz` — the real Home Office register snapshot
+  (142,988 rows, Open Government Licence v3) plus 30 fictional fixture rows, inserted at
+  name-sorted positions. The fixture manifest `fixtures/register_fixture_rows.json` is
+  the only marker distinguishing them.
+- `fixtures/floor_config.json` — both salary thresholds with sources and effective dates.
+- `fixtures/aliases.json` — synthetic trading-name→legal-entity fixtures.
+- `case-*.json` — 30 hand-labelled cases (20 dev / 10 holdout).
 
-Expected output: TODO
-Provenance and licence: [`docs/DATA.md`](docs/DATA.md).
+Provenance and licence for everything: [`docs/DATA.md`](docs/DATA.md).
 
 ---
 
 ## 4. Run the baseline
 
 ```bash
-TODO
+python eval/run_eval.py --variant baseline --split dev --seed 42
 ```
 
-Expected output:
+Output of this exact command as recorded in `eval/results/20260829-083215.json`
+(your timestamps will differ; on run-to-run variance see §6):
 
 ```
-TODO
+| Metric | baseline |
+|---|---|
+| verdict_utility | 0.425 |
+| confident_wrong_rate | 0.3333 |
+| decisive_accuracy | 0.6667 |
+| decisive_rate | 0.8462 |
+| check_accuracy | 0.85 |
+| grounding_rate | 0.9612 |
+| cost_per_case_usd | 0.01119 |
+| exact_match | 0 |
+| error_rate | 0 |
+| p50_seconds | 9.566 |
+| p95_seconds | 13.54 |
 ```
 
-Runtime: TODO
+Runtime: ~4 minutes, ~$0.22.
 
 ---
 
 ## 5. Run the solution
 
 ```bash
-TODO
+python eval/run_eval.py --variant advanced --split dev --seed 42
 ```
 
-Expected output:
+Output as recorded in `eval/results/20260829-083304.json`:
 
 ```
-TODO
+| Metric | advanced |
+|---|---|
+| verdict_utility | 0.8 |
+| confident_wrong_rate | 0.1429 |
+| decisive_accuracy | 0.8571 |
+| decisive_rate | 1 |
+| check_accuracy | 0.975 |
+| grounding_rate | 1 |
+| cost_per_case_usd | 0.002985 |
+| exact_match | 0.7 |
+| error_rate | 0 |
+| p50_seconds | 2.272 |
+| p95_seconds | 3.157 |
 ```
 
-Runtime: TODO
+Runtime: ~1 minute, ~$0.06. The advanced pipeline has reproduced these verdict-level
+numbers identically across independent runs (`20260829-080609.json` vs
+`20260829-083304.json`) — one small extraction call plus deterministic stages.
 
 ---
 
 ## 6. Run the evaluation
 
 This is the command that produces every number claimed in `README.md` and `CHANGELOG.md`.
+With no `--variant` flag it runs all three: baseline, `always_abstain`, advanced.
 
 ```bash
-python eval/run_eval.py --variant baseline --variant advanced --seed 42
+python eval/run_eval.py --split dev --seed 42
 ```
 
-Expected output:
+Output of this exact command as recorded in `eval/results/20260829-080609.json`:
 
 ```
-TODO — paste the real table here, not a paraphrase
+| Metric | baseline | always_abstain | advanced |
+|---|---|---|---|
+| verdict_utility | 0.325 | 0.5125 | 0.8 |
+| confident_wrong_rate | 0.4 | 0 | 0.1429 |
+| decisive_accuracy | 0.6 | 0 | 0.8571 |
+| decisive_rate | 0.8462 | 0 | 1 |
+| check_accuracy | 0.8125 | 0 | 0.975 |
+| grounding_rate | 0.951 | 0 | 1 |
+| cost_per_case_usd | 0.01115 | 0 | 0.00298 |
+| exact_match | 0 | 0 | 0.7 |
+| error_rate | 0 | 0 | 0 |
+| p50_seconds | 10.08 | 1.67e-07 | 2.23 |
+| p95_seconds | 11.88 | 3.75e-07 | 3.908 |
 ```
 
-Results are written to `eval/results/<timestamp>.json` and `<timestamp>.md`.
+The final full-set run (all 30 cases including the 10-case holdout, Sunday only):
 
-**Determinism.** With `--seed 42` the harness is deterministic except where model
-non-determinism is unavoidable. Where it is, run-to-run variance is reported in the results
-file and stated explicitly in `CHANGELOG.md`, so a delta can be told apart from noise.
+```bash
+python eval/run_eval.py --split all --seed 42 --tag final
+```
+
+Results are written to `eval/results/<UTC timestamp>.json` and `.md`.
+
+**Determinism and variance.** With `--seed 42` the harness is deterministic except for
+model output at temperature 0. Measured across committed runs: the **baseline's**
+verdict_utility has ranged 0.225–0.425 (5-repeat noise floor in
+`eval/results/20260829-002003.json`; single runs since have landed above that band —
+single-prompt judgment flips on borderline cases). The **advanced** variant has
+reproduced its numbers identically across independent runs. Expect your baseline
+column to differ from the paste above; expect your advanced column to match it.
+
+**Expected warning.** From your second run onward the harness prints
+`WARNING: working tree is dirty` — it is seeing your own previous run's results files,
+which are untracked in your clone. Harmless for verification.
 
 ---
 
@@ -140,7 +211,7 @@ python -m mypy --strict src
 python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
-All tests are expected to pass on a clean clone.
+All 65 tests pass on a clean clone in ~5 s; no API key needed.
 
 ---
 
@@ -152,3 +223,5 @@ All tests are expected to pass on a clean clone.
 | `400 invalid_request_error` mentioning `temperature` | The pinned model/parameter combination changed — newest models reject sampling parameters | Keep the pinned `claude-sonnet-4-6`; the temperature pin is deliberate (DECISIONS.md 2026-08-28) |
 | `400` demanding `anthropic-workspace-id` on every call | Identity-linked API keys require a workspace header the code does not send | Use a standard workspace-scoped API key (created inside a Console workspace) for `ANTHROPIC_API_KEY` |
 | `No cases with split=...` from `run_eval.py` | `--split` filter matched nothing | Use `--split dev` during development, `--split all` for the final run |
+| `Cannot connect to the Docker daemon` | Docker Desktop not running | Start Docker Desktop, or use the local venv path (Option A) |
+| `WARNING: working tree is dirty` after a run | Your previous run's results files are untracked in your clone | Expected; harmless for verification (see §6) |
