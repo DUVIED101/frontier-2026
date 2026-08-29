@@ -106,6 +106,15 @@ def run_advanced(case: Case, seed: int) -> dict[str, Any]:
     return solve(case.payload, seed=seed)
 
 
+def run_self_consistency(case: Case, seed: int) -> dict[str, Any]:
+    """Removed-experiment variant (DECISIONS.md 2026-08-28): 3-sample voting over
+    the frozen baseline at temperature 1.0. Not in the default variant list; runs
+    only when explicitly flagged, so its rejection stays reproducible."""
+    from src.experiments.self_consistency import solve  # noqa: PLC0415
+
+    return solve(case.payload, seed=seed)
+
+
 def run_always_abstain(case: Case, seed: int) -> dict[str, Any]:
     """Trivial-abstention floor: UNVERIFIABLE on every case, no evidence, no model call.
 
@@ -123,6 +132,7 @@ VARIANTS: dict[str, Callable[[Case, int], dict[str, Any]]] = {
     "baseline": run_baseline,
     "always_abstain": run_always_abstain,
     "advanced": run_advanced,
+    "self_consistency": run_self_consistency,
 }
 
 
