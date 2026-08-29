@@ -198,3 +198,31 @@ REPRODUCTION            -> §6 variance rewritten (three observed values, band t
                            0.425, advanced five identical runs incl. fresh clone);
                            §7 count 68. §5/§6 pastes refresh from fresh runs next.
 ```
+
+### Step 8 — Removed experiment rejected; renderer built a day early
+
+> **HUMAN: redirected** — schedule change: more operator time today than planned.
+> After the removed-experiment entry, continue into the verification report renderer
+> this afternoon rather than Sunday morning: 20 judged points against one changelog
+> entry, and Sunday is already full. Scope stays PLAN §5b exactly.
+
+```
+experiment              -> 20260829-092222.json: self_consistency 0.225 utility at
+                           $0.0337/case and p50 29.5s — WORSE than the same-run
+                           baseline (0.425) it samples; two NEW wrong verdicts from
+                           temperature diversity on top of the seven shared blind
+                           spots; check_accuracy unchanged. Voting cannot recover
+                           information the lookup never delivered. REJECTED by its
+                           own numbers; CHANGELOG [5]; DECISIONS evidence completed.
+renderer (TDD)          -> six §5b-named tests red first; render_report implemented
+                           as a pure function: verdict+why lead, quote evidence with
+                           character offsets verified as spans, register rows field
+                           for field, snapshot age warning, per-unresolved-check
+                           actions ("what the user would have to do"), advisory
+                           close. 78/78 green; mypy clean (13 files).
+render coverage         -> all 20 dev cases render without error straight from the
+                           committed results file (no model calls). case-22 (truth
+                           UNVERIFIABLE) shown to operator: three PASSes with real
+                           evidence, salary UNRESOLVED with the concrete ask.
+                           CHANGELOG [6] (BP-4: no metric, E2E Quality target).
+```

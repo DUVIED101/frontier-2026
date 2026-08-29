@@ -37,6 +37,31 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [6] Verification report renderer — the user-facing instrument
+`ae87f44` · 2026-08-29 09:35 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** None on eval metrics — stated openly per BP-4; the renderer targets
+the judged End-to-End Quality criterion directly (docs/PLAN.md §5b, decided
+2026-08-28: deterministic pure renderer, no LLM in the render path, because a model
+per report reintroduces nondeterminism and the exact register the rubric penalises).
+
+**Change.** `src/advanced/report.py::render_report(result, requisition_text) -> str`.
+Fixed-instrument plain English: verdict + determining sentence first; each check with
+verbatim evidence (quotes carry character offsets into the source, register rows
+reproduced field for field); snapshot date + age warning; an uncertainty section that
+names each unresolved check and the concrete action that would resolve it; advisory
+close. The six named §5b properties are the tests (`tests/test_report.py`).
+
+**Measurement.** No eval metric moved, none claimed. Render coverage: all 20 dev
+cases render without error directly from `eval/results/20260829-090655.json` — the
+renderer consumes committed solver outputs, no new model calls.
+
+**Verdict.** KEPT. Built Saturday afternoon instead of Sunday morning (operator
+schedule change): 20 judged points should not depend on end-of-competition energy.
+
+**What this told me to do next.** Sunday is now: hardening/QREPRO re-verify, the
+final `--split all` run, README fill, the timing measurement, the video.
+
 ### [5] Self-consistency voting — REJECTED by its own numbers
 `af85076` · 2026-08-29 09:22 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
