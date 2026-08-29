@@ -75,3 +75,42 @@ def test_assemble_silence_blocks_sponsorable_without_producing_not_sponsorable()
     }
     assert out["register_snapshot_date"] == SNAPSHOT_DATE
     assert "willingness" in out["uncertainty"]
+
+
+# The B-rating sub-check is deliberately cut (scope ruling 2026-08-29): the rating
+# never changes a verdict, but a non-A rating must surface in the uncertainty
+# statement — a B-rated sponsor cannot issue a CoS until its action plan completes,
+# and "nothing material left unresolved" would overstate confidence (PLAN §8 cut
+# order; case-28 archetype).
+B_RATED_SW_ROW = RegisterRow(
+    "Duncastle Tech Ltd", "London", "", "Worker (B rating)", "Skilled Worker"
+)
+
+
+def test_assemble_surfaces_non_a_rating_in_uncertainty_without_changing_verdict() -> (
+    None
+):
+    claims = ExtractedClaims(
+        employer_strings=("Duncastle Tech Ltd",),
+        stance=StanceClaim("offered", "We offer visa sponsorship"),
+        salary=SalaryClaim(42_000, 42_000, None),
+    )
+    out = assemble(
+        claims, Match("Duncastle Tech Ltd", (B_RATED_SW_ROW,)), FLOOR, SNAPSHOT_DATE
+    )
+    assert out["verdict"] == "SPONSORABLE"
+    assert "Worker (B rating)" in out["uncertainty"]
+    assert "rating" in out["uncertainty"]
+
+
+def test_assemble_stays_quiet_about_a_rated_licences() -> None:
+    claims = ExtractedClaims(
+        employer_strings=("Ostermere Technologies Ltd",),
+        stance=StanceClaim("offered", "We offer visa sponsorship"),
+        salary=SalaryClaim(42_000, 42_000, None),
+    )
+    out = assemble(
+        claims, Match("Ostermere Technologies Ltd", (SW_ROW,)), FLOOR, SNAPSHOT_DATE
+    )
+    assert out["verdict"] == "SPONSORABLE"
+    assert out["uncertainty"] == "nothing material left unresolved"

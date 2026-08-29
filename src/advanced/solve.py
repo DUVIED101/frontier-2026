@@ -176,6 +176,17 @@ def assemble(
     uncertainty_bits = [f"{n}: {outcomes[n].reason}" for n in unresolved]
     if claims.salary.note:
         uncertainty_bits.append(f"salary as stated: {claims.salary.note}")
+    # The B-rating sub-check is cut by scope ruling (2026-08-29): the rating never
+    # changes a verdict here, but a non-A rating must not disappear into "nothing
+    # unresolved" — a sponsor rated below A cannot issue a CoS until its action
+    # plan completes.
+    cited_rating = str(route_ev.get("register_row", {}).get("type_rating", ""))
+    if cited_rating and "(A rating)" not in cited_rating:
+        uncertainty_bits.append(
+            f"licence rating not assessed: the register shows {cited_rating}; "
+            "a sponsor rated below A cannot issue a Certificate of Sponsorship "
+            "until its action plan completes"
+        )
     uncertainty = (
         "; ".join(uncertainty_bits)
         if uncertainty_bits
