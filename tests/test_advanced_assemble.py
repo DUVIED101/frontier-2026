@@ -183,3 +183,36 @@ def test_assemble_repairs_a_wrapped_quote_to_the_source_span() -> None:
     quote = out["checks"]["willingness"]["evidence"]["quote"]
     assert "\n" in quote
     assert quote in wrapped_posting
+
+
+MULTI_ROUTE_ROWS = (
+    RegisterRow(
+        "Quillhaven Systems Ltd",
+        "London",
+        "",
+        "Temporary Worker (A rating)",
+        "Creative Worker",
+    ),
+    RegisterRow(
+        "Quillhaven Systems Ltd", "London", "", "Worker (A rating)", "Skilled Worker"
+    ),
+)
+
+
+def test_assemble_cites_the_row_the_verdict_rests_on_for_multi_route_entities() -> None:
+    claims = ExtractedClaims(
+        employer_strings=("Quillhaven Systems Ltd",),
+        stance=StanceClaim("offered", "We offer visa sponsorship"),
+        salary=SalaryClaim(43_000, 43_000, None),
+    )
+    out = assemble(
+        claims,
+        Match("Quillhaven Systems Ltd", MULTI_ROUTE_ROWS, "legal_name_exact"),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
+    )
+    assert out["verdict"] == "SPONSORABLE"
+    register_ev = out["checks"]["register"]["evidence"]
+    assert register_ev["register_row"]["route"] == "Skilled Worker"
+    assert register_ev["routes_held"] == ["Creative Worker", "Skilled Worker"]

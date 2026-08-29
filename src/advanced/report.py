@@ -97,6 +97,13 @@ def _evidence_lines(
             if isinstance(candidate_row, dict):
                 fields = " · ".join(str(v) for v in candidate_row.values() if str(v))
                 lines.append(f"   Candidate row (snapshot {snapshot_date}): {fields}")
+    routes_held = evidence.get("routes_held")
+    if isinstance(routes_held, list) and routes_held:
+        lines.append(
+            f"   Entity holds {len(routes_held)} licence routes: "
+            + ", ".join(str(r) for r in routes_held)
+            + ". The row cited above is the one this verdict rests on."
+        )
     return lines
 
 

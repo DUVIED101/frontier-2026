@@ -90,12 +90,23 @@ def _row_evidence(row: RegisterRow) -> dict[str, str]:
     }
 
 
+def _decisive_row(rows: tuple[RegisterRow, ...]) -> RegisterRow:
+    """The row the verdict rests on: the Skilled Worker row when the entity holds
+    one, else the first. Citing rows[0] regardless misled on multi-route entities
+    (found on a live posting, checkpoint 2026-08-29: the register check cited a
+    Creative Worker row while the route check cited Skilled Worker)."""
+    return next((r for r in rows if r.route == SKILLED_WORKER), rows[0])
+
+
 def _register_check(resolution: Resolution) -> tuple[CheckOutcome, dict[str, Any]]:
     if isinstance(resolution, Match):
-        return (
-            CheckOutcome("pass", resolution.via),
-            {"register_row": _row_evidence(resolution.rows[0])},
-        )
+        evidence: dict[str, Any] = {
+            "register_row": _row_evidence(_decisive_row(resolution.rows))
+        }
+        routes = sorted({r.route for r in resolution.rows})
+        if len(routes) > 1:
+            evidence["routes_held"] = routes
+        return CheckOutcome("pass", resolution.via), evidence
     if isinstance(resolution, Ambiguous):
         return (
             CheckOutcome("indeterminate", "ambiguous_group"),
@@ -108,11 +119,7 @@ def _route_check(resolution: Resolution) -> tuple[CheckOutcome, dict[str, Any]]:
     if not isinstance(resolution, Match):
         return CheckOutcome("indeterminate", "no_entity"), {}
     outcome = skilled_worker_route(tuple(r.route for r in resolution.rows))
-    cited = next(
-        (r for r in resolution.rows if r.route == SKILLED_WORKER),
-        resolution.rows[0],
-    )
-    return outcome, {"register_row": _row_evidence(cited)}
+    return outcome, {"register_row": _row_evidence(_decisive_row(resolution.rows))}
 
 
 _DETERMINING = {
