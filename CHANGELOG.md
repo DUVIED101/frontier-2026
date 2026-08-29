@@ -37,6 +37,47 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [10] Wrapped quotes canonicalised to source bytes; the fixture that keeps it fixed
+`f5e7b67` · 2026-08-29 19:59 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Real postings hard-wrap; models quote wrapped sentences unwrapped;
+the verifier finds no byte-exact substring and downgrades truthful evidence. On live
+input the system would systematically lose willingness=offered — a false abstention
+on exactly the requisitions the user wants, the project's core failure pointed the
+other way. Fix: match under whitespace collapse, map back to the source's true byte
+span. Predicted post-fix numbers at dev n=21: verdict_utility 0.9048,
+confident_wrong_rate 0.0714, decisive_accuracy 0.9286, exact_match 0.9524.
+
+**Change.** `extract.py::canonicalize_quote` (pure; fabricated text still finds no
+span and still fails — verifier semantics and grounding metric unchanged), applied in
+`assemble` before the verifier. `case-31-wrapped-quote-offered` added: all twenty
+prior dev fixtures kept every quotable sentence on one line — a property real pasted
+postings lack — so the blind spot was structural; the case pins it forever. Second
+posting from an existing fixture employer; snapshot untouched.
+
+**Denominators changed, stated explicitly (operator condition):** dev n=20 → 21, mix
+13/7 → 14/7 determinable/unverifiable, always_abstain dev floor 0.5125 → 0.5. Prior
+dev aggregates are not directly comparable to n=21 aggregates; per-case verdicts are.
+
+**Measurement.** Evidence: `eval/results/20260829-195943.json` — every predicted
+figure exact: 0.9048 / 0.0714 / 0.9286 / 0.9524, decisive_rate 1.0, grounding 1.0.
+case-31: SPONSORABLE, willingness pass/offered, the cited quote is the source's own
+bytes with the line break inside it. The original 20 cases: verdicts identical, still
+wrong only on case-28 (the B-rating cut). The demo posting that exposed the defect
+now reads SPONSORABLE end to end. Baseline note: its grounding dropped to 0.9304 —
+its unwrapped quote on case-31 does not ground, which is the defect made visible on
+the reference too, honestly.
+
+**Verdict.** KEPT. Third same-day instance of the surface losing what the pipeline
+knew, third fix, and this one came from the demo path, not the eval — recorded in
+the hot-take candidates: an eval can only measure the failure modes its fixtures
+contain, and every fixture set shares properties with its author rather than with
+the world.
+
+**What this told me to do next.** Stop for the night. Sunday, in order: collision
+sweep (now 31 cases), QREPRO from a fresh clone, the final --split all run, then
+README, the 11-entity note grouping, the timing measurement, the video.
+
 ### [9] Demo CLI — the product runs outside the harness
 `(committed with this entry)` · 2026-08-29 19:30 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

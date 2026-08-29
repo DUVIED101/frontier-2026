@@ -391,3 +391,41 @@ FINDING                 -> the guarantee fired in its designed direction on the 
                            on its first run: exercising the product outside the
                            harness finds what the harness cannot.
 ```
+
+### Post-close checkpoint 3 — Wrapped-quote defect fixed tonight by order; predictions exact
+
+> **HUMAN: redirected** — fix tonight, not Sunday: "a false abstention on a posting
+> that plainly offers sponsorship is the failure this project exists to avoid,
+> pointed the other way." Conditions: match under whitespace normalisation, map back
+> to the source's true byte span (verifier semantics and grounding metric unchanged);
+> add one dev fixture whose sponsorship quote wraps — the fix without the fixture
+> leaves the blind spot; state denominator changes explicitly and re-run; the
+> three-instances-in-one-day pattern goes in the hot take.
+
+```
+TDD                     -> 4 red tests (canonicalize x3, assemble repair x1);
+                           canonicalize_quote implemented (regex over escaped tokens
+                           joined by \s+; fabricated text finds no span and still
+                           fails). case-31-wrapped-quote-offered authored: second
+                           Thornber posting, sponsorship sentence wraps mid-phrase
+                           ("Skilled\nWorker"), labelled anchor is source bytes.
+                           90/90 green; mypy clean.
+live proof              -> the demo posting that exposed the defect now reads
+                           SPONSORABLE; the report renders the quote with the line
+                           break inside it and valid offsets.
+measured run (n=21)     -> 20260829-195943.json (clean, f5e7b67): every predicted
+                           figure exact — 0.9048 / 0.0714 / 0.9286 / 0.9524,
+                           decisive_rate 1.0, grounding 1.0. Original 20 verdicts
+                           identical; wrong only on case-28 (the cut). Denominators
+                           stated: n=21, abstain floor 0.5. Baseline grounding fell
+                           to 0.9304 — its unwrapped quote on case-31 does not
+                           ground: the defect made visible on the reference too.
+hot take                -> third bullet recorded: three same-day instances of the
+                           surface losing what the pipeline knew, all found by
+                           reading output rather than metrics; an eval measures only
+                           the failure modes its fixtures contain, and fixture sets
+                           share properties with their author, not the world.
+STOPPED                 -> Sunday order unchanged: collision sweep (31 cases),
+                           QREPRO, --split all, then README / note grouping /
+                           timing / video.
+```
