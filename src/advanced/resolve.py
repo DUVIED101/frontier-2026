@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import functools
 from dataclasses import dataclass
+from typing import Literal
 
 from src.advanced.normalize import normalize_org_name, token_set
 
@@ -32,10 +33,14 @@ class RegisterRow:
     route: str
 
 
+ResolutionVia = Literal["legal_name_exact", "trading_name_stated", "alias_lookup"]
+
+
 @dataclass(frozen=True)
 class Match:
     organisation_name: str
     rows: tuple[RegisterRow, ...]
+    via: ResolutionVia
 
 
 @dataclass(frozen=True)
@@ -84,26 +89,50 @@ def resolve_entity(
     register_rows: tuple[RegisterRow, ...],
     aliases: dict[str, str],
 ) -> Resolution:
+    """Three phases, and the winning phase names the register reason.
+
+    Every posting-stated string is tried before any alias (C1: the posting's own
+    words outrank external fixtures): exact-normalised match over all strings,
+    then token-subset over all strings, then the alias pass. A match on the
+    posting's primary string is `legal_name_exact`; on a later stated string,
+    `trading_name_stated`; via the alias fixtures, `alias_lookup`.
+    """
     by_norm, org_tokens = _org_index(register_rows)
     searched: list[str] = []
+
+    def _exact(candidate: str) -> tuple[str, ...]:
+        return by_norm.get(normalize_org_name(candidate), ())
+
+    def _subset(candidate: str) -> tuple[str, ...]:
+        needle = token_set(candidate)
+        if not needle:
+            return ()
+        partial = tuple(org for org, toks in org_tokens if needle <= toks)
+        return () if len(partial) > GENERIC_TERM_ORG_LIMIT else partial
+
+    def _via(index: int) -> ResolutionVia:
+        return "legal_name_exact" if index == 0 else "trading_name_stated"
+
+    for finder in (_exact, _subset):
+        for i, raw in enumerate(employer_strings):
+            if not raw:
+                continue
+            if raw not in searched:
+                searched.append(raw)
+            orgs = finder(raw)
+            if len(orgs) == 1:
+                return Match(orgs[0], _rows_of(orgs[0], register_rows), _via(i))
+            if len(orgs) > 1:
+                return Ambiguous(orgs)
     for raw in employer_strings:
-        for candidate in (raw, aliases.get(raw, "")):
-            if not candidate or candidate in searched:
-                continue
-            searched.append(candidate)
-            exact = by_norm.get(normalize_org_name(candidate), ())
-            if len(exact) == 1:
-                return Match(exact[0], _rows_of(exact[0], register_rows))
-            if len(exact) > 1:
-                return Ambiguous(exact)
-            needle = token_set(candidate)
-            if not needle:
-                continue
-            partial = tuple(org for org, toks in org_tokens if needle <= toks)
-            if len(partial) > GENERIC_TERM_ORG_LIMIT:
-                continue
-            if len(partial) == 1:
-                return Match(partial[0], _rows_of(partial[0], register_rows))
-            if len(partial) > 1:
-                return Ambiguous(partial)
+        candidate = aliases.get(raw, "")
+        if not candidate or candidate in searched:
+            continue
+        searched.append(candidate)
+        for finder in (_exact, _subset):
+            orgs = finder(candidate)
+            if len(orgs) == 1:
+                return Match(orgs[0], _rows_of(orgs[0], register_rows), "alias_lookup")
+            if len(orgs) > 1:
+                return Ambiguous(orgs)
     return NoMatch(tuple(searched))

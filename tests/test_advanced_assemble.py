@@ -45,7 +45,7 @@ def test_assemble_register_presence_does_not_imply_sponsorability() -> None:
     )
     out = assemble(
         claims,
-        Match("Veltrix Software Ltd", (GBM_ONLY_ROW,)),
+        Match("Veltrix Software Ltd", (GBM_ONLY_ROW,), "legal_name_exact"),
         FLOOR,
         SNAPSHOT_DATE,
         POSTING,
@@ -76,7 +76,7 @@ def test_assemble_silence_blocks_sponsorable_without_producing_not_sponsorable()
     )
     out = assemble(
         claims,
-        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        Match("Ostermere Technologies Ltd", (SW_ROW,), "legal_name_exact"),
         FLOOR,
         SNAPSHOT_DATE,
         POSTING,
@@ -110,7 +110,7 @@ def test_assemble_surfaces_non_a_rating_in_uncertainty_without_changing_verdict(
     )
     out = assemble(
         claims,
-        Match("Duncastle Tech Ltd", (B_RATED_SW_ROW,)),
+        Match("Duncastle Tech Ltd", (B_RATED_SW_ROW,), "legal_name_exact"),
         FLOOR,
         SNAPSHOT_DATE,
         POSTING,
@@ -128,7 +128,7 @@ def test_assemble_stays_quiet_about_a_rated_licences() -> None:
     )
     out = assemble(
         claims,
-        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        Match("Ostermere Technologies Ltd", (SW_ROW,), "legal_name_exact"),
         FLOOR,
         SNAPSHOT_DATE,
         POSTING,
@@ -145,7 +145,7 @@ def test_assemble_downgrades_fabricated_stance_quote_and_recomputes_verdict() ->
     )
     out = assemble(
         claims,
-        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        Match("Ostermere Technologies Ltd", (SW_ROW,), "legal_name_exact"),
         FLOOR,
         SNAPSHOT_DATE,
         POSTING,

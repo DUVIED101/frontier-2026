@@ -92,7 +92,7 @@ def _row_evidence(row: RegisterRow) -> dict[str, str]:
 def _register_check(resolution: Resolution) -> tuple[CheckOutcome, dict[str, Any]]:
     if isinstance(resolution, Match):
         return (
-            CheckOutcome("pass", "legal_name_exact"),
+            CheckOutcome("pass", resolution.via),
             {"register_row": _row_evidence(resolution.rows[0])},
         )
     if isinstance(resolution, Ambiguous):
@@ -139,6 +139,7 @@ def assemble(
         claims.salary.basic_annual_min_gbp,
         claims.salary.basic_annual_max_gbp,
         floor_config,
+        note=claims.salary.note,
     )
     outcomes = {
         "register": register_outcome,

@@ -70,6 +70,16 @@ def test_salary_absent_is_indeterminate() -> None:
     )
 
 
+def test_salary_day_rate_note_is_non_annual_unclear() -> None:
+    out = salary_clears_floor(None, None, FLOOR, note="\u00a3350 per day")
+    assert out == CheckOutcome("indeterminate", "non_annual_unclear")
+
+
+def test_salary_wordy_note_without_figures_stays_absent() -> None:
+    out = salary_clears_floor(None, None, FLOOR, note="competitive salary and benefits")
+    assert out == CheckOutcome("indeterminate", "absent")
+
+
 def test_route_skilled_worker_present() -> None:
     out = skilled_worker_route((GBM_ROUTE, SKILLED_WORKER_ROUTE))
     assert out == CheckOutcome("pass", "skilled_worker")

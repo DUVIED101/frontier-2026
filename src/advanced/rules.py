@@ -52,6 +52,7 @@ def salary_clears_floor(
     basic_annual_min_gbp: int | None,
     basic_annual_max_gbp: int | None,
     floor_config: dict[str, Any],
+    note: str | None = None,
 ) -> CheckOutcome:
     low = (
         basic_annual_min_gbp
@@ -64,6 +65,10 @@ def salary_clears_floor(
         else basic_annual_min_gbp
     )
     if low is None or high is None:
+        # A note with a figure in it means pay WAS stated, just not as guaranteed
+        # annual basic (day rate, OTE) — a different fact from silence.
+        if note and any(ch.isdigit() for ch in note):
+            return CheckOutcome("indeterminate", "non_annual_unclear")
         return CheckOutcome("indeterminate", "absent")
     general = int(floor_config["general_threshold_gbp"]["amount"])
     going = int(floor_config["going_rate_gbp"]["amount"])

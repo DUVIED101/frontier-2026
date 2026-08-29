@@ -54,9 +54,10 @@ Reply with ONLY one JSON object, no other text:
 
 1. "employer_strings": every distinct way the posting names the hiring employer — \
 brand names, legal names, any "X is a trading name of Y" statement (list both X and \
-Y), and where an agency or aggregator posts on behalf of a client, the client. Most \
-specific first. Never include a name that does not appear in the text; never include \
-the job board itself unless it is the employer.
+Y), and where an agency or aggregator posts on behalf of a client, the client. The \
+name the posting primarily uses for the employer comes FIRST; legal or alternative \
+names it states come after. Never include a name that does not appear in the text; \
+never include the job board itself unless it is the employer.
 2. "stance": the posting's position on visa sponsorship for THIS role. "offered" \
 only if sponsorship is affirmatively available. "refused" only if the posting \
 explicitly states sponsorship is not available, not offered, or that candidates \

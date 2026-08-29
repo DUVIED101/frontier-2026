@@ -37,17 +37,22 @@ UNLISTED = "Fictional Unlisted Co"
 
 def test_register_exact_legal_name_matches() -> None:
     result = resolve_entity(("Ashcombe Digital Ltd",), ROWS, {})
-    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,))
+    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,), "legal_name_exact")
 
 
 def test_register_legal_suffix_variation_still_matches() -> None:
     result = resolve_entity(("Ashcombe Digital Limited",), ROWS, {})
-    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,))
+    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,), "legal_name_exact")
 
 
 def test_register_trading_name_resolves_to_legal_entity() -> None:
     result = resolve_entity(("Loopwork",), ROWS, ALIASES)
-    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,))
+    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,), "alias_lookup")
+
+
+def test_register_stated_legal_name_wins_before_any_alias() -> None:
+    result = resolve_entity(("Loopwork", "Ashcombe Digital Ltd"), ROWS, ALIASES)
+    assert result == Match("Ashcombe Digital Ltd", (ASHCOMBE,), "trading_name_stated")
 
 
 def test_register_unlisted_employer_is_no_match() -> None:
@@ -80,7 +85,7 @@ def test_resolver_returns_all_rows_of_a_large_matched_entity_uncapped() -> None:
         for i in range(MANY_ROWS)
     )
     result = resolve_entity(("Bryelock Systems Ltd",), large_org + ROWS, {})
-    assert result == Match("Bryelock Systems Ltd", large_org)
+    assert result == Match("Bryelock Systems Ltd", large_org, "legal_name_exact")
 
 
 def test_resolver_skips_a_string_matching_more_orgs_than_the_generic_limit() -> None:
