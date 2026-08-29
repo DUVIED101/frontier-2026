@@ -153,6 +153,18 @@ numbers identically across independent runs (`20260829-085330.json`,
 `20260829-090246.json`, `20260829-090655.json`) — one small extraction call plus
 deterministic stages.
 
+### Demo: one pasted posting (the video walkthrough path)
+
+Save any job posting as plain text and run:
+
+```bash
+python -m src.advanced.cli path/to/posting.txt
+```
+
+One model call (~$0.003, ~2 s), then resolution against the committed snapshot, the
+rules engine, and the rendered verification report on stdout. This is the product as
+the user meets it — no case files, no harness.
+
 ---
 
 ## 6. Run the evaluation

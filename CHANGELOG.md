@@ -37,6 +37,42 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [9] Demo CLI — the product runs outside the harness
+`(committed with this entry)` · 2026-08-29 19:30 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** None on eval metrics — stated openly per BP-4, same framing as the
+renderer entry. Targets End-to-End Quality and the demo path: until now the product
+was exercisable only through the eval harness — an end-to-end gap found while
+setting up the human-time measurement. A judge watching the video should see the
+tool run on a real posting, not a fixture.
+
+**Change.** `src/advanced/cli.py`: `python -m src.advanced.cli path/to/posting.txt`
+— read the pasted posting, one `solve()` call, print the rendered report. No new
+dependencies, no pipeline changes. Argument/file errors exit with usage before any
+model call (2 tests); documented in REPRODUCTION.md §5 as the demo path.
+
+**Measurement.** No metric moved, none claimed. Verified live on an arbitrary
+real-employer posting: the brand resolved against the real register (Sony
+Interactive Entertainment → Sony Interactive Entertainment Europe Limited, Skilled
+Worker route), salary passed — and the willingness check was DOWNGRADED by the
+verifier, correctly by its rules: the posting's sponsorship sentence wraps across a
+line break, the model quoted it as a single line, and a line-wrapped quote is not a
+byte-verbatim substring.
+
+**Verdict.** KEPT — and the first arbitrary input through the demo path produced a
+real finding the twenty dev fixtures could not: real postings hard-wrap, so
+byte-verbatim quote matching over-abstains on wrapped sentences. The guarantee fired
+in its designed direction (toward UNVERIFIABLE, never confidence), which is the
+system working; it is also a false abstention on a posting that plainly offers
+sponsorship. Candidate fix for Sunday, operator's call: canonicalise the extracted
+quote to the source's true byte span under whitespace normalisation — in code, after
+extraction, before the verifier — so evidence gets MORE faithful and no metric or
+verifier semantics change.
+
+**What this told me to do next.** Exactly what the operator said this change was
+for: exercising the product outside the harness finds what the harness cannot.
+Sunday order unchanged: collision sweep, QREPRO, --split all, README.
+
 ### [8] Ambiguous resolutions name their candidates — and the register answered back
 `acdfdd3` · 2026-08-29 19:12 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

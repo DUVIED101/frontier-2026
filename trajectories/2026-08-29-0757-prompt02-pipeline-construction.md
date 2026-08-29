@@ -358,3 +358,36 @@ time-to-a-trustworthy-answer measurement, trajectories audit, the video, submit.
 > labels and strings stay inside the script (holdout discipline). The
 > asserted-absent class is the sharpest risk: absence was verified under
 > normalisation equality before the token-subset phase existed.
+
+### Post-close checkpoint 2 — Demo CLI ordered; its first run finds what fixtures cannot
+
+> **HUMAN: redirected** — request: a minimal CLI (`python -m src.advanced.cli
+> posting.txt`) reading a pasted posting, running solve(), printing the report.
+> Reason: the product was exercisable only through the eval harness — an end-to-end
+> gap found while setting up the human-time measurement by hand; a judge watching the
+> video should see the tool on a real posting, not a fixture. What it changed: the
+> demo path exists, is documented in REPRODUCTION §5, and is the video walkthrough.
+
+```
+TDD                     -> 2 red tests (usage / missing file exit before any model
+                           call); cli.py implemented; 86/86 green, mypy clean.
+live verification       -> operator's sony.txt is an unsaved buffer (not on disk);
+                           verified instead on an arbitrary real-employer posting in
+                           /tmp. End to end: "Sony Interactive Entertainment"
+                           resolved against the REAL register to Sony Interactive
+                           Entertainment Europe Limited (Skilled Worker), salary
+                           passed — and willingness was DOWNGRADED by the verifier:
+                           the sponsorship sentence wraps across a line break, the
+                           model quoted it unwrapped, not byte-verbatim -> honest
+                           UNVERIFIABLE.
+FINDING                 -> the guarantee fired in its designed direction on the FIRST
+                           arbitrary input — and it is also a false abstention: real
+                           postings hard-wrap; none of the twenty dev fixtures wrap a
+                           quote across a line. Candidate Sunday fix (operator's
+                           call): canonicalise extracted quotes to the source's true
+                           byte span under whitespace normalisation, in code, after
+                           extraction — evidence becomes MORE faithful; no metric or
+                           verifier semantics change. The demo path justified itself
+                           on its first run: exercising the product outside the
+                           harness finds what the harness cannot.
+```
