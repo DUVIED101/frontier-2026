@@ -91,6 +91,12 @@ def _evidence_lines(
             cited_rows.append(row)
             fields = " · ".join(str(v) for v in row.values() if str(v))
             lines.append(f"   Register row (snapshot {snapshot_date}): {fields}")
+    rows = evidence.get("register_rows")
+    if isinstance(rows, list):
+        for candidate_row in rows:
+            if isinstance(candidate_row, dict):
+                fields = " · ".join(str(v) for v in candidate_row.values() if str(v))
+                lines.append(f"   Candidate row (snapshot {snapshot_date}): {fields}")
     return lines
 
 

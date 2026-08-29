@@ -96,7 +96,10 @@ def _register_check(resolution: Resolution) -> tuple[CheckOutcome, dict[str, Any
             {"register_row": _row_evidence(resolution.rows[0])},
         )
     if isinstance(resolution, Ambiguous):
-        return CheckOutcome("indeterminate", "ambiguous_group"), {}
+        return (
+            CheckOutcome("indeterminate", "ambiguous_group"),
+            {"register_rows": [_row_evidence(r) for r in resolution.rows]},
+        )
     return CheckOutcome("fail", "no_match"), {}
 
 
@@ -192,6 +195,18 @@ def assemble(
     # cannot issue a CoS until its action plan completes, so it must not disappear
     # into "nothing unresolved".
     notes: list[str] = []
+    if isinstance(resolution, Ambiguous):
+        routes_of: dict[str, list[str]] = {}
+        for row in resolution.rows:
+            routes_of.setdefault(row.organisation_name, []).append(row.route)
+        described = " and ".join(
+            f"{org} (routes: {', '.join(routes)})" for org, routes in routes_of.items()
+        )
+        notes.append(
+            f"{len(routes_of)} register entities match the posted employer: "
+            f"{described}. Which one would issue the Certificate of Sponsorship "
+            "decides whether this role can sponsor at all"
+        )
     if claims.salary.note:
         notes.append(f"salary as stated: {claims.salary.note}")
     cited_rating = str(route_ev.get("register_row", {}).get("type_rating", ""))

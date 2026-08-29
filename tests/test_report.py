@@ -125,3 +125,48 @@ def test_report_cites_a_shared_register_row_once() -> None:
     report = render_report(_result("SPONSORABLE", ALL_PASS_CHECKS, "d."), POSTING)
     assert report.count("Farrowgate Analytics Ltd") == 1
     assert "as cited under Sponsor register" in report
+
+
+def test_report_names_every_candidate_entity_when_resolution_is_ambiguous() -> None:
+    from src.advanced.extract import ExtractedClaims, SalaryClaim, StanceClaim
+    from src.advanced.resolve import Ambiguous, RegisterRow
+    from src.advanced.solve import assemble
+
+    diverging = (
+        RegisterRow(
+            "Halcyon Technologies Ltd",
+            "London",
+            "",
+            "Worker (A rating)",
+            "Skilled Worker",
+        ),
+        RegisterRow(
+            "Halcyon Consulting (UK) Ltd",
+            "London",
+            "",
+            "Worker (A rating)",
+            "Global Business Mobility: Senior or Specialist Worker",
+        ),
+    )
+    claims = ExtractedClaims(
+        employer_strings=("Halcyon Group",),
+        stance=StanceClaim("offered", QUOTE),
+        salary=SalaryClaim(44_000, 44_000, None),
+    )
+    result = assemble(
+        claims,
+        Ambiguous(
+            ("Halcyon Technologies Ltd", "Halcyon Consulting (UK) Ltd"), diverging
+        ),
+        {
+            "general_threshold_gbp": {"amount": 33400},
+            "going_rate_gbp": {"amount": 38300},
+        },
+        SNAPSHOT_DATE,
+        POSTING,
+    )
+    report = render_report(result, POSTING)
+    assert "Halcyon Technologies Ltd" in report
+    assert "Halcyon Consulting (UK) Ltd" in report
+    assert "Skilled Worker" in report
+    assert "Global Business Mobility" in report

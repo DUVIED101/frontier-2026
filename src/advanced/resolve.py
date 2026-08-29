@@ -50,7 +50,14 @@ class NoMatch:
 
 @dataclass(frozen=True)
 class Ambiguous:
+    """More than one surviving entity — and everything known about each of them.
+
+    The candidate rows travel with the ambiguity so the report can tell the user
+    exactly what diverges; evidence a stage produces must reach the user unless
+    there is a reason it should not (review pattern, 2026-08-29)."""
+
     organisation_names: tuple[str, ...]
+    rows: tuple[RegisterRow, ...]
 
 
 Resolution = Match | NoMatch | Ambiguous
@@ -100,6 +107,10 @@ def resolve_entity(
     by_norm, org_tokens = _org_index(register_rows)
     searched: list[str] = []
 
+    def _ambiguous(orgs: tuple[str, ...]) -> Ambiguous:
+        rows = tuple(r for org in orgs for r in _rows_of(org, register_rows))
+        return Ambiguous(orgs, rows)
+
     def _exact(candidate: str) -> tuple[str, ...]:
         return by_norm.get(normalize_org_name(candidate), ())
 
@@ -123,7 +134,7 @@ def resolve_entity(
             if len(orgs) == 1:
                 return Match(orgs[0], _rows_of(orgs[0], register_rows), _via(i))
             if len(orgs) > 1:
-                return Ambiguous(orgs)
+                return _ambiguous(orgs)
     for raw in employer_strings:
         candidate = aliases.get(raw, "")
         if not candidate or candidate in searched:
@@ -134,5 +145,5 @@ def resolve_entity(
             if len(orgs) == 1:
                 return Match(orgs[0], _rows_of(orgs[0], register_rows), "alias_lookup")
             if len(orgs) > 1:
-                return Ambiguous(orgs)
+                return _ambiguous(orgs)
     return NoMatch(tuple(searched))
