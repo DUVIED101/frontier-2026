@@ -184,20 +184,23 @@ def assemble(
             + "."
         )
 
-    uncertainty_bits = [f"{n}: {outcomes[n].reason}" for n in unresolved]
+    # Disclosures that are NOT derivable from the per-check statuses; the renderer
+    # must carry them to the user (review fix 2026-08-29 — the report once dropped
+    # the B-rating caveat loop 1 added). The B-rating sub-check itself is cut by
+    # scope ruling: the rating never changes a verdict, but a sponsor rated below A
+    # cannot issue a CoS until its action plan completes, so it must not disappear
+    # into "nothing unresolved".
+    notes: list[str] = []
     if claims.salary.note:
-        uncertainty_bits.append(f"salary as stated: {claims.salary.note}")
-    # The B-rating sub-check is cut by scope ruling (2026-08-29): the rating never
-    # changes a verdict here, but a non-A rating must not disappear into "nothing
-    # unresolved" — a sponsor rated below A cannot issue a CoS until its action
-    # plan completes.
+        notes.append(f"salary as stated: {claims.salary.note}")
     cited_rating = str(route_ev.get("register_row", {}).get("type_rating", ""))
     if cited_rating and "(A rating)" not in cited_rating:
-        uncertainty_bits.append(
+        notes.append(
             f"licence rating not assessed: the register shows {cited_rating}; "
             "a sponsor rated below A cannot issue a Certificate of Sponsorship "
             "until its action plan completes"
         )
+    uncertainty_bits = [f"{n}: {outcomes[n].reason}" for n in unresolved] + notes
     uncertainty = (
         "; ".join(uncertainty_bits)
         if uncertainty_bits
@@ -209,6 +212,7 @@ def assemble(
         "determining_fact": determining,
         "checks": checks,
         "uncertainty": uncertainty,
+        "uncertainty_notes": notes,
         "register_snapshot_date": snapshot_date,
     }
 

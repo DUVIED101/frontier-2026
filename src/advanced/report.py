@@ -67,7 +67,10 @@ _FALLBACK_ACTION = "check this point by hand against the register snapshot"
 
 
 def _evidence_lines(
-    check: dict[str, Any], requisition_text: str, snapshot_date: str
+    check: dict[str, Any],
+    requisition_text: str,
+    snapshot_date: str,
+    cited_rows: list[dict[str, Any]],
 ) -> list[str]:
     evidence = check.get("evidence")
     if not isinstance(evidence, dict):
@@ -82,8 +85,12 @@ def _evidence_lines(
             lines.append(f'   Quoted, not verified against the posting: "{quote}"')
     row = evidence.get("register_row")
     if isinstance(row, dict):
-        fields = " · ".join(str(v) for v in row.values() if str(v))
-        lines.append(f"   Register row (snapshot {snapshot_date}): {fields}")
+        if row in cited_rows:
+            lines.append("   Register row: as cited under Sponsor register above.")
+        else:
+            cited_rows.append(row)
+            fields = " · ".join(str(v) for v in row.values() if str(v))
+            lines.append(f"   Register row (snapshot {snapshot_date}): {fields}")
     return lines
 
 
@@ -95,11 +102,14 @@ def render_report(result: dict[str, Any], requisition_text: str) -> str:
     lines = [f"VERDICT: {verdict}", f"Why: {result['determining_fact']}", ""]
 
     lines.append("The four checks")
+    cited_rows: list[dict[str, Any]] = []
     for i, name in enumerate(_CHECK_LABELS, start=1):
         check = checks[name]
         status = _STATUS_LABELS[str(check["status"])]
         lines.append(f"{i}. {_CHECK_LABELS[name]} — {status}")
-        lines.extend(_evidence_lines(check, requisition_text, snapshot_date))
+        lines.extend(
+            _evidence_lines(check, requisition_text, snapshot_date, cited_rows)
+        )
     lines.append("")
 
     lines.append(
@@ -113,11 +123,17 @@ def render_report(result: dict[str, Any], requisition_text: str) -> str:
         for name in _CHECK_LABELS
         if checks[name]["status"] == "indeterminate"
     ]
-    if unresolved:
+    # Disclosures the solver recorded beyond the per-check statuses (salary as
+    # stated, licence rating). Dropping these here is how a report ends up claiming
+    # completeness the JSON contradicts (review fix 2026-08-29).
+    notes = [str(n) for n in result.get("uncertainty_notes", [])]
+    if unresolved or notes:
         lines.append("Could not be established:")
         for name, reason in unresolved:
             action = _ACTIONS.get((name, reason), _FALLBACK_ACTION)
             lines.append(f"- {_CHECK_LABELS[name]}. To resolve: {action}.")
+        for note in notes:
+            lines.append(f"- {note[0].upper()}{note[1:]}.")
     else:
         lines.append("Nothing material was left unresolved.")
     lines.append("")

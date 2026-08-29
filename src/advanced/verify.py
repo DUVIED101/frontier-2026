@@ -2,8 +2,9 @@
 
 Every quote must be a verbatim substring of the source; anything unsupported drops
 the check to indeterminate so the combinator can only move toward UNVERIFIABLE,
-never toward a confident verdict (docs/PLAN.md §5). This is the mechanical core;
-the evening pass wires it into the pipeline and extends it to register-row gates.
+never toward a confident verdict (docs/PLAN.md §5). Quotes are the only gate needed:
+register rows are constructed by code from the committed snapshot and are grounded
+by construction — a row gate would be a check that cannot fail.
 """
 
 from __future__ import annotations

@@ -107,3 +107,21 @@ def test_report_closes_with_advisory_line() -> None:
         "This report is advisory. The evidence above is checkable; "
         "whether to apply is your decision."
     )
+
+
+def test_report_never_claims_completeness_while_uncertainty_notes_remain() -> None:
+    result = _result("SPONSORABLE", ALL_PASS_CHECKS, "d.")
+    result["uncertainty_notes"] = [
+        "licence rating not assessed: the register shows Worker (B rating); "
+        "a sponsor rated below A cannot issue a Certificate of Sponsorship "
+        "until its action plan completes"
+    ]
+    report = render_report(result, POSTING)
+    assert "Nothing material was left unresolved" not in report
+    assert "Worker (B rating)" in report
+
+
+def test_report_cites_a_shared_register_row_once() -> None:
+    report = render_report(_result("SPONSORABLE", ALL_PASS_CHECKS, "d."), POSTING)
+    assert report.count("Farrowgate Analytics Ltd") == 1
+    assert "as cited under Sponsor register" in report
