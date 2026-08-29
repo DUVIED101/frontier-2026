@@ -1,0 +1,50 @@
+{
+  "id": "case-32-multi-route-entity",
+  "meta": {
+    "archetype": "clean_positive",
+    "title": "Entity holding two licence routes: the citation must be the row the verdict rests on",
+    "authored": "2026-08-29",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Quillhaven Systems Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Broadcast Pipeline\nQuillhaven Systems Ltd · Soho, London\n\nQuillhaven builds playout and media-asset tooling for UK broadcasters; the same company also runs a talent arm for touring productions, so we hold more than one sponsor licence.\n\nThe pipeline team (Go, some C++) owns ingest, transcode orchestration and the metadata service the schedulers depend on.\n\nWe need 1-3 years of backend experience; broadcast knowledge is welcome but not required.\n\n£43,000 · 25 days holiday · hybrid (2 days Soho). We offer Skilled Worker visa sponsorship for this role — our HR team issues the CoS. One take-home, one systems interview.\n",
+    "note": "payload only; labels derived from the fixture design, not from this text"
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Quillhaven Systems Ltd holds two licences — Creative Worker and Skilled Worker — and the Skilled Worker row is the one this verdict rests on; the posting commits to sponsorship and £43,000 clears both thresholds.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Quillhaven Systems Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We offer Skilled Worker visa sponsorship for this role",
+      "salary_text": "£43,000"
+    }
+  },
+  "design_notes": "Added 2026-08-29 after a live posting (Sony Music: four rows, four routes) showed the register check citing whichever row came first in the file — a Creative Worker row — while the route check cited Skilled Worker, misleading the reader about what was established. No prior fixture entity held more than one row, so the defect survived every case. Quillhaven's Creative Worker row deliberately precedes its Skilled Worker row in the snapshot: the old rows[0] citation would surface Creative Worker; the fixed _decisive_row citation must surface Skilled Worker and name both routes held. The fixture rows for this case were added in the same rebuild that repositioned the fixture set (see DATA.md placement history)."
+}

@@ -46,6 +46,15 @@ issues no citations at all — the metric verifies citations issued, and zero is
 zero by construction, not fabrication. The meaningful grounding comparison is baseline
 vs advanced.*
 
+*Denominators changed during Saturday's hardening, and the honest version is stronger
+than pretending otherwise: cases 31 (line-wrapped quote) and 32 (multi-route entity)
+were added after live inputs exposed shapes no fixture had, moving the dev split from
+20 to 22 cases and the always_abstain floor from 0.5125 to ~0.489 — and case-31 pulled
+the baseline's grounding down to ~0.93, because its unwrapped quote does not ground
+either. Both are the fixture set becoming slightly more like the world and slightly
+less like its author. Aggregates across different denominators are not directly
+comparable; the per-case verdicts are what carry across the change.*
+
 ---
 
 ## Baseline solution
@@ -143,7 +152,10 @@ no model holds a prior about any of them. Case-01 was designed to trigger that f
 and cannot at verdict level; it discriminates at check level instead (which evidence
 chain produced the verdict). The failure mode is real in production use on real
 employers; measuring it would require real-brand cases, which the synthetic-fixture
-decision (CN-7) deliberately traded away.
+decision (CN-7) deliberately traded away. It has since been observed live exactly as
+designed: on a real posting the baseline substituted a market estimate for a salary
+the posting does not state, while the pipeline returned indeterminate and quoted the
+text (docs/TIMING.md, measurement 1).
 
 ## Hot take
 
@@ -158,12 +170,16 @@ TODO — write Sunday. Earned candidates, recorded as they happened:
   thresholds, the reason vocabulary and the combination rules measured the author's
   research, not the model's judgment. A fair baseline had to be weakened back to what
   a person actually types.
-- Three times in one day the pipeline knew something its surface lost — a licence
-  rating, the candidate entities behind an ambiguity, a line-wrapped quote — and all
-  three were found by reading output, not metrics. An eval can only measure the
-  failure modes its fixtures contain, and every fixture set shares properties with
-  its author rather than with the world: twenty hand-written cases all kept their
-  quotable sentences on one line, and the first real pasted posting did not.
+- Four times in one day, a claim about the artifact was not supported by the artifact
+  itself — a licence rating missing from the uncertainty statement, candidate entities
+  hidden behind an ambiguity, a line-wrapped quote failing byte-verbatim matching, and
+  a data file whose own manifest said "name-sorted positions" while 26 of 30 fixture
+  rows sat enumerable in the wrong block. All four were found by inspecting the thing
+  itself rather than the metric describing it, and **every one of them passed a green
+  test suite**. An eval can only measure the failure modes its fixtures contain, and
+  every fixture set shares properties with its author rather than with the world:
+  twenty hand-written cases all kept their quotable sentences on one line, and the
+  first real pasted posting did not.
 
 ---
 
