@@ -123,3 +123,26 @@ measured run            -> 20260829-084140.json (clean tree, 4e43c41): advanced
                            0.225-0.425 across committed runs). CHANGELOG [2], BP-4
                            no-delta stated.
 ```
+
+### Step 5 — QREPRO passes from a fresh clone; evening loop 2 wired and measured
+
+```
+QREPRO (literal)        -> fresh clone at /tmp/frontier-qrepro; executed every
+                           REPRODUCTION.md command in order as written. §1 venv+pip
+                           clean; §2 key config as documented; §7 gates 65/65 green,
+                           mypy clean, ruff clean, no context assumed. §4 baseline
+                           0.425 (within the documented 0.225-0.425 spread); §5
+                           advanced 0.8 IDENTICAL to the pasted expected output;
+                           §6 full table 0.425/0.5125/0.8. The two dirty-tree
+                           warnings appeared exactly where §6 documents them. Only
+                           non-executable step: the <REPO_URL> placeholder, filled at
+                           submission. Docker Option B verified separately (build +
+                           65/65 in container + harness run).
+loop 2 (verifier)       -> TDD: fabricated-quote red test; assemble() now verifies
+                           every model-sourced quote before combine, strips evidence
+                           on downgrade. 68/68 green. Measured run
+                           20260829-084751.json (clean, 7c85ed0): advanced identical
+                           FOURTH consecutive run (0.8 / 0.1429 / 1.0); zero
+                           downgrades on dev as hypothesised. CHANGELOG [3]: the
+                           change buys a guarantee, not a number.
+```

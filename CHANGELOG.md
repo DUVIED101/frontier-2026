@@ -37,6 +37,30 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [3] Verifier gates model-sourced quotes ahead of the combinator
+`7c85ed0` · 2026-08-29 08:47 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Zero dev delta — extraction quotes have been verbatim in every
+recorded run and grounding already reads 1.0. The layer is structural: after this
+change no fabricated quote can reach the output on ANY input, because an unverified
+quote downgrades its check to indeterminate and is stripped from evidence before the
+combinator runs — a verdict can only move toward UNVERIFIABLE.
+
+**Change.** `assemble()` routes every model-sourced quote through
+`verify_and_downgrade` (verify.py) and recomputes the verdict on the verified
+outcomes; downgraded checks lose their evidence block and surface as
+`evidence_unverified` in the uncertainty statement. One new test (fabricated quote →
+UNVERIFIABLE); the four existing assemble tests gained the posting-source argument.
+
+**Measurement.** Evidence: `eval/results/20260829-084751.json` — advanced identical
+to the previous three runs on every metric (0.8 / 0.1429 / 1.0 grounding), fourth
+consecutive identical result; no downgrades triggered on dev, as hypothesised.
+
+**Verdict.** KEPT. No delta claimed; the change buys a guarantee, not a number.
+
+**What this told me to do next.** Loop 3: the stance-extraction refinement for
+case-26 — the last failure the pipeline can address inside its scope.
+
 ### [2] Non-A licence rating surfaces in the uncertainty statement
 `4e43c41` · 2026-08-29 08:41 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
