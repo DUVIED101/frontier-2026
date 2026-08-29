@@ -12,6 +12,7 @@ Thresholds and route semantics live in the rules engine reading floor_config
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from typing import Any, Literal, cast
 
@@ -73,6 +74,22 @@ non-annual units, or stated only as OTE, set both bounds to null and say in "not
 what the posting actually stated. "note" is null otherwise."""
     user = f"Posting (as pasted):\n{requisition_text}"
     return system, user
+
+
+def canonicalize_quote(quote: str | None, source: str) -> str | None:
+    """The source's true byte span matching the quote under whitespace collapse.
+
+    Real postings hard-wrap; models quote wrapped sentences unwrapped, and an
+    unwrapped quote is not a byte-verbatim substring, so the verifier would
+    downgrade truthful evidence (found on the demo CLI's first arbitrary input,
+    2026-08-29). Returns the exact source bytes — line breaks included — or None
+    when no whitespace-normalised match exists; fabricated text stays fabricated
+    and the verifier's semantics are unchanged."""
+    if not quote or not quote.split():
+        return None
+    pattern = r"\s+".join(re.escape(token) for token in quote.split())
+    found = re.search(pattern, source)
+    return found.group(0) if found else None
 
 
 def _int_or_none(value: Any) -> int | None:

@@ -158,6 +158,12 @@ TODO — write Sunday. Earned candidates, recorded as they happened:
   thresholds, the reason vocabulary and the combination rules measured the author's
   research, not the model's judgment. A fair baseline had to be weakened back to what
   a person actually types.
+- Three times in one day the pipeline knew something its surface lost — a licence
+  rating, the candidate entities behind an ambiguity, a line-wrapped quote — and all
+  three were found by reading output, not metrics. An eval can only measure the
+  failure modes its fixtures contain, and every fixture set shares properties with
+  its author rather than with the world: twenty hand-written cases all kept their
+  quotable sentences on one line, and the first real pasted posting did not.
 
 ---
 

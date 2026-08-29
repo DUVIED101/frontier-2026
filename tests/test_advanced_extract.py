@@ -39,3 +39,32 @@ def test_extract_parse_raises_on_unknown_stance() -> None:
 def test_extract_parse_raises_on_garbage() -> None:
     with pytest.raises(ValueError):
         parse_claims("no json here")
+
+
+WRAPPED_SOURCE = (
+    "Benefits include pension. We will sponsor a Skilled\n"
+    "Worker visa for the successful applicant; HR handles the CoS process."
+)
+
+
+def test_canonicalize_maps_a_wrapped_quote_to_the_source_bytes() -> None:
+    from src.advanced.extract import canonicalize_quote
+
+    unwrapped = "We will sponsor a Skilled Worker visa for the successful applicant"
+    span = canonicalize_quote(unwrapped, WRAPPED_SOURCE)
+    assert span == "We will sponsor a Skilled\nWorker visa for the successful applicant"
+    assert span in WRAPPED_SOURCE
+
+
+def test_canonicalize_returns_a_verbatim_quote_unchanged() -> None:
+    from src.advanced.extract import canonicalize_quote
+
+    verbatim = "HR handles the CoS process"
+    assert canonicalize_quote(verbatim, WRAPPED_SOURCE) == verbatim
+
+
+def test_canonicalize_returns_none_for_fabricated_text() -> None:
+    from src.advanced.extract import canonicalize_quote
+
+    assert canonicalize_quote("We happily sponsor everyone", WRAPPED_SOURCE) is None
+    assert canonicalize_quote(None, WRAPPED_SOURCE) is None

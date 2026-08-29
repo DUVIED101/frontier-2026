@@ -1,0 +1,49 @@
+{
+  "id": "case-31-wrapped-quote-offered",
+  "meta": {
+    "archetype": "clean_positive",
+    "title": "Clean positive pasted with hard line-wraps: the sponsorship sentence spans a line break",
+    "authored": "2026-08-29",
+    "split": "dev",
+    "register_fixture_orgs": [
+      "Thornber Computing Ltd"
+    ]
+  },
+  "payload": {
+    "requisition_text": "Software Engineer — Rota Analytics\nThornber Computing Ltd · Victoria, London\n\nThornber builds workforce-scheduling software for NHS trusts. This team owns\nrota analytics: forecasting, fairness metrics, and the dashboards ward managers\nactually read.\n\nWe need 1-3 years with Python or Kotlin and a tolerance for healthcare data\nquality. The codebase is typed, tested and boring in the good way.\n\n£44,000, pension matched to 6%, 27 days holiday. We will sponsor a Skilled\nWorker visa for the successful applicant; our HR team handles the CoS process.\nTwo interviews, one week turnaround."
+  },
+  "expected": {
+    "verdict": "SPONSORABLE",
+    "determining_fact": "Thornber Computing Ltd is an A-rated Skilled Worker sponsor, the posting commits to sponsorship, and £44,000 clears both thresholds — the sponsorship sentence merely happens to wrap across a line, which changes nothing about the facts.",
+    "register_snapshot_date": "2026-08-28",
+    "checks": {
+      "register": {
+        "status": "pass",
+        "reason": "legal_name_exact"
+      },
+      "route": {
+        "status": "pass",
+        "reason": "skilled_worker"
+      },
+      "willingness": {
+        "status": "pass",
+        "reason": "offered"
+      },
+      "salary": {
+        "status": "pass",
+        "reason": "above_floor"
+      }
+    },
+    "evidence_anchors": {
+      "register_row": {
+        "organisation_name": "Thornber Computing Ltd",
+        "town_city": "London",
+        "type_rating": "Worker (A rating)",
+        "route": "Skilled Worker"
+      },
+      "willingness_quote": "We will sponsor a Skilled\nWorker visa for the successful applicant",
+      "salary_text": "£44,000"
+    }
+  },
+  "design_notes": "Added 2026-08-29 after the demo CLI's first arbitrary input exposed the blind spot: all twenty prior dev fixtures kept every quotable sentence on one line, a property real pasted postings do not have, so byte-verbatim quote matching was never stressed and a truthful wrapped quote produced a false abstention. The willingness sentence here wraps mid-phrase ('Skilled\\nWorker'); the labelled anchor is the source's exact bytes, line break included. Second posting from an existing fixture employer (Thornber, case-17) — a licensed sponsor advertising two roles — so the register snapshot is untouched. Adding a dev case changes denominators: dev n=20 to 21, mix 13 determinable / 7 unverifiable to 14 / 7, always_abstain dev floor 0.5125 to 0.5; stated in CHANGELOG [10] with the re-run."
+}

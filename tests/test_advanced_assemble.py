@@ -156,3 +156,30 @@ def test_assemble_downgrades_fabricated_stance_quote_and_recomputes_verdict() ->
         "reason": "evidence_unverified",
     }
     assert "willingness" in out["uncertainty"]
+
+
+def test_assemble_repairs_a_wrapped_quote_to_the_source_span() -> None:
+    wrapped_posting = (
+        "Join us. Salary £46,000. We will sponsor a Skilled\n"
+        "Worker visa for the successful applicant."
+    )
+    claims = ExtractedClaims(
+        employer_strings=("Ostermere Technologies Ltd",),
+        stance=StanceClaim(
+            "offered",
+            "We will sponsor a Skilled Worker visa for the successful applicant",
+        ),
+        salary=SalaryClaim(46_000, 46_000, None),
+    )
+    out = assemble(
+        claims,
+        Match("Ostermere Technologies Ltd", (SW_ROW,), "legal_name_exact"),
+        FLOOR,
+        SNAPSHOT_DATE,
+        wrapped_posting,
+    )
+    assert out["verdict"] == "SPONSORABLE"
+    assert out["checks"]["willingness"]["status"] == "pass"
+    quote = out["checks"]["willingness"]["evidence"]["quote"]
+    assert "\n" in quote
+    assert quote in wrapped_posting

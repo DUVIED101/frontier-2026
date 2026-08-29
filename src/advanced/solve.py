@@ -27,6 +27,7 @@ import anthropic
 from src.advanced.extract import (
     ExtractedClaims,
     build_extraction_prompt,
+    canonicalize_quote,
     parse_claims,
 )
 from src.advanced.resolve import (
@@ -150,7 +151,12 @@ def assemble(
         "willingness": willingness_outcome,
         "salary": salary_outcome,
     }
-    quotes: dict[str, str | None] = {"willingness": claims.stance.quote}
+    # Repair line-wrap before the verifier: the canonical span is the source's own
+    # bytes, so truthful-but-unwrapped quotes survive and fabricated ones still fail.
+    stance_quote = (
+        canonicalize_quote(claims.stance.quote, requisition_text) or claims.stance.quote
+    )
+    quotes: dict[str, str | None] = {"willingness": stance_quote}
     verified = verify_and_downgrade(outcomes, quotes, requisition_text)
     downgraded = {n for n in outcomes if verified[n] != outcomes[n]}
     outcomes = verified
@@ -167,8 +173,8 @@ def assemble(
             evidence.update(register_ev)
         if name == "route":
             evidence.update(route_ev)
-        if name == "willingness" and claims.stance.quote and name not in downgraded:
-            evidence["quote"] = claims.stance.quote
+        if name == "willingness" and stance_quote and name not in downgraded:
+            evidence["quote"] = stance_quote
         if evidence:
             entry["evidence"] = evidence
         checks[name] = entry
