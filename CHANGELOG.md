@@ -240,6 +240,11 @@ the baseline on verdict_utility (0.8 > 0.325) AND always_abstain on decisive_rat
 drift; the advanced variant answers every determinable case and abstains on 6 of 7
 truly unverifiable ones.
 
+**Band note (appended 2026-08-29).** The deltas above were computed before the
+operative baseline band was established; the standing conservative figure is defined
+in entry [4]: computed against the band top (0.425), not any single run's pairing.
+Every README delta comes from the band.
+
 **What this told me to do next.** 18/20; the two remaining wrong verdicts are exactly
 diagnosable, which is the pipeline's point. case-26: the extraction model classified
 right-to-work boilerplate as "refused" — a stance-extraction error, the evening's
