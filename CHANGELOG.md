@@ -77,6 +77,15 @@ bounded, and stated in that output's own uncertainty statement.
 clear. Next per plan: the verification report renderer (Sunday morning, first), the
 removed-experiment run (self-consistency), and the final `--split all` evaluation.
 
+**Conservative delta (appended 2026-08-29, operator ruling).** The frozen baseline
+has produced three verdict_utility values across committed runs: 0.225, 0.325, 0.425
+— the operative band. Every headline delta is computed against the top of that band,
+the worst case for this submission: **+0.475** (0.9 − 0.425), not the +0.675 the
+same-run comparison above shows. The advanced side needs no band: five runs at 0.8
+(four in-repo, one from a fresh clone) followed by exactly +0.10 after loop 3's
+deliberate change — the deterministic stages removed the run-to-run variance the
+baseline still has.
+
 ### [3] Verifier gates model-sourced quotes ahead of the combinator
 `7c85ed0` · 2026-08-29 08:47 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

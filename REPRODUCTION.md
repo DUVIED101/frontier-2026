@@ -190,12 +190,14 @@ python eval/run_eval.py --split all --seed 42 --tag final
 Results are written to `eval/results/<UTC timestamp>.json` and `.md`.
 
 **Determinism and variance.** With `--seed 42` the harness is deterministic except for
-model output at temperature 0. Measured across committed runs: the **baseline's**
-verdict_utility has ranged 0.225–0.425 (5-repeat noise floor in
-`eval/results/20260829-002003.json`; single runs since have landed above that band —
-single-prompt judgment flips on borderline cases). The **advanced** variant has
-reproduced its numbers identically across independent runs. Expect your baseline
-column to differ from the paste above; expect your advanced column to match it.
+model output at temperature 0. Measured across all committed runs: the **baseline's**
+verdict_utility has taken three values — 0.225, 0.325 and 0.425 — so its operative
+band is 0.225–0.425 (5-repeat noise floor in `eval/results/20260829-002003.json`;
+single-prompt judgment flips on borderline cases). Every conservative delta claim in
+`CHANGELOG.md` is computed against the top of that band. The **advanced** variant has
+reproduced identical numbers across five independent runs, including one from a fresh
+clone. Expect your baseline column to land inside the band rather than on the paste
+above; expect your advanced column to match its paste exactly.
 
 **Expected warning.** From your second run onward the harness prints
 `WARNING: working tree is dirty` — it is seeing your own previous run's results files,
@@ -211,7 +213,7 @@ python -m mypy --strict src
 python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
-All 65 tests pass on a clean clone in ~5 s; no API key needed.
+All 68 tests pass on a clean clone in ~5 s; no API key needed.
 
 ---
 

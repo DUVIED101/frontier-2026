@@ -28,6 +28,12 @@ Then in order:
 3. Judge the delta honestly against the noise floor. **If it is inside the noise, say so and
    recommend reverting.** A reverted experiment is a changelog entry and video material; a
    fake improvement is a scoring risk under "connect every claim to the evidence".
+   The conservative delta is computed against the WORST committed baseline figure
+   (top of its observed band), never against whichever baseline landed in the same run.
 4. QLOG — CHANGELOG entry citing the results file. Numbers must match it exactly.
 5. QTRACE — trajectory file including the failures and retries.
-6. QGIT.
+6. Re-verify REPRODUCTION.md §§4–6 against the newest committed results files. If the
+   loop changed any number a judge would see, update the pasted expected output in the
+   same loop — a reproduction guide that predicts the wrong output is worse than one
+   with gaps (operator ruling 2026-08-29).
+7. QGIT.

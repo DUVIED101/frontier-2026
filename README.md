@@ -69,7 +69,25 @@ TODO — fill measured failure profile from the frozen-baseline results file.
 <!-- The real submission. Architecture, the key mechanism, why it beats the baseline. -->
 Located in `src/advanced/`.
 
-TODO
+Two findings to carry into the final text (recorded 2026-08-29):
+
+**Determinism is a measured property here, not a claim.** The baseline — one model
+call that judges everything — produced three different verdict_utility values across
+committed runs (0.225, 0.325, 0.425). The advanced pipeline produced *identical*
+numbers across five independent runs, including one from a fresh clone, and then
+moved by exactly the hypothesised +0.10 when its one prompt was deliberately changed.
+Replacing model judgment with deterministic stages removed the run-to-run variance the
+baseline still has; the only remaining model surface is one small extraction call.
+
+**The verifier bought no measured improvement on this case set, and stays.** Stated
+exactly that way: extraction quotes were already verbatim in every recorded run, so
+wiring the verifier moved nothing (`eval/results/20260829-084751.json`). It remains
+because it bounds the direction of failure — fabricated evidence can only move a
+verdict toward UNVERIFIABLE, never toward confidence. It is a guarantee, not a
+performance component, and claiming otherwise would be the kind of unbacked claim
+this repo's evidence chain exists to prevent.
+
+TODO — architecture narrative and final full-set numbers, filled Sunday.
 
 ---
 
@@ -101,6 +119,14 @@ TODO
 See [`REPRODUCTION.md`](REPRODUCTION.md). Written for a clean environment with exact
 commands for the solution, the baseline, and the evaluation.
 
+The guide was verified a day early — executed literally, command by command, from a
+fresh clone on Saturday rather than trusted until Sunday. That verification is why it
+can be trusted at all: the "recommended" Docker path turned out never to have built
+(a copy path wrong for its build context), and, with no `.dockerignore`, would have
+baked `.env` — the API key — into an image layer. Both were found only because the
+path was actually exercised, and both are fixed and re-verified (build, full test
+suite and eval harness confirmed in-container).
+
 ---
 
 ## Main failure mode
@@ -122,7 +148,16 @@ decision (CN-7) deliberately traded away.
 ## Hot take
 
 <!-- One opinionated paragraph. Earned from building this, not a general position on AI. -->
-TODO
+TODO — write Sunday. Earned candidates, recorded as they happened:
+- An untested path that looks correct is not evidence — the difference is
+  verification. This repo's own reproduction guide recommended a Docker path that had
+  never built and would have leaked the API key into an image layer; it was caught
+  only by executing the guide literally. The same thesis the solution applies to job
+  postings applied to the project itself.
+- The strong baseline prompt was answering its own exam: handing the model the
+  thresholds, the reason vocabulary and the combination rules measured the author's
+  research, not the model's judgment. A fair baseline had to be weakened back to what
+  a person actually types.
 
 ---
 

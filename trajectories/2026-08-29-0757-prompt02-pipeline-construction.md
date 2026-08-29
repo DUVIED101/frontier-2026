@@ -166,3 +166,35 @@ measured run            -> 20260829-085330.json (clean, f9f9c31): advanced 0.9 /
                            its own output. Baseline same-run 0.225 (low end of its
                            spread); same-run delta +0.675.
 ```
+
+### Step 7 — Operator corrections before the removed-experiment run
+
+> **HUMAN: redirected** — four rulings. (1) Conservative delta: every headline claim
+> computes against the WORST committed baseline figure (band 0.225–0.425, three
+> observed values) — +0.475, not the same-run +0.675; appended to CHANGELOG [4]
+> without editing earlier entries, and written into the prompts/02 loop as a standing
+> rule. (2) The Docker finding is submission material, not just a fix: an unexercised
+> "recommended" path that would have baked the API key into an image layer, FOUND BY
+> QREPRO — not routine maintenance. It instantiates the project's own thesis: an
+> untested path that looks correct is not evidence; verification separates the two.
+> Seeded into README (reproduction section + hot-take candidates). (3) Loop 2 stays
+> reported exactly as measured: zero dev delta, kept for the guarantee — a component
+> described as an improvement it did not deliver is what the evidence chain exists to
+> prevent. Seeded into README. (4) REPRODUCTION.md went stale the moment loop 3
+> changed a number a judge would see (§5 pastes 0.8, suite is 68 not 65, variance
+> band now has three observed values). Fixed; §§4–6 re-verification added to the
+> prompts/02 loop as step 6 so it cannot drift again. Then the removed-experiment
+> run, then stop — Sunday opens with the renderer.
+
+```
+CHANGELOG [4]           -> conservative-delta paragraph appended (band, worst-case
+                           +0.475, advanced needs no band: five identical runs).
+prompts/02              -> loop gains: conservative-delta rule (step 3) and
+                           REPRODUCTION §§4-6 re-verification (step 6).
+README seeds            -> determinism-as-measured-property; verifier honest framing;
+                           Docker-found-by-QREPRO in reproduction section; two
+                           hot-take candidates recorded as they happened.
+REPRODUCTION            -> §6 variance rewritten (three observed values, band top is
+                           0.425, advanced five identical runs incl. fresh clone);
+                           §7 count 68. §5/§6 pastes refresh from fresh runs next.
+```
