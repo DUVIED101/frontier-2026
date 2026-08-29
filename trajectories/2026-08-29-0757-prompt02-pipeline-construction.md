@@ -108,3 +108,18 @@ failure dig             -> the two wrong verdicts, from the per-check record:
                            evening item, verdict unchanged.
 CHANGELOG [1]           -> written citing 20260829-080609.json; KEPT.
 ```
+
+### Step 4 — Evening loop 1: rating caveat in uncertainty (no-metric change, measured anyway)
+
+```
+TDD                     -> red test: B-rated SW row must surface in uncertainty
+                           without changing the verdict; A-rated stays quiet.
+implement               -> assemble() reads the route-cited row's type_rating; non-A
+                           appends the caveat. 67/67 green, mypy clean.
+measured run            -> 20260829-084140.json (clean tree, 4e43c41): advanced
+                           IDENTICAL to 080609 on every metric — regression none;
+                           case-28 uncertainty now carries "Worker (B rating)"
+                           caveat. Baseline 0.425 again (single-prompt spread now
+                           0.225-0.425 across committed runs). CHANGELOG [2], BP-4
+                           no-delta stated.
+```

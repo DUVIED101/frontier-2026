@@ -37,6 +37,33 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [2] Non-A licence rating surfaces in the uncertainty statement
+`4e43c41` · 2026-08-29 08:41 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** None on eval metrics — stated openly per BP-4: uncertainty text is
+unscored. The change targets output honesty (End-to-End Quality): the B-rating
+sub-check is cut by scope ruling, and case-28's output said "nothing material left
+unresolved" about a B-rated sponsor that cannot issue a CoS until its action plan
+completes.
+
+**Change.** `src/advanced/solve.py::assemble` appends a rating caveat to the
+uncertainty statement when the route-cited register row is not "(A rating)"; verdict
+unchanged by design. Two new tests (non-A surfaces; A-rated stays quiet).
+
+**Measurement.** Evidence: `eval/results/20260829-084140.json` — regression only:
+advanced identical to `20260829-080609.json` on every metric (0.8 / 0.1429 / 1.0 /
+0.975 / 1.0); case-28's uncertainty now reads "licence rating not assessed: the
+register shows Worker (B rating); …". Baseline landed at 0.425 again, confirming the
+widened single-prompt spread noted in REPRODUCTION.md §6.
+
+**Verdict.** KEPT. No delta claimed; none expected. The verdict on case-28 remains
+confidently wrong — that is the recorded price of the B-rating cut, now stated in the
+output itself rather than hidden.
+
+**What this told me to do next.** Loop 2: wire the verifier (the safety layer earns
+its keep outside dev conditions); loop 3: the stance-extraction improvement for
+case-26.
+
 ### [1] Extract → Resolve → Decide pipeline wired end to end
 `f94da46` · 2026-08-29 08:06 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
