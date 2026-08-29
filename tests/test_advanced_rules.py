@@ -117,3 +117,9 @@ def test_verdict_unresolved_check_is_unverifiable() -> None:
 def test_verdict_never_sponsorable_without_all_four_evidenced() -> None:
     three_of_four = {k: v for k, v in ALL_PASS.items() if k != "salary"}
     assert combine(three_of_four) == "UNVERIFIABLE"
+
+
+def test_salary_figure_inside_benefits_prose_is_not_a_stated_rate() -> None:
+    note = "life assurance at 4x basic salary, but no salary figure is given."
+    out = salary_clears_floor(None, None, FLOOR, note=note)
+    assert out == CheckOutcome("indeterminate", "absent")

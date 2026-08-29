@@ -522,3 +522,29 @@ STOPPED                 -> Sunday: collision sweep (32 cases), QREPRO, --split a
                            README, note grouping, timing 2-3, trajectories audit,
                            video.
 ```
+
+### Post-close checkpoint 7 — Timing complete on live input; two note defects; the turn
+
+> **HUMAN: redirected** — timing measurement 2 (Mott MacDonald, live): baseline 27s
+> AND CORRECT — an easy case, and the evidence file must say so rather than flatter
+> the comparison (refusal in its own section, one register search). Advanced 7s,
+> NOT_SPONSORABLE, quote grounded across line breaks; the multi-row citation fix
+> verified on live input (three routes named, decisive row stated). Two user-facing
+> defects in that report, fixed with the timing commit: (1) double full stop — notes
+> carry terminal punctuation and the template added another; (2) non_annual_unclear
+> misfired on "4x basic salary" inside a benefits sentence — the any-digit test from
+> the earlier fix read it as a stated rate and the report told the user to ask the
+> wrong question. New rule: a stated rate carries a currency amount; a bare number in
+> prose does not. And the naming of the pattern's fifth instance: the invariance
+> script catching its own overclaim — the first where the checking instrument checked
+> itself. Ordered into the hot take as the TURN, not a fifth bullet: the discipline
+> only works if it is also applied to the thing doing the checking.
+
+```
+TDD                     -> 2 red tests (benefits-figure note -> absent; note renders
+                           one full stop); currency rule in salary_clears_floor;
+                           punctuation strip in the report renderer. 94/94 green;
+                           mypy clean. Dev-set impact expected nil (case-22 wordy
+                           note -> absent unchanged; case-30 £-rate -> non_annual
+                           unchanged); confirmed by the refresh runs below.
+```

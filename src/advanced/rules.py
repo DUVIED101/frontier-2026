@@ -7,6 +7,7 @@ decides, the model extracts (Condition C, trajectory 2026-08-29).
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Literal
 
@@ -65,9 +66,11 @@ def salary_clears_floor(
         else basic_annual_min_gbp
     )
     if low is None or high is None:
-        # A note with a figure in it means pay WAS stated, just not as guaranteed
-        # annual basic (day rate, OTE) — a different fact from silence.
-        if note and any(ch.isdigit() for ch in note):
+        # A stated-but-unusable rate (day rate, OTE) carries a currency amount; a
+        # bare number inside benefits prose ("4x basic salary") does not — the
+        # any-digit rule misdirected the user to ask the wrong question (live
+        # finding, 2026-08-29). Wrong reason means wrong advice in the report.
+        if note and re.search(r"[£$€]\s*\d", note):
             return CheckOutcome("indeterminate", "non_annual_unclear")
         return CheckOutcome("indeterminate", "absent")
     general = int(floor_config["general_threshold_gbp"]["amount"])

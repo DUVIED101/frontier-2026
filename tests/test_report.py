@@ -170,3 +170,13 @@ def test_report_names_every_candidate_entity_when_resolution_is_ambiguous() -> N
     assert "Halcyon Consulting (UK) Ltd" in report
     assert "Skilled Worker" in report
     assert "Global Business Mobility" in report
+
+
+def test_report_renders_a_note_with_terminal_punctuation_once() -> None:
+    result = _result("UNVERIFIABLE", ALL_PASS_CHECKS, "d.")
+    result["uncertainty_notes"] = [
+        "salary as stated: benefits are listed but no salary figure is given."
+    ]
+    report = render_report(result, POSTING)
+    assert "no salary figure is given." in report
+    assert "given.." not in report

@@ -146,7 +146,8 @@ def render_report(result: dict[str, Any], requisition_text: str) -> str:
             action = _ACTIONS.get((name, reason), _FALLBACK_ACTION)
             lines.append(f"- {_CHECK_LABELS[name]}. To resolve: {action}.")
         for note in notes:
-            lines.append(f"- {note[0].upper()}{note[1:]}.")
+            cleaned = note.rstrip().rstrip(".")
+            lines.append(f"- {cleaned[0].upper()}{cleaned[1:]}.")
     else:
         lines.append("Nothing material was left unresolved.")
     lines.append("")

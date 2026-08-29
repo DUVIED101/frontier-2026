@@ -170,16 +170,20 @@ TODO — write Sunday. Earned candidates, recorded as they happened:
   thresholds, the reason vocabulary and the combination rules measured the author's
   research, not the model's judgment. A fair baseline had to be weakened back to what
   a person actually types.
-- Four times in one day, a claim about the artifact was not supported by the artifact
+- Five times in one day, a claim about the artifact was not supported by the artifact
   itself — a licence rating missing from the uncertainty statement, candidate entities
-  hidden behind an ambiguity, a line-wrapped quote failing byte-verbatim matching, and
-  a data file whose own manifest said "name-sorted positions" while 26 of 30 fixture
-  rows sat enumerable in the wrong block. All four were found by inspecting the thing
-  itself rather than the metric describing it, and **every one of them passed a green
-  test suite**. An eval can only measure the failure modes its fixtures contain, and
-  every fixture set shares properties with its author rather than with the world:
-  twenty hand-written cases all kept their quotable sentences on one line, and the
-  first real pasted posting did not.
+  hidden behind an ambiguity, a line-wrapped quote failing byte-verbatim matching, a
+  data file whose own manifest said "name-sorted positions" while 26 of 30 fixture
+  rows sat enumerable in the wrong block, and finally the invariance script written to
+  prove the fix, whose first run showed its own claim ("identical solver inputs") was
+  too strong and had to be weakened to what was actually true. Every one was found by
+  inspecting the thing itself rather than the metric describing it, and **every one
+  passed a green test suite**. The fifth is the turn: the checking instrument caught
+  itself, and the discipline only works if it is also applied to the thing doing the
+  checking. An eval can only measure the failure modes its fixtures contain, and every
+  fixture set shares properties with its author rather than with the world: twenty
+  hand-written cases all kept their quotable sentences on one line, and the first real
+  pasted posting did not.
 
 ---
 
