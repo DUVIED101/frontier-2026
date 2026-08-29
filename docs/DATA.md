@@ -16,13 +16,14 @@ Contains public sector information licensed under the
 
 `eval/cases/fixtures/sponsor-register-2026-08-28.csv.gz` holds the **complete, unfiltered**
 official register retrieved on 2026-08-28 — **142,988 real rows, byte-identical to the
-source asset** — plus **30 fictional sponsor rows** for the fictional employers in the
-evaluation cases. Nothing was removed; the gzipped file is ~2.0 MB, well inside the 50 MB
+source asset** — plus **32 fictional sponsor rows** for the fictional employers in the
+evaluation cases (31 organisations; Quillhaven Systems Ltd deliberately holds two rows
+across two routes, the multi-route shape of case-32). Nothing was removed; the gzipped file is ~2.0 MB, well inside the 50 MB
 submission limit, so no filtering was needed.
 
 **How to tell real rows from fixture rows:** the machine-readable manifest
 `eval/cases/fixtures/register_fixture_rows.json` is the single, complete list of fixture
-rows; every other row is the real register. The 30 fictional organisations:
+rows; every other row is the real register. The 31 fictional organisations:
 
 Arkenfield Systems Ltd · Ashcombe Digital Ltd · Bryelock Systems Ltd · Duncastle Tech Ltd ·
 Elvermere Systems Ltd · Farrowgate Analytics Ltd · Ferrowdale Cloud Ltd ·
@@ -30,20 +31,44 @@ Halcyon Consulting (UK) Ltd · Halcyon Technologies Ltd · Hazelmoor Interactive
 Kestrel Dynamics Ltd · Larchdown Consulting Ltd · Marlowe & Finch Technology Ltd ·
 Merrivale Software Ltd · Merrivale Studios Ltd · Nordwick Data Ltd ·
 Ondrell Technologies Ltd · Ostermere Technologies Ltd · Pellbrook Digital Ltd ·
-Quenby Applications Ltd · Quillstone Apps Ltd · Redegate Software Ltd ·
+Quenby Applications Ltd · Quillhaven Systems Ltd · Quillstone Apps Ltd ·
+Redegate Software Ltd ·
 Silverbeck Software Ltd · Stonebridge Softworks Ltd · Tarnbrook Software Ltd ·
 Thornber Computing Ltd · Veltrix Software Ltd · Windlecombe Software Ltd ·
 Wrenfield Payments Ltd · Wrexfell Digital Ltd
 
 **Fixture rows are deliberately in-band-unmarked and shape-indistinguishable** (same
 columns, same CRLF endings, values drawn from the real file's exact vocabulary, counties
-following each town's real fill pattern, rows inserted at name-sorted positions rather
-than appended). Reason, from the design review: if a solver could learn "fixture rows
-look like X", the register check would pass on an artifact rather than on the data, and
-every register number in the evaluation would be worthless. Verified by
+following each town's real fill pattern, rows at name-sorted positions rather than
+appended). Reason, from the design review: if a solver could learn "fixture rows look
+like X", the register check would pass on an artifact rather than on the data, and every
+register number in the evaluation would be worthless. Verified by
 `tests/test_fixture_integrity.py::test_fixture_rows_are_shape_indistinguishable` plus a
 sampled comparison: every fixture row's field-feature class is one of the two most common
 real-row classes (35% and 18% of real rows respectively).
+
+**Placement history, in full (2026-08-29).** The paragraph above was not true as
+originally shipped, and the record of that matters more than clean provenance would.
+At authoring (2026-08-28) the fixture rows were inserted by *stripped*-name sorting;
+because the source file opens with a block of ~150 names carrying leading whitespace —
+a genuine artifact of the official register, which sorts them first — 26 of 30 fixture
+rows landed inside that block as its **only** spaceless names: enumerable at a glance,
+several pairs mutually unordered, while this document claimed name-sorted positions.
+Found 2026-08-29 during the multi-row-entity audit (looking at the file itself, not the
+green test suite — the then-current integrity tests checked shape and consecutive runs,
+not position). All fixture rows were repositioned under the file's own case-insensitive
+raw-name order, pinned by
+`test_fixture_rows_sit_in_sorted_position_under_the_files_own_order`, which fails on the
+pre-repositioning snapshot by design. **Solver-input invariance across the
+repositioning is proven by the committed script `eval/verify_snapshot_invariance.py`**
+(old bytes obtainable via `git show`): matched content is identical for every case and
+every string the cases exercise; the one thing repositioning cannot preserve — the
+file-order sequence of rows inside multi-match lookups — is disclosed per affected case
+(the two multi-entity ambiguity cases) and verdict-level behaviour is confirmed by the
+first post-repositioning eval run. Results files recorded before the evening of
+2026-08-29 were produced against the pre-repositioning bytes with content-identical
+solver inputs. Snapshot filename and date are unchanged: the content moved; the source
+and its date did not.
 
 **Absence is verified both ways.** Three names are asserted to match **no** row of the
 committed snapshot under the resolver's normalisations and no alias fixture: Copperwaite

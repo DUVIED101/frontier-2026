@@ -466,3 +466,25 @@ STOPPED                 -> Sunday order unchanged: collision sweep (31 cases),
 > unwrapped quote does not ground either) as the fixture set becoming slightly more
 > like the world and slightly less like its author — per-case verdicts are what carry
 > across the change.
+
+### Post-close checkpoint 6 — Snapshot placement audit; rebuild ruled
+
+> **HUMAN: approved (rebuild)** — while locating the Quillhaven insertion point, a
+> position audit found the real file opens with a leading-space-name block (lines
+> 1-150, a genuine gov.uk artifact) and 26 of 30 fixture rows sit inside it as its
+> ONLY spaceless rows — enumerable at a glance, several pairs mutually unordered.
+> Solvers never see file position (provable), but the manifest and DATA.md claim
+> "inserted at name-sorted positions", which the artifact does not do. Operator's
+> deciding factor: consequence 3, not 2 — "a committed document that is false as
+> written is a trust defect... Do not ship docs you would have to caveat verbally."
+> Conditions: (1) the invariance proof is a COMMITTED, runnable script comparing both
+> snapshots per case, referenced from DATA.md — without it every results file [1]-[10]
+> silently references bytes that no longer exist in the repo; (2) DATA.md and the
+> manifest carry the dated history in full — the paragraph is worth more than clean
+> provenance, it shows the integrity check running against our own work; (3) the
+> hardened test fails on the current snapshot before passing on the new one (case-31
+> principle); (4) filename and snapshot date unchanged — content moved, the source
+> and its date did not. Pattern upgraded to four instances of one class: a claim
+> about the artifact the artifact does not support (B-rating, ambiguity candidates,
+> wrapped quote, sorted-positions note), all found by inspecting the thing itself,
+> ALL FOUR PASSING A GREEN TEST SUITE — that is the hot take.

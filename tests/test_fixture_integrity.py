@@ -229,3 +229,26 @@ def test_register_row_counts_match_manifest(
     register_rows: list[dict[str, str]], manifest: dict[str, Any]
 ) -> None:
     assert len(register_rows) == manifest["real_row_count"] + len(manifest["rows"])
+
+
+def test_fixture_rows_sit_in_sorted_position_under_the_files_own_order(
+    register_rows: list[dict[str, str]], manifest: dict[str, Any]
+) -> None:
+    """A fixture row must be ordered against its raw neighbours — leading whitespace
+    included, because the source file sorts it — under the file's case-insensitive
+    order. Added 2026-08-29 after the placement audit found 26 of 30 fixture rows
+    sitting as the only spaceless names inside the file's leading-space block,
+    enumerable at a glance. Fails on the pre-repositioning snapshot by design."""
+    names = [r["Organisation Name"] for r in register_rows]
+    fixture_names = _fixture_names(manifest)
+    for i, name in enumerate(names):
+        if name not in fixture_names:
+            continue
+        if i > 0:
+            assert names[i - 1].casefold() <= name.casefold(), (
+                f"row {i}: {name!r} sorts before its predecessor {names[i - 1]!r}"
+            )
+        if i + 1 < len(names):
+            assert name.casefold() <= names[i + 1].casefold(), (
+                f"row {i}: {name!r} sorts after its successor {names[i + 1]!r}"
+            )

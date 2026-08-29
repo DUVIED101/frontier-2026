@@ -4,7 +4,7 @@
   "asset_url": "https://assets.publishing.service.gov.uk/media/6a91566801bbff0bf8f97b48/SP_-_Worker_and_Temporary_Worker_Web_Register_-_2026-08-28.csv",
   "retrieved_at": "2026-08-28",
   "real_row_count": 142988,
-  "note": "Fictional sponsor rows inserted at name-sorted positions among the real rows; real rows byte-identical to the source. This manifest is the only marker of which rows are fixtures - see docs/DATA.md.",
+  "note": "Fictional sponsor rows among the real rows; real rows byte-identical to the source; this manifest is the only marker of which rows are fixtures (docs/DATA.md). Placement history, in full: at authoring (2026-08-28) the fixture rows were inserted by STRIPPED-name sorting, and because the source file opens with a block of names carrying leading whitespace, 26 of 30 fixtures landed inside that block as its only spaceless rows - enumerable at a glance, contradicting the 'name-sorted positions' claim this note previously made. Found 2026-08-29 during the multi-row-entity audit; all fixture rows repositioned under the file's own case-insensitive raw-name order, and two Quillhaven Systems Ltd rows added (multi-route entity, case-32). Solver-input invariance across the repositioning is proven by the committed script eval/verify_snapshot_invariance.py; results files recorded before 2026-08-29 evening were produced against the pre-repositioning bytes with provably identical solver inputs. Snapshot filename and date unchanged: the content moved, the source and its date did not.",
   "rows": [
     {
       "organisation_name": "Arkenfield Systems Ltd",
@@ -212,6 +212,20 @@
     {
       "organisation_name": "Wrexfell Digital Ltd",
       "town_city": "Glasgow",
+      "county": "",
+      "type_rating": "Worker (A rating)",
+      "route": "Skilled Worker"
+    },
+    {
+      "organisation_name": "Quillhaven Systems Ltd",
+      "town_city": "London",
+      "county": "",
+      "type_rating": "Temporary Worker (A rating)",
+      "route": "Creative Worker"
+    },
+    {
+      "organisation_name": "Quillhaven Systems Ltd",
+      "town_city": "London",
       "county": "",
       "type_rating": "Worker (A rating)",
       "route": "Skilled Worker"
