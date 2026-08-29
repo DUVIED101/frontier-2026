@@ -37,6 +37,41 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [12] Salary-note advice corrected; live timing recorded; guide refreshed to n=22
+`(committed with this entry)` · 2026-08-29 21:05 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Two user-facing defects from the live Mott MacDonald report, zero
+expected dev delta. (1) A figure inside a benefits sentence ("4x basic salary")
+tripped the any-digit test from entry [10]'s fix, so `non_annual_unclear` fired where
+the truth is `absent` — the check was right that nothing could be established, but
+the report told the user to ask the wrong question. New discriminator: a stated rate
+carries a currency amount; a bare number in prose does not. (2) Notes carrying their
+own terminal punctuation rendered a double full stop.
+
+**Change.** `rules.py::salary_clears_floor` note rule (currency-amount regex);
+`report.py` strips trailing punctuation before adding its own. `docs/TIMING.md`
+gains measurement 2, stated honestly: baseline 27 s AND correct — an easy case
+(refusal in its own section, one register search) — vs advanced 7 s with the refusal
+quote grounded across line breaks and the multi-row citation verified live. README
+hot take gains the turn: the invariance script catching its own overclaim is the
+fifth same-day instance of the pattern and the first where the checking instrument
+checked itself — the discipline only works if it is also applied to the thing doing
+the checking.
+
+**Measurement.** Evidence: `eval/results/20260829-205818.json` / `205909` / `210352`
+(the §4/§5/§6 reproduction refresh, prompts/02 step-6 rule): advanced identical to
+`20260829-204901.json` on every metric (0.9091 / 0.0667 / 0.9333 / 0.9545) — the
+note-rule change moved nothing on dev, as hypothesised (case-22's wordy note was
+already `absent`; case-30's £-rate still fires `non_annual_unclear`). always_abstain
+at the computed n=22 floor, 0.4886. REPRODUCTION.md pastes, counts and costs now
+predict n=22 outputs.
+
+**Verdict.** KEPT. Both fixes bought correct advice and clean prose, not numbers.
+
+**What this told me to do next.** Saturday is closed. Sunday: collision sweep,
+QREPRO, --split all, README fill, note grouping, timing measurement 3, trajectories
+audit, video.
+
 ### [11] Fixture placement rebuilt under proof; the register check cites deliberately
 `e4c1d27` · 2026-08-29 20:49 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

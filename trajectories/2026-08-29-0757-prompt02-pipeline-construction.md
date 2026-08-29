@@ -548,3 +548,37 @@ TDD                     -> 2 red tests (benefits-figure note -> absent; note ren
                            note -> absent unchanged; case-30 £-rate -> non_annual
                            unchanged); confirmed by the refresh runs below.
 ```
+
+---
+
+## Final close (TR-5, superseding the earlier close — the session continued by order)
+
+**Shipped since the first close.** Demo CLI (the product outside the harness);
+wrapped-quote canonicalisation + case-31; multi-row deliberate citation + case-32;
+fixture placement rebuilt under committed proof (eval/verify_snapshot_invariance.py)
+with the full dated history in DATA.md; salary-note advice corrected (currency rule)
++ punctuation fix; docs/TIMING.md with two live measurements and the sourcing
+finding; REPRODUCTION refreshed to n=22; CHANGELOG [9]-[12]. 94 tests, mypy --strict
+clean, tree clean at every run.
+
+**Metric state at close.** Dev n=22: advanced 0.9091 / cwr 0.0667 / decisive 1.0 &
+0.9333 / check 0.9886 / grounding 1.0 / exact_match 0.9545 / $0.0032/case / p50
+2.1s; wrong only on case-28 (the priced B-rating cut). References: baseline 0.2955
+(this session), always_abstain 0.4886. Advanced identical across all three n=22
+runs. Evidence: 20260829-204901 / 205818 / 205909 / 210352.
+
+**Discarded since the first close.** The any-digit salary-note rule (misdirected
+advice); byte-identity as the invariance claim (weakened to content-identity with
+disclosed reorderings — by the script's own first run); the rows[0] register
+citation; the manifest's false sorted-positions note (replaced by the true history).
+
+**The day's finding, named by the operator.** Five instances of one pattern — a
+claim about the artifact the artifact does not support — every one found by
+inspecting the thing itself, every one behind a green test suite; the fifth caught
+by the checking instrument checking itself. In the hot take as the turn.
+
+**Next.** Sunday, in order, nothing before them: collision sweep (32 cases), QREPRO
+from a fresh clone, final --split all. Then README fill, ambiguity-note grouping,
+timing measurement 3, trajectories audit, video, submit.
+
+**Session cost.** ~$7.90 today across ~25 runs and live demos (~$11.00 total).

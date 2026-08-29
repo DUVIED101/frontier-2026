@@ -196,7 +196,7 @@ Output of this exact command as recorded in `eval/results/20260829-210352.json`:
 | p95_seconds | 12.9 | 2.5e-07 | 3.204 |
 ```
 
-The final full-set run (all 30 cases including the 10-case holdout, Sunday only):
+The final full-set run (all 32 cases including the 10-case holdout, Sunday only):
 
 ```bash
 python eval/run_eval.py --split all --seed 42 --tag final
