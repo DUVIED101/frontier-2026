@@ -81,3 +81,30 @@ resolver smoke (real)   -> 143,018 rows, 0.3s load, <0.5s/query: Ottervale -> Ma
 
 Nothing — the morning order held. Committing everything BEFORE the eval launches
 (the dirty-tree lesson from last night, applied).
+
+### Step 2 — First measured run: 18/20, both reference lines beaten, target met
+
+**Agent action + tool responses, in order**
+
+```
+run (tag first-pipeline)-> eval/results/20260829-080609.{json,md}, clean tree at
+                           f94da46, 40 model calls, 0 errors. advanced 0.8 utility /
+                           0.143 confident_wrong / decisive_rate 1.0 / grounding 1.0
+                           / $0.003 per case / p50 2.2s — beats baseline (0.325) and
+                           always_abstain (0.5125); conservative delta +0.475 ≈ 10σ
+                           against the recorded noise floor. Pre-registered target
+                           met with decisive_accuracy UP (0.857 vs 0.6): not
+                           abstention drift.
+failure dig             -> the two wrong verdicts, from the per-check record:
+                           case-26: extraction classified RTW boilerplate as
+                           "refused" (willingness fail -> NS). The trap survived the
+                           stance-definition prompt; evening improvement candidate.
+                           case-28: all four checks pass — nothing reads the licence
+                           rating (B-rating check deliberately cut). The cut's price
+                           is this one confident-wrong; worse, the uncertainty
+                           statement says "nothing material left unresolved", which
+                           overstates confidence for a B-rated sponsor. The cut
+                           ruling requires the rating to surface in uncertainty —
+                           evening item, verdict unchanged.
+CHANGELOG [1]           -> written citing 20260829-080609.json; KEPT.
+```

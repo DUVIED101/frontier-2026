@@ -37,6 +37,55 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [1] Extract → Resolve → Decide pipeline wired end to end
+`f94da46` · 2026-08-29 08:06 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Splitting the baseline's single judgment call into one extraction call
+plus deterministic resolution and rules would eliminate the resolution and threshold
+failure classes (docs/PLAN.md §3 failures 2, 3, 5, 8): verdict_utility above both
+reference lines, confident_wrong_rate down, grounding at 1.0 — because code reads the
+Route column and floor_config, and a model no longer aggregates its own checks.
+
+**Change.** `src/advanced/`: `extract.py` (prompt builder + typed parser; the only
+model call), `resolve.py` (normalisation + token-subset matching + alias fixtures;
+`GENERIC_TERM_ORG_LIMIT` counts distinct orgs, matched-entity rows uncapped),
+`rules.py` (thresholds from floor_config, pure combinator), `solve.py` (wiring +
+pure `assemble`). Verifier unit-green, wired in the evening pass. 27 new tests.
+
+**Measurement.** Evidence: `eval/results/20260829-080609.json`
+
+| Metric | baseline (same run) | advanced | Delta |
+|---|---|---|---|
+| verdict_utility | 0.325 | 0.8 | **+0.475** |
+| confident_wrong_rate | 0.4 | 0.1429 | −0.257 |
+| decisive_accuracy | 0.6 | 0.8571 | +0.257 |
+| decisive_rate | 0.8462 | 1.0 | +0.154 |
+| check_accuracy | 0.8125 | 0.975 | +0.163 |
+| grounding_rate | 0.951 | 1.0 | +0.049 |
+| cost_per_case_usd | 0.01115 | 0.00298 | −73% |
+| p50_seconds | 10.08 | 2.23 | −78% |
+
+Against the frozen reference run (`20260829-002858.json`, baseline 0.225) the delta is
++0.575; against the same-run baseline above, +0.475. The noise floor is stdev 0.049 on
+verdict_utility (`20260829-002003.json`), so the conservative delta is ~10σ. The
+same-run baseline's 0.325 sits at the top of its measured range (0.225–0.325) —
+consistent with noise, stated for honesty.
+
+**Verdict.** KEPT. The pre-registered target (DECISIONS.md 2026-08-29) is met: beats
+the baseline on verdict_utility (0.8 > 0.325) AND always_abstain on decisive_rate
+(1.0 > 0) while decisive_accuracy rose (0.857 vs 0.6) — the gain is not abstention
+drift; the advanced variant answers every determinable case and abstains on 6 of 7
+truly unverifiable ones.
+
+**What this told me to do next.** 18/20; the two remaining wrong verdicts are exactly
+diagnosable, which is the pipeline's point. case-26: the extraction model classified
+right-to-work boilerplate as "refused" — a stance-extraction error, the evening's
+first measured improvement candidate. case-28: all four checks pass because nothing
+reads the licence rating — the deliberately cut B-rating sub-check's price, one
+confident-wrong; per the cut ruling the rating must at least surface in the
+uncertainty statement, which it currently does not. Evening order: wire the verifier,
+then one measured improvement per prompts/02 loop.
+
 ### [0] Baseline frozen
 `cde01b2` · 2026-08-29 00:28 UTC · trajectory: `trajectories/2026-08-28-1833-prompt01-cases-and-baseline.md`
 
