@@ -75,8 +75,10 @@ roughly 3× `cost_per_case` without beating deterministic verification on
 blind spots. It must be actually run through the same eval and rejected by its own
 numbers, not dismissed on argument.
 **Rejected.** The orchestration variant — more expensive to build for the same lesson.
-**Evidence.** To be measured Saturday evening; the entry is not written until the
-`eval/results/` file exists.
+**Evidence.** Measured 2026-08-29: `eval/results/20260829-092222.json` — rejected,
+worse than predicted (verdict_utility 0.225 vs same-run baseline 0.425 at 3.07× the
+cost; two NEW wrong verdicts from temperature diversity; check_accuracy unchanged).
+CHANGELOG entry [5].
 
 ### 2026-08-28 — `exact_match` narrowed to subset-match before the baseline freeze
 **Context.** Solver output carries evidence and uncertainty fields; whole-dict equality

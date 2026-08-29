@@ -37,6 +37,44 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [5] Self-consistency voting — REJECTED by its own numbers
+`af85076` · 2026-08-29 09:22 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** (Pre-registered, DECISIONS.md 2026-08-28.) 3-sample majority voting
+over the frozen baseline at temperature 1.0 costs ~3× per case without beating
+deterministic verification on confident_wrong_rate, because sampling one prompt three
+times resamples the same blind spots. Run to be rejected by numbers, not argument.
+
+**Change.** `src/experiments/self_consistency.py` — the baseline's exact prompt and
+lookup, sampled three times at temperature 1.0 (the one documented C-6 departure;
+self-consistency is meaningless at temperature 0). Strict-majority vote; a split
+abstains. Registered as an explicit-only eval variant so the rejection is
+reproducible: `--variant self_consistency`.
+
+**Measurement.** Evidence: `eval/results/20260829-092222.json`
+
+| Metric | baseline (same run) | self_consistency | advanced |
+|---|---|---|---|
+| verdict_utility | 0.425 | **0.225** | 0.9 |
+| confident_wrong_rate | 0.3571 | **0.4667** | 0.0769 |
+| decisive_accuracy | 0.6429 | 0.5333 | 0.9231 |
+| check_accuracy | 0.825 | 0.825 | 0.9875 |
+| cost_per_case_usd | 0.01097 | **0.03372** | 0.00312 |
+| p50_seconds | 9.43 | **29.49** | 2.14 |
+
+**Verdict.** REJECTED — worse than predicted, in the instructive direction. 3.07× the
+baseline's cost and 3.1× its latency bought a variant *worse than the baseline it
+samples*: temperature diversity added two new wrong verdicts (cases 07, 20) on top of
+the seven shared blind spots (04, 06, 11, 26, 28, 29, 30), and check_accuracy did not
+move at all — the samples disagree on borderline judgment, not on the things the
+prompt cannot see. Voting cannot recover information the lookup never delivered.
+Deterministic verification (advanced, 0.9 at $0.0031/case) beats 3× sampling on every
+metric at a tenth of the cost.
+
+**What this told me to do next.** The removed-experiment slot is filled with a real
+run. Confidence budget goes to code that checks evidence, not to more samples of the
+same judgment — which is the submission's thesis, now measured from both directions.
+
 ### [4] Stance extractor learns that right-to-work wording settles nothing
 `f9f9c31` · 2026-08-29 08:53 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
