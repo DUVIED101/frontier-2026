@@ -1,5 +1,9 @@
 """Unit tests for the pure assembly seam of the advanced pipeline (T-2).
 
+assemble() verifies model-sourced quotes against the posting text before the
+combinator runs (loop 2): a fabricated quote downgrades its check to indeterminate
+and is stripped from evidence, so the verdict can only move toward UNVERIFIABLE.
+
 The model call is exercised by the eval; assemble() is deterministic given typed
 claims and a resolution, so its behaviour on the two policy-critical shapes is
 pinned here with hand-derived expectations (T-7): register presence must not imply
@@ -19,6 +23,7 @@ from src.advanced.solve import assemble
 FIXTURES = Path(__file__).resolve().parent.parent / "eval" / "cases" / "fixtures"
 FLOOR: dict[str, Any] = json.loads((FIXTURES / "floor_config.json").read_text())
 SNAPSHOT_DATE = "2026-08-28"
+POSTING = "Join us. We offer visa sponsorship. Salary £46,000."
 
 GBM_ONLY_ROW = RegisterRow(
     "Veltrix Software Ltd",
@@ -39,7 +44,11 @@ def test_assemble_register_presence_does_not_imply_sponsorability() -> None:
         salary=SalaryClaim(46_000, 46_000, None),
     )
     out = assemble(
-        claims, Match("Veltrix Software Ltd", (GBM_ONLY_ROW,)), FLOOR, SNAPSHOT_DATE
+        claims,
+        Match("Veltrix Software Ltd", (GBM_ONLY_ROW,)),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
     )
     assert out["verdict"] == "NOT_SPONSORABLE"
     assert out["checks"]["register"]["status"] == "pass"
@@ -66,7 +75,11 @@ def test_assemble_silence_blocks_sponsorable_without_producing_not_sponsorable()
         salary=SalaryClaim(42_000, 42_000, None),
     )
     out = assemble(
-        claims, Match("Ostermere Technologies Ltd", (SW_ROW,)), FLOOR, SNAPSHOT_DATE
+        claims,
+        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
     )
     assert out["verdict"] == "UNVERIFIABLE"
     assert out["checks"]["willingness"] == {
@@ -96,7 +109,11 @@ def test_assemble_surfaces_non_a_rating_in_uncertainty_without_changing_verdict(
         salary=SalaryClaim(42_000, 42_000, None),
     )
     out = assemble(
-        claims, Match("Duncastle Tech Ltd", (B_RATED_SW_ROW,)), FLOOR, SNAPSHOT_DATE
+        claims,
+        Match("Duncastle Tech Ltd", (B_RATED_SW_ROW,)),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
     )
     assert out["verdict"] == "SPONSORABLE"
     assert "Worker (B rating)" in out["uncertainty"]
@@ -110,7 +127,32 @@ def test_assemble_stays_quiet_about_a_rated_licences() -> None:
         salary=SalaryClaim(42_000, 42_000, None),
     )
     out = assemble(
-        claims, Match("Ostermere Technologies Ltd", (SW_ROW,)), FLOOR, SNAPSHOT_DATE
+        claims,
+        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
     )
     assert out["verdict"] == "SPONSORABLE"
     assert out["uncertainty"] == "nothing material left unresolved"
+
+
+def test_assemble_downgrades_fabricated_stance_quote_and_recomputes_verdict() -> None:
+    claims = ExtractedClaims(
+        employer_strings=("Ostermere Technologies Ltd",),
+        stance=StanceClaim("offered", "We happily sponsor everyone"),
+        salary=SalaryClaim(46_000, 46_000, None),
+    )
+    out = assemble(
+        claims,
+        Match("Ostermere Technologies Ltd", (SW_ROW,)),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
+    )
+    assert out["verdict"] == "UNVERIFIABLE"
+    assert out["checks"]["willingness"] == {
+        "status": "indeterminate",
+        "reason": "evidence_unverified",
+    }
+    assert "willingness" in out["uncertainty"]

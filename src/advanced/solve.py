@@ -3,9 +3,9 @@
 One model call extracts typed claims from the posting (extract.py); everything after
 it is deterministic — entity resolution against the full register with the alias
 fixtures (resolve.py), then the rules engine reading floor_config (rules.py), then
-the pure combinator. Code decides, the model extracts. The verification stage
-(verify.py) exists and is unit-tested but is wired in the Saturday-evening pass;
-this morning's pipeline is the minimal measurable end-to-end path.
+the pure combinator, with the mechanical verifier (verify.py) gating every
+model-sourced quote before the combinator runs. Code decides, the model extracts;
+unverified evidence can only move a verdict toward UNVERIFIABLE.
 
 Same pinned model and temperature as the frozen baseline (fairness statement,
 docs/PLAN.md §4); identical inputs — requisition text, committed register snapshot,
@@ -45,6 +45,7 @@ from src.advanced.rules import (
     skilled_worker_route,
     willingness_check,
 )
+from src.advanced.verify import verify_and_downgrade
 
 MODEL_ID = "claude-sonnet-4-6"
 TEMPERATURE = 0.0
@@ -123,8 +124,14 @@ def assemble(
     resolution: Resolution,
     floor_config: dict[str, Any],
     snapshot_date: str,
+    requisition_text: str,
 ) -> dict[str, Any]:
-    """Pure assembly of the output contract from typed stage results."""
+    """Pure assembly of the output contract from typed stage results.
+
+    Model-sourced quotes pass the mechanical verifier before the combinator runs:
+    a quote that is not a verbatim substring of the posting downgrades its check to
+    indeterminate and never appears as evidence — the verdict can only move toward
+    UNVERIFIABLE, never toward confidence (docs/PLAN.md §5)."""
     register_outcome, register_ev = _register_check(resolution)
     route_outcome, route_ev = _route_check(resolution)
     willingness_outcome = willingness_check(claims.stance.stance)
@@ -139,6 +146,10 @@ def assemble(
         "willingness": willingness_outcome,
         "salary": salary_outcome,
     }
+    quotes: dict[str, str | None] = {"willingness": claims.stance.quote}
+    verified = verify_and_downgrade(outcomes, quotes, requisition_text)
+    downgraded = {n for n in outcomes if verified[n] != outcomes[n]}
+    outcomes = verified
     verdict = combine(outcomes)
 
     checks: dict[str, Any] = {}
@@ -152,7 +163,7 @@ def assemble(
             evidence.update(register_ev)
         if name == "route":
             evidence.update(route_ev)
-        if name == "willingness" and claims.stance.quote:
+        if name == "willingness" and claims.stance.quote and name not in downgraded:
             evidence["quote"] = claims.stance.quote
         if evidence:
             entry["evidence"] = evidence
@@ -221,7 +232,7 @@ def solve(payload: dict[str, Any], *, seed: int = 42) -> dict[str, Any]:
     reply = "".join(b.text for b in response.content if b.type == "text")
     claims = parse_claims(reply)
     resolution = resolve_entity(claims.employer_strings, register_rows(), ALIASES)
-    result = assemble(claims, resolution, FLOOR, SNAPSHOT_DATE)
+    result = assemble(claims, resolution, FLOOR, SNAPSHOT_DATE, text)
     result["_usage"] = {
         "model": MODEL_ID,
         "input_tokens": response.usage.input_tokens,
