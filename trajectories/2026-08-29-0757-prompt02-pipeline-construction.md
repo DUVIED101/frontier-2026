@@ -331,3 +331,30 @@ it dropped what the pipeline knew).
 final --split all run. Then README (including the leak-pattern line in engineering
 and the case-01 limitation), the 11-entity note readability item, the
 time-to-a-trustworthy-answer measurement, trajectories audit, the video, submit.
+
+---
+
+### Post-close checkpoint (received 2026-08-29 evening, scheduled for Sunday morning)
+
+> **HUMAN: redirected** — front of the hardening list, FIRST thing Sunday, before
+> QREPRO: a collision sweep. "Halcyon Group" matching eleven entities (nine real)
+> means the fixture design assumed two candidates and the real register supplied nine
+> more; the collision tests checked exact matches of fictional names, never partial
+> or token-level collisions between a case's employer strings and real rows.
+> Case-24's verdict is right partly by accident. Run every case's employer strings
+> through the resolver against the committed snapshot; report per case how many
+> entities match and by which path; any case whose resolution differs from its design
+> assumption is a finding — the label may still be right, but we must know whether it
+> is right FOR THE LABELLED REASON (a check_accuracy and exact_match question, not a
+> verdict one). Nothing found -> ten minutes spent and the README gains a sentence
+> (fixtures verified against real collision behaviour, not just exact-name absence).
+> Something found -> better Sunday morning than in a judge's re-run. The 11-entity
+> readability fix (group by route) comes AFTER the sweep — the presentation fix
+> assumes the resolution is correct. Then QREPRO, then --split all, then README.
+>
+> Sweep design note, recorded tonight: the machine-checkable design assumption is
+> expected.checks.register (status + reason path); holdout cases are swept
+> mechanically with only counts, paths and OK/DIFFERS booleans surfaced — payloads,
+> labels and strings stay inside the script (holdout discipline). The
+> asserted-absent class is the sharpest risk: absence was verified under
+> normalisation equality before the token-subset phase existed.
