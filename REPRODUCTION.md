@@ -130,27 +130,28 @@ Runtime: ~4 minutes, ~$0.22.
 python eval/run_eval.py --variant advanced --split dev --seed 42
 ```
 
-Output as recorded in `eval/results/20260829-083304.json`:
+Output as recorded in `eval/results/20260829-090246.json`:
 
 ```
 | Metric | advanced |
 |---|---|
-| verdict_utility | 0.8 |
-| confident_wrong_rate | 0.1429 |
-| decisive_accuracy | 0.8571 |
+| verdict_utility | 0.9 |
+| confident_wrong_rate | 0.07692 |
+| decisive_accuracy | 0.9231 |
 | decisive_rate | 1 |
-| check_accuracy | 0.975 |
+| check_accuracy | 0.9875 |
 | grounding_rate | 1 |
-| cost_per_case_usd | 0.002985 |
-| exact_match | 0.7 |
+| cost_per_case_usd | 0.003123 |
+| exact_match | 0.75 |
 | error_rate | 0 |
-| p50_seconds | 2.272 |
-| p95_seconds | 3.157 |
+| p50_seconds | 2.094 |
+| p95_seconds | 3.872 |
 ```
 
-Runtime: ~1 minute, ~$0.06. The advanced pipeline has reproduced these verdict-level
-numbers identically across independent runs (`20260829-080609.json` vs
-`20260829-083304.json`) — one small extraction call plus deterministic stages.
+Runtime: ~1 minute, ~$0.06. The advanced pipeline reproduces these verdict-level
+numbers identically across independent runs (`20260829-085330.json`,
+`20260829-090246.json`, `20260829-090655.json`) — one small extraction call plus
+deterministic stages.
 
 ---
 
@@ -163,22 +164,22 @@ With no `--variant` flag it runs all three: baseline, `always_abstain`, advanced
 python eval/run_eval.py --split dev --seed 42
 ```
 
-Output of this exact command as recorded in `eval/results/20260829-080609.json`:
+Output of this exact command as recorded in `eval/results/20260829-090655.json`:
 
 ```
 | Metric | baseline | always_abstain | advanced |
 |---|---|---|---|
-| verdict_utility | 0.325 | 0.5125 | 0.8 |
-| confident_wrong_rate | 0.4 | 0 | 0.1429 |
-| decisive_accuracy | 0.6 | 0 | 0.8571 |
+| verdict_utility | 0.325 | 0.5125 | 0.9 |
+| confident_wrong_rate | 0.4 | 0 | 0.07692 |
+| decisive_accuracy | 0.6 | 0 | 0.9231 |
 | decisive_rate | 0.8462 | 0 | 1 |
-| check_accuracy | 0.8125 | 0 | 0.975 |
-| grounding_rate | 0.951 | 0 | 1 |
-| cost_per_case_usd | 0.01115 | 0 | 0.00298 |
-| exact_match | 0 | 0 | 0.7 |
+| check_accuracy | 0.825 | 0 | 0.9875 |
+| grounding_rate | 0.98 | 0 | 1 |
+| cost_per_case_usd | 0.01111 | 0 | 0.00312 |
+| exact_match | 0 | 0 | 0.75 |
 | error_rate | 0 | 0 | 0 |
-| p50_seconds | 10.08 | 1.67e-07 | 2.23 |
-| p95_seconds | 11.88 | 3.75e-07 | 3.908 |
+| p50_seconds | 9.727 | 1.67e-07 | 2.282 |
+| p95_seconds | 12.64 | 3.33e-07 | 3.111 |
 ```
 
 The final full-set run (all 30 cases including the 10-case holdout, Sunday only):
