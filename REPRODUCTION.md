@@ -24,9 +24,9 @@ priced at $3/$15 per MTok):
 | Command | Model calls | Cost | Wall clock |
 |---|---|---|---|
 | Test suite (§7) | 0 | $0 | ~5 s |
-| Baseline eval (§4) | 20 | ~$0.22 | ~4 min |
-| Advanced eval (§5) | 20 | ~$0.06 | ~1 min |
-| Full three-variant eval (§6) | 40 | ~$0.28 | ~8 min |
+| Baseline eval (§4) | 22 | ~$0.25 | ~4 min |
+| Advanced eval (§5) | 22 | ~$0.07 | ~1 min |
+| Full three-variant eval (§6) | 44 | ~$0.32 | ~9 min |
 | Optional noise floor (`--repeats 5`, §6) | 120 | ~$1.35 | ~25 min |
 
 ---
@@ -84,12 +84,13 @@ set -a; source .env; set +a
 All data ships committed in `eval/cases/`:
 
 - `fixtures/sponsor-register-2026-08-28.csv.gz` — the real Home Office register snapshot
-  (142,988 rows, Open Government Licence v3) plus 30 fictional fixture rows, inserted at
-  name-sorted positions. The fixture manifest `fixtures/register_fixture_rows.json` is
-  the only marker distinguishing them.
+  (142,988 rows, Open Government Licence v3) plus 32 fictional fixture rows at
+  name-sorted positions (placement history and the invariance proof:
+  `docs/DATA.md`, `eval/verify_snapshot_invariance.py`). The fixture manifest
+  `fixtures/register_fixture_rows.json` is the only marker distinguishing them.
 - `fixtures/floor_config.json` — both salary thresholds with sources and effective dates.
 - `fixtures/aliases.json` — synthetic trading-name→legal-entity fixtures.
-- `case-*.json` — 30 hand-labelled cases (20 dev / 10 holdout).
+- `case-*.json` — 32 hand-labelled cases (22 dev / 10 holdout).
 
 Provenance and licence for everything: [`docs/DATA.md`](docs/DATA.md).
 
@@ -101,26 +102,26 @@ Provenance and licence for everything: [`docs/DATA.md`](docs/DATA.md).
 python eval/run_eval.py --variant baseline --split dev --seed 42
 ```
 
-Output of this exact command as recorded in `eval/results/20260829-083215.json`
+Output of this exact command as recorded in `eval/results/20260829-205818.json`
 (your timestamps will differ; on run-to-run variance see §6):
 
 ```
 | Metric | baseline |
 |---|---|
-| verdict_utility | 0.425 |
-| confident_wrong_rate | 0.3333 |
-| decisive_accuracy | 0.6667 |
-| decisive_rate | 0.8462 |
-| check_accuracy | 0.85 |
-| grounding_rate | 0.9612 |
-| cost_per_case_usd | 0.01119 |
+| verdict_utility | 0.2955 |
+| confident_wrong_rate | 0.4118 |
+| decisive_accuracy | 0.5882 |
+| decisive_rate | 0.8667 |
+| check_accuracy | 0.8409 |
+| grounding_rate | 0.9478 |
+| cost_per_case_usd | 0.01134 |
 | exact_match | 0 |
 | error_rate | 0 |
-| p50_seconds | 9.566 |
-| p95_seconds | 13.54 |
+| p50_seconds | 9.901 |
+| p95_seconds | 12.29 |
 ```
 
-Runtime: ~4 minutes, ~$0.22.
+Runtime: ~4 minutes, ~$0.25.
 
 ---
 
@@ -130,27 +131,28 @@ Runtime: ~4 minutes, ~$0.22.
 python eval/run_eval.py --variant advanced --split dev --seed 42
 ```
 
-Output as recorded in `eval/results/20260829-090246.json`:
+Output as recorded in `eval/results/20260829-205909.json`:
 
 ```
 | Metric | advanced |
 |---|---|
-| verdict_utility | 0.9 |
-| confident_wrong_rate | 0.07692 |
-| decisive_accuracy | 0.9231 |
+| verdict_utility | 0.9091 |
+| confident_wrong_rate | 0.06667 |
+| decisive_accuracy | 0.9333 |
 | decisive_rate | 1 |
-| check_accuracy | 0.9875 |
+| check_accuracy | 0.9886 |
 | grounding_rate | 1 |
-| cost_per_case_usd | 0.003123 |
-| exact_match | 0.75 |
+| cost_per_case_usd | 0.003158 |
+| exact_match | 0.9545 |
 | error_rate | 0 |
-| p50_seconds | 2.094 |
-| p95_seconds | 3.872 |
+| p50_seconds | 2.136 |
+| p95_seconds | 3.121 |
 ```
 
-Runtime: ~1 minute, ~$0.06. The advanced pipeline reproduces these verdict-level
-numbers identically across independent runs (`20260829-085330.json`,
-`20260829-090246.json`, `20260829-090655.json`) — one small extraction call plus
+Runtime: ~1 minute, ~$0.07. The advanced pipeline reproduces its verdict-level
+numbers identically across independent runs at every case-set size it has been
+measured on (three runs at dev n=20, three at n=22 — e.g. `20260829-204901.json`,
+`20260829-205909.json`, `20260829-210352.json`) — one small extraction call plus
 deterministic stages.
 
 ### Demo: one pasted posting (the video walkthrough path)
@@ -176,22 +178,22 @@ With no `--variant` flag it runs all three: baseline, `always_abstain`, advanced
 python eval/run_eval.py --split dev --seed 42
 ```
 
-Output of this exact command as recorded in `eval/results/20260829-090655.json`:
+Output of this exact command as recorded in `eval/results/20260829-210352.json`:
 
 ```
 | Metric | baseline | always_abstain | advanced |
 |---|---|---|---|
-| verdict_utility | 0.325 | 0.5125 | 0.9 |
-| confident_wrong_rate | 0.4 | 0 | 0.07692 |
-| decisive_accuracy | 0.6 | 0 | 0.9231 |
-| decisive_rate | 0.8462 | 0 | 1 |
-| check_accuracy | 0.825 | 0 | 0.9875 |
-| grounding_rate | 0.98 | 0 | 1 |
-| cost_per_case_usd | 0.01111 | 0 | 0.00312 |
-| exact_match | 0 | 0 | 0.75 |
+| verdict_utility | 0.2955 | 0.4886 | 0.9091 |
+| confident_wrong_rate | 0.4118 | 0 | 0.06667 |
+| decisive_accuracy | 0.5882 | 0 | 0.9333 |
+| decisive_rate | 0.8667 | 0 | 1 |
+| check_accuracy | 0.8295 | 0 | 0.9886 |
+| grounding_rate | 0.9561 | 0 | 1 |
+| cost_per_case_usd | 0.01132 | 0 | 0.003161 |
+| exact_match | 0 | 0 | 0.9545 |
 | error_rate | 0 | 0 | 0 |
-| p50_seconds | 9.727 | 1.67e-07 | 2.282 |
-| p95_seconds | 12.64 | 3.33e-07 | 3.111 |
+| p50_seconds | 9.831 | 1.455e-07 | 2.155 |
+| p95_seconds | 12.9 | 2.5e-07 | 3.204 |
 ```
 
 The final full-set run (all 30 cases including the 10-case holdout, Sunday only):
@@ -203,14 +205,17 @@ python eval/run_eval.py --split all --seed 42 --tag final
 Results are written to `eval/results/<UTC timestamp>.json` and `.md`.
 
 **Determinism and variance.** With `--seed 42` the harness is deterministic except for
-model output at temperature 0. Measured across all committed runs: the **baseline's**
-verdict_utility has taken three values — 0.225, 0.325 and 0.425 — so its operative
-band is 0.225–0.425 (5-repeat noise floor in `eval/results/20260829-002003.json`;
-single-prompt judgment flips on borderline cases). Every conservative delta claim in
-`CHANGELOG.md` is computed against the top of that band. The **advanced** variant has
-reproduced identical numbers across five independent runs, including one from a fresh
-clone. Expect your baseline column to land inside the band rather than on the paste
-above; expect your advanced column to match its paste exactly.
+model output at temperature 0. The dev split grew from 20 to 22 cases on 2026-08-29
+(cases 31 and 32, added after live inputs exposed fixture blind spots — CHANGELOG
+[10]/[11]), so aggregates across different case counts are not directly comparable;
+per-case verdicts are. Measured at n=20, the **baseline's** verdict_utility took three
+values — 0.225, 0.325, 0.425 (5-repeat noise floor in
+`eval/results/20260829-002003.json`); single-prompt judgment flips on borderline
+cases, and conservative delta claims in `CHANGELOG.md` are computed against the worst
+committed baseline figure. The **advanced** variant has reproduced identical numbers
+across every independent run at each case-set size, including one from a fresh clone.
+Expect your baseline column to differ from the paste above; expect your advanced
+column to match its paste exactly.
 
 **Expected warning.** From your second run onward the harness prints
 `WARNING: working tree is dirty` — it is seeing your own previous run's results files,
@@ -226,7 +231,7 @@ python -m mypy --strict src
 python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
-All 68 tests pass on a clean clone in ~5 s; no API key needed.
+All 94 tests pass on a clean clone in ~5 s; no API key needed.
 
 ---
 
