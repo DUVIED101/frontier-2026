@@ -1,0 +1,77 @@
+"""Unit tests for the pure assembly seam of the advanced pipeline (T-2).
+
+The model call is exercised by the eval; assemble() is deterministic given typed
+claims and a resolution, so its behaviour on the two policy-critical shapes is
+pinned here with hand-derived expectations (T-7): register presence must not imply
+sponsorability (route decides), and silence must block SPONSORABLE without producing
+NOT_SPONSORABLE (C3 policy, docs/PLAN.md §2)."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+from src.advanced.extract import ExtractedClaims, SalaryClaim, StanceClaim
+from src.advanced.resolve import Match, RegisterRow
+from src.advanced.solve import assemble
+
+FIXTURES = Path(__file__).resolve().parent.parent / "eval" / "cases" / "fixtures"
+FLOOR: dict[str, Any] = json.loads((FIXTURES / "floor_config.json").read_text())
+SNAPSHOT_DATE = "2026-08-28"
+
+GBM_ONLY_ROW = RegisterRow(
+    "Veltrix Software Ltd",
+    "London",
+    "",
+    "Worker (A rating)",
+    "Global Business Mobility: Senior or Specialist Worker",
+)
+SW_ROW = RegisterRow(
+    "Ostermere Technologies Ltd", "London", "", "Worker (A rating)", "Skilled Worker"
+)
+
+
+def test_assemble_register_presence_does_not_imply_sponsorability() -> None:
+    claims = ExtractedClaims(
+        employer_strings=("Veltrix Software Ltd",),
+        stance=StanceClaim("offered", "We offer visa sponsorship"),
+        salary=SalaryClaim(46_000, 46_000, None),
+    )
+    out = assemble(
+        claims, Match("Veltrix Software Ltd", (GBM_ONLY_ROW,)), FLOOR, SNAPSHOT_DATE
+    )
+    assert out["verdict"] == "NOT_SPONSORABLE"
+    assert out["checks"]["register"]["status"] == "pass"
+    assert out["checks"]["route"] == {
+        "status": "fail",
+        "reason": "gbm_only",
+        "evidence": {
+            "register_row": {
+                "organisation_name": "Veltrix Software Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Global Business Mobility: Senior or Specialist Worker",
+            }
+        },
+    }
+
+
+def test_assemble_silence_blocks_sponsorable_without_producing_not_sponsorable() -> (
+    None
+):
+    claims = ExtractedClaims(
+        employer_strings=("Ostermere Technologies Ltd",),
+        stance=StanceClaim("silent", None),
+        salary=SalaryClaim(42_000, 42_000, None),
+    )
+    out = assemble(
+        claims, Match("Ostermere Technologies Ltd", (SW_ROW,)), FLOOR, SNAPSHOT_DATE
+    )
+    assert out["verdict"] == "UNVERIFIABLE"
+    assert out["checks"]["willingness"] == {
+        "status": "indeterminate",
+        "reason": "silent",
+    }
+    assert out["register_snapshot_date"] == SNAPSHOT_DATE
+    assert "willingness" in out["uncertainty"]

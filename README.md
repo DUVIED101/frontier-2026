@@ -41,6 +41,11 @@ Source of record: [`eval/results/TODO.json`](eval/results/)
 Every number in this document comes from that file. Reproduce with
 [`REPRODUCTION.md`](REPRODUCTION.md).
 
+*Reading `grounding_rate` for `always_abstain`: it scores 0 because that variant
+issues no citations at all — the metric verifies citations issued, and zero issued is
+zero by construction, not fabrication. The meaningful grounding comparison is baseline
+vs advanced.*
+
 ---
 
 ## Baseline solution

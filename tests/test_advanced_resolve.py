@@ -62,3 +62,35 @@ def test_register_ambiguous_multi_entity_is_indeterminate() -> None:
         "Halcyon Technologies Ltd",
         "Halcyon Consulting (UK) Ltd",
     }
+
+
+# The genericity threshold counts distinct ORGANISATIONS a string matches; a matched
+# entity's own rows are never capped. The baseline conflates both concerns in one
+# constant (frozen, left alone); these two tests pin the separation (2026-08-29
+# checkpoint). MANY_ROWS exceeds the baseline's excerpt cap of 20 on purpose.
+MANY_ROWS = 25
+
+
+def test_resolver_returns_all_rows_of_a_large_matched_entity_uncapped() -> None:
+    routes = ("Skilled Worker", "Global Business Mobility: Senior or Specialist Worker")
+    large_org = tuple(
+        RegisterRow(
+            "Bryelock Systems Ltd", f"Town {i}", "", "Worker (A rating)", routes[i % 2]
+        )
+        for i in range(MANY_ROWS)
+    )
+    result = resolve_entity(("Bryelock Systems Ltd",), large_org + ROWS, {})
+    assert result == Match("Bryelock Systems Ltd", large_org)
+
+
+def test_resolver_skips_a_string_matching_more_orgs_than_the_generic_limit() -> None:
+    from src.advanced.resolve import GENERIC_TERM_ORG_LIMIT
+
+    generic_orgs = tuple(
+        RegisterRow(
+            f"Consulting {i} Ltd", "London", "", "Worker (A rating)", "Skilled Worker"
+        )
+        for i in range(GENERIC_TERM_ORG_LIMIT + 1)
+    )
+    result = resolve_entity(("Consulting",), generic_orgs + ROWS, {})
+    assert isinstance(result, NoMatch)

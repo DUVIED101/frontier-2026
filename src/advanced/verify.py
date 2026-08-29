@@ -2,13 +2,15 @@
 
 Every quote must be a verbatim substring of the source; anything unsupported drops
 the check to indeterminate so the combinator can only move toward UNVERIFIABLE,
-never toward a confident verdict (docs/PLAN.md §5). Saturday-evening scope; the
-boundary is pinned now so the pipeline is wired against it from the start.
+never toward a confident verdict (docs/PLAN.md §5). This is the mechanical core;
+the evening pass wires it into the pipeline and extends it to register-row gates.
 """
 
 from __future__ import annotations
 
 from src.advanced.rules import CheckOutcome
+
+UNVERIFIED_REASON = "evidence_unverified"
 
 
 def verify_and_downgrade(
@@ -16,4 +18,11 @@ def verify_and_downgrade(
     quotes: dict[str, str | None],
     source_text: str,
 ) -> dict[str, CheckOutcome]:
-    raise NotImplementedError("stage boundary pinned 2026-08-29; built Saturday")
+    out: dict[str, CheckOutcome] = {}
+    for name, outcome in checks.items():
+        quote = quotes.get(name)
+        if quote is not None and quote not in source_text:
+            out[name] = CheckOutcome("indeterminate", UNVERIFIED_REASON)
+        else:
+            out[name] = outcome
+    return out
