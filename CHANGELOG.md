@@ -37,6 +37,49 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [11] Fixture placement rebuilt under proof; the register check cites deliberately
+`e4c1d27` · 2026-08-29 20:49 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Two defects found by inspecting artifacts rather than metrics. (1) On
+a live multi-route entity the register check cited rows[0] — a Creative Worker row —
+while the route check cited Skilled Worker; no fixture entity held more than one row,
+so the defect survived every case. (2) A placement audit found the source register
+opens with ~150 leading-whitespace names that sort first; the fixture insertion had
+sorted stripped names, so 26 of 30 fixture rows sat inside that block as its only
+spaceless names — enumerable at a glance, while the manifest claimed "name-sorted
+positions". Deciding factor for the rebuild (operator): a committed document that is
+false as written is a trust defect; a disclosed limitation is honesty.
+
+**Change.** `_decisive_row`: register and route checks cite the same deliberately
+chosen row (the Skilled Worker row when held), and multi-route entities have all
+routes named in evidence and in the report. All fixture rows repositioned under the
+file's own case-insensitive raw-name order; two Quillhaven rows added (case-32, whose
+Creative Worker row deliberately precedes its Skilled Worker row); placement pinned by
+a test that fails on the pre-repositioning snapshot. **Invariance is a committed
+artifact**: `eval/verify_snapshot_invariance.py` proves against the git-history bytes
+that matched content is identical for every case and every string the cases exercise;
+the one thing repositioning cannot preserve — file-order sequence inside multi-match
+lookups — is disclosed per affected case (24, 25) rather than hidden. Manifest and
+DATA.md carry the dated history in full. Snapshot filename and date unchanged.
+
+**Denominators, stated explicitly:** dev n=21 → 22, determinable 14 → 15,
+always_abstain dev floor → 0.4886.
+
+**Measurement.** Evidence: `eval/results/20260829-204901.json` — advanced 0.9091 /
+0.0667 / 0.9333 / exact_match 0.9545, decisive_rate 1.0, grounding 1.0, every figure
+as predicted before the run; wrong only on case-28 (the B-rating cut). case-32 cites
+the Skilled Worker row with `routes_held: [Creative Worker, Skilled Worker]`. Cases
+24 and 25 hold their verdicts across the repositioning — the empirical confirmation
+the invariance script's disclosure defers to.
+
+**Verdict.** KEPT. Fourth same-day instance of one pattern — a claim about the
+artifact the artifact does not support — and all four passed a green test suite
+before being found by looking at the thing itself. That sentence is the hot take.
+
+**What this told me to do next.** Stop. Sunday, in order: collision sweep (32 cases),
+QREPRO from a fresh clone, the final --split all run, then README, note grouping,
+remaining timing measurements, trajectories audit, video.
+
 ### [10] Wrapped quotes canonicalised to source bytes; the fixture that keeps it fixed
 `f5e7b67` · 2026-08-29 19:59 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

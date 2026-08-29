@@ -488,3 +488,37 @@ STOPPED                 -> Sunday order unchanged: collision sweep (31 cases),
 > about the artifact the artifact does not support (B-rating, ambiguity candidates,
 > wrapped quote, sorted-positions note), all found by inspecting the thing itself,
 > ALL FOUR PASSING A GREEN TEST SUITE — that is the hot take.
+
+### Post-close checkpoint 6 (execution) and second close — rebuild under proof; stopped
+
+```
+placement test          -> RED on old snapshot (fixture rows sort after their
+                           successors inside the leading-space block) -> rebuild ->
+                           GREEN. Condition 3 satisfied in order.
+rebuild                 -> all fixture rows repositioned under the file's own
+                           case-insensitive raw-name order; Quillhaven x2 inserted at
+                           rows 100905-100906 (Creative Worker first, the defect
+                           shape); 143,020 data rows; real rows byte-identical
+                           (multiset-verified); CRLF/no-BOM/trailing-newline
+                           preserved; filename and date unchanged (condition 4).
+invariance proof        -> eval/verify_snapshot_invariance.py committed (condition
+                           1). First run CAUGHT its own overclaim: strict byte
+                           identity is impossible — multi-match lookups return rows
+                           in file order, and repositioning reorders them (case-25
+                           baseline excerpt, cases 24/25 ambiguity listings). The
+                           claim was weakened honestly to content-identity with
+                           per-case reorder disclosure, not hidden. Exit 0: content
+                           identical everywhere.
+docs                    -> manifest note + DATA.md placement-history paragraph in
+                           full (condition 2); README denominator note, hot take v2
+                           (four instances, all passed a green suite), limitation
+                           paragraph closed with the live observation; TIMING.md
+                           created with measurement 1 and the sourcing finding.
+run (n=22)              -> 20260829-204901.json (clean, e4c1d27): advanced 0.9091 /
+                           0.0667 / 0.9333 / em 0.9545, wrong only on 28; case-32
+                           cites the SW row with both routes held; cases 24/25
+                           verdicts hold across the repositioning. CHANGELOG [11].
+STOPPED                 -> Sunday: collision sweep (32 cases), QREPRO, --split all,
+                           README, note grouping, timing 2-3, trajectories audit,
+                           video.
+```
