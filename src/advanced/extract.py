@@ -58,10 +58,13 @@ Y), and where an agency or aggregator posts on behalf of a client, the client. M
 specific first. Never include a name that does not appear in the text; never include \
 the job board itself unless it is the employer.
 2. "stance": the posting's position on visa sponsorship for THIS role. "offered" \
-only if sponsorship is affirmatively available; "refused" only if it is ruled out; \
-"silent" if the posting does not mention it; "ambiguous" for eligibility or \
-right-to-work wording that commits to neither. "quote" is the verbatim substring the \
-classification rests on, or null when the stance is "silent".
+only if sponsorship is affirmatively available. "refused" only if the posting \
+explicitly states sponsorship is not available, not offered, or that candidates \
+needing sponsorship will not be considered. A requirement that applicants have or \
+hold the right to work commits to neither — visa sponsorship itself confers that \
+right — so such wording alone is "ambiguous", never "refused". "silent" if the \
+posting does not mention sponsorship or work eligibility at all. "quote" is the \
+verbatim substring the classification rests on, or null when the stance is "silent".
 3. "salary": guaranteed basic gross annual pay in GBP only — bonuses, commission, \
 OTE, equity, allowances and benefits are not basic pay. A single stated figure fills \
 both bounds; a range fills min and max. If basic annual pay is absent, stated in \
