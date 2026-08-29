@@ -579,3 +579,15 @@ PROCESS ERROR (repeat)  -> the run recorded git_dirty=true AGAIN: the DECISIONS 
                            recorded: commit BEFORE launching a run, and touch nothing
                            until it exits.
 ```
+
+```
+run 2b (clean)          -> eval/results/20260829-002858.{json,md}: git_dirty=false at
+                           cde01b2. Verdict-for-verdict identical to both prior
+                           seed-42 passes (same 9 wrong cases, same gate verdicts) —
+                           three independent passes agree at verdict level; jitter is
+                           check-level only. This is the file the freeze will cite.
+report                  -> pre-freeze report delivered to the operator: re-gate table,
+                           noise floor v2, three-line reference table, cost ledger
+                           ($3.11 total), rubric inventory. CHANGELOG [0] and the
+                           CN-3 freeze declaration staged, awaiting the go.
+```
