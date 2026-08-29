@@ -1,0 +1,2044 @@
+{
+  "timestamp_utc": "20260829-002003",
+  "tag": "baseline-noise-floor-v2",
+  "split": "dev",
+  "seed": 42,
+  "git_sha": "285ef6e",
+  "git_dirty": false,
+  "python": "3.12.0",
+  "platform": "macOS-26.2-arm64-arm-64bit",
+  "runs": [
+    {
+      "variant": "baseline",
+      "n_cases": 20,
+      "n_errors": 0,
+      "metrics": {
+        "verdict_utility": 0.225,
+        "confident_wrong_rate": 0.4666666666666667,
+        "decisive_accuracy": 0.5333333333333333,
+        "decisive_rate": 0.8461538461538461,
+        "check_accuracy": 0.8125,
+        "grounding_rate": 0.9809523809523809,
+        "cost_per_case_usd": 0.011295599999999998,
+        "exact_match": 0.0,
+        "error_rate": 0.0,
+        "p50_seconds": 10.334546583006158,
+        "p95_seconds": 12.580544666852802
+      },
+      "cases": [
+        {
+          "case_id": "case-01-compound-aggregator-gbm",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Ottervale does not appear on the Home Office sponsor register, so it cannot legally sponsor a Skilled Worker visa regardless of salary or willingness.",
+            "checks": {
+              "register": {
+                "status": "fail",
+                "reason": "A search of the sponsor register snapshot dated 2026-08-28 returned no matching rows for 'Ottervale', meaning the company holds no sponsor licence.",
+                "evidence": {
+                  "quote": "Ottervale \u00b7 London (hybrid)",
+                  "register_row": null
+                }
+              },
+              "route": {
+                "status": "fail",
+                "reason": "Because Ottervale is not on the register, it holds no licence covering the Skilled Worker route (or any other route).",
+                "evidence": {
+                  "quote": null,
+                  "register_row": null
+                }
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "The posting makes no mention of visa sponsorship, so willingness cannot be confirmed or denied from the text alone.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a342,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new-entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a342,000 base + equity",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It is possible that Ottervale trades under a different legal entity name not captured by a naive name search, which could mean a licence exists under an alternative name. Additionally, the posting does not state whether sponsorship is offered, so willingness remains unknown.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 798,
+              "output_tokens": 484
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Ottervale's legal entity, Bryelock Systems Ltd, holds a Global Business Mobility licence only \u2014 no Skilled Worker route, so no Certificate of Sponsorship can be issued for this role.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "alias_lookup"
+              },
+              "route": {
+                "status": "fail",
+                "reason": "gbm_only"
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "silent"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Bryelock Systems Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Global Business Mobility: Senior or Specialist Worker"
+              },
+              "alias": {
+                "brand": "Ottervale",
+                "registered_name": "Bryelock Systems Ltd",
+                "source": "companies_house_fixture"
+              },
+              "salary_text": "\u00a342,000 base + equity"
+            }
+          },
+          "seconds": 10.578527874778956,
+          "error": null,
+          "payload": {
+            "requisition_text": "Jobsprint \u203a Engineering \u203a London\nSoftware Engineer, Early Careers \u2014 Ottervale\nLondon, UK (Hybrid) \u00b7 Full-time \u00b7 Entry level \u00b7 \u00a342,000\nPosted 4 days ago \u00b7 118 applicants\n[ Apply on Jobsprint ]\n\nSoftware Engineer (Early Careers)\nOttervale \u00b7 London (hybrid)\n\nAbout Ottervale\nOttervale runs real-time payments reconciliation for online marketplaces. Finance teams at 40+ marketplaces use Ottervale to match provider payouts against order ledgers, catching missing funds before month-end close.\n\nThe role\nYou'll join our settlements team in London, working across the matching engine (Python) and the dashboard (TypeScript/React). You will own small features end to end within your first quarter, with a named mentor and a written progression framework.\n\nWhat you'll do\n- Build and test matching rules for new payment providers\n- Investigate reconciliation breaks reported by customer finance teams\n- Contribute to our internal data-quality tooling\n\nWhat we're looking for\n- 0\u20132 years of professional experience, or strong internship/project work\n- Working knowledge of Python; TypeScript is a plus\n- Care for correctness: you write tests without being asked\n\nCompensation & benefits\n- \u00a342,000 base + equity\n- 26 days holiday + bank holidays\n- Hybrid: 3 days/week at our London Bridge office\n\nInterview process\n1. 30-minute intro call\n2. Take-home exercise (2 hours max)\n3. Onsite loop: pairing + systems + values\n\nOttervale is an equal opportunity employer."
+          }
+        },
+        {
+          "case_id": "case-02-refusal-licensed",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The posting explicitly states 'we are unable to offer visa sponsorship for this position.'",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Farrowgate Analytics Ltd appears on the sponsor register with a Worker (A rating) covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Farrowgate Analytics Ltd \u00b7 London",
+                  "register_row": {
+                    "organisation_name": "Farrowgate Analytics Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The employer holds a Skilled Worker licence, which is the correct route for a software engineer role (SOC 2134).",
+                "evidence": {
+                  "quote": "Software Engineer \u2014 Data Platform",
+                  "register_row": {
+                    "organisation_name": "Farrowgate Analytics Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "The posting explicitly states the employer will not offer visa sponsorship for this role.",
+                "evidence": {
+                  "quote": "we are unable to offer visa sponsorship for this position",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a341,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "Salary is \u00a341,000 plus 5% bonus",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It cannot be determined whether the employer might reconsider sponsorship for other roles or future postings; the SOC code assignment (2134) is inferred from the job title and not confirmed by the posting.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 631,
+              "output_tokens": 564
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Farrowgate Analytics Ltd is a licensed Skilled Worker sponsor, but this requisition explicitly excludes sponsorship.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "refused"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Farrowgate Analytics Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "we are unable to offer visa sponsorship for this position",
+              "salary_text": "\u00a341,000"
+            }
+          },
+          "seconds": 8.188533292151988,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Data Platform\nFarrowgate Analytics Ltd \u00b7 London (hybrid, 2 days in office)\n\nFarrowgate Analytics builds forecasting tools used by UK grocery chains to cut waste in fresh-food ordering. Our platform team is eight engineers; you would join the ingestion squad.\n\nWhat you'll work on\n- Python services that pull EPOS feeds from 200+ stores nightly\n- Data-quality checks that block bad feeds before they reach forecasting\n- Migrating our oldest pipelines from cron to our internal scheduler\n\nYou should have 1-3 years of experience with Python and SQL, and enough curiosity to chase a data discrepancy to its source.\n\nSalary is \u00a341,000 plus 5% bonus. 25 days holiday. Please note: we are unable to offer visa sponsorship for this position. Applications close 12 September."
+          }
+        },
+        {
+          "case_id": "case-04-trading-name-alias",
+          "output": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "No register row matching 'Loopwork' or any plausible legal entity name for Loopwork was found in the Home Office sponsor register snapshot.",
+            "checks": {
+              "register": {
+                "status": "indeterminate",
+                "reason": "The naive name search returned no rows matching 'Loopwork'. The two rows returned ('Midnight Mango Ltd' and 'The Midnight Club Limited') are clearly unrelated entities. Loopwork's legal company name is unknown from the posting, so it cannot be confirmed or denied that they hold a sponsor licence.",
+                "evidence": {
+                  "quote": "Loopwork is the rota and payroll app used by 900+ UK hospitality venues.",
+                  "register_row": null
+                }
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "Because Loopwork cannot be located on the register, it is impossible to confirm whether their licence covers the Skilled Worker route.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": null
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer sponsors Skilled Worker visas for this role and has done so for existing team members.",
+                "evidence": {
+                  "quote": "We sponsor Skilled Worker visas for this role and have done so for several of the team.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a343,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a343,000 + options.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "Loopwork's legal registered company name is not stated in the posting, making it impossible to locate them on the Home Office sponsor register with confidence. A Companies House lookup or direct confirmation from the employer would be needed to verify their licence status and route coverage.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 650,
+              "output_tokens": 551
+            }
+          },
+          "expected": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Loopwork is operated by Ashcombe Digital Ltd, a licensed A-rated Skilled Worker sponsor; the posting offers sponsorship and the salary clears both thresholds.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "alias_lookup"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Ashcombe Digital Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "alias": {
+                "brand": "Loopwork",
+                "registered_name": "Ashcombe Digital Ltd",
+                "source": "companies_house_fixture"
+              },
+              "willingness_quote": "We sponsor Skilled Worker visas for this role",
+              "salary_text": "\u00a343,000"
+            }
+          },
+          "seconds": 9.30876520788297,
+          "error": null,
+          "payload": {
+            "requisition_text": "Backend Engineer (Python) at Loopwork\nLondon Bridge \u00b7 Hybrid (3 days/week)\n\nLoopwork is the rota and payroll app used by 900+ UK hospitality venues. Shift workers see their hours, swap shifts and get paid correctly; managers stop doing rotas in spreadsheets at midnight.\n\nYou'll build the payroll calculation engine: pension auto-enrolment, holiday accrual, tribunal-proof audit trails. Python, PostgreSQL, a little Go at the edges.\n\nWe look for 1-2 years of production backend experience and care for getting money calculations exactly right.\n\n\u00a343,000 + options. 25 days holiday plus your birthday. We sponsor Skilled Worker visas for this role and have done so for several of the team. Interviews are two stages plus a paid half-day pairing session."
+          }
+        },
+        {
+          "case_id": "case-06-trading-name-stated-offered",
+          "output": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "Neither 'Brightgate' nor 'Marlowe & Finch Technology Ltd' appears in the register rows provided, so sponsorship eligibility cannot be confirmed.",
+            "checks": {
+              "register": {
+                "status": "fail",
+                "reason": "The employer trades as Brightgate but is legally 'Marlowe & Finch Technology Ltd'. Neither name appears in the register rows returned; the results are all unrelated Holborn-named entities.",
+                "evidence": {
+                  "quote": "Brightgate is a trading name of Marlowe & Finch Technology Ltd.",
+                  "register_row": null
+                }
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "Because the employer is not found on the register, it is impossible to confirm whether a Skilled Worker route licence is held.",
+                "evidence": {
+                  "quote": "Brightgate is a trading name of Marlowe & Finch Technology Ltd.",
+                  "register_row": null
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is available for this position.",
+                "evidence": {
+                  "quote": "Visa sponsorship is available for this position.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a345,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new-entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a345,000.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It cannot be established whether Marlowe & Finch Technology Ltd (trading as Brightgate) holds a Skilled Worker sponsor licence, because neither the trading name nor the legal name appears in the register rows supplied. A direct search of the full Home Office register by legal entity name would be needed to resolve this.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 895,
+              "output_tokens": 526
+            }
+          },
+          "expected": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Marlowe & Finch Technology Ltd (trading as Brightgate) holds an A-rated Skilled Worker licence, offers sponsorship for this role, and the salary clears both thresholds.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "trading_name_stated"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Marlowe & Finch Technology Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "Visa sponsorship is available for this position",
+              "salary_text": "\u00a345,000"
+            }
+          },
+          "seconds": 10.09056529123336,
+          "error": null,
+          "payload": {
+            "requisition_text": "Senior-track Software Engineer II \u2014 Brightgate\nHolborn, London (3 days office)\n\nBrightgate is the compliance platform for UK letting agents: deposits, right-to-rent checks, gas certificates, all tracked and audit-ready. 2,100 agencies run on us.\n\nWhat the job is\nOwning features end to end in a Django + React codebase with unusually good tests. Recent projects: an e-signature flow, a document OCR pipeline, a landlord payment ledger.\n\nWhat we need\n2+ years with a mainstream backend framework. You write about your decisions clearly. You have opinions about naming things.\n\nPay and process\n\u00a345,000. Pension matched to 5%. Visa sponsorship is available for this position. One take-home (90 minutes, paid), one onsite.\n\nBrightgate is a trading name of Marlowe & Finch Technology Ltd."
+          }
+        },
+        {
+          "case_id": "case-07-gbm-only-offered",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Veltrix Software Ltd holds an A-rated Worker licence covering the Skilled Worker route, explicitly offers visa sponsorship, and the \u00a346,000 salary exceeds both the general threshold and the SOC 2134 new entrant going rate.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Veltrix Software Ltd appears on the sponsor register with an A rating under the Worker route.",
+                "evidence": {
+                  "quote": "Veltrix Software Ltd \u00b7 Paddington, London",
+                  "register_row": {
+                    "organisation_name": "Veltrix Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Global Business Mobility: Senior or Specialist Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The Worker (A rating) licence covers the Skilled Worker route, which is the appropriate route for this software engineering role. The register row also lists a Global Business Mobility sub-route, but the Worker licence itself is sufficient for Skilled Worker sponsorship.",
+                "evidence": {
+                  "quote": "Veltrix Software Ltd \u00b7 Paddington, London",
+                  "register_row": {
+                    "organisation_name": "Veltrix Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Global Business Mobility: Senior or Specialist Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is available.",
+                "evidence": {
+                  "quote": "Visa sponsorship available.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised base salary of \u00a346,000 exceeds both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300. The 10% group bonus is not needed to meet the thresholds.",
+                "evidence": {
+                  "quote": "The package is \u00a346,000 plus a 10% group bonus.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The register row lists only 'Global Business Mobility: Senior or Specialist Worker' as the named route alongside the Worker (A rating) licence; it cannot be confirmed from the data provided whether a standalone Skilled Worker route is separately listed, though an A-rated Worker licence is generally understood to encompass Skilled Worker sponsorship. The SOC code for this role has been assumed to be 2134 (software engineers); if UKVI assigns a different code, the applicable going rate may differ.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 619,
+              "output_tokens": 715
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Veltrix Software Ltd's licence covers Global Business Mobility only \u2014 an intra-company route \u2014 so no Skilled Worker Certificate of Sponsorship can be issued, whatever the posting says.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "fail",
+                "reason": "gbm_only"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Veltrix Software Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Global Business Mobility: Senior or Specialist Worker"
+              },
+              "willingness_quote": "Visa sponsorship available",
+              "salary_text": "\u00a346,000"
+            }
+          },
+          "seconds": 11.917646791785955,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer, Integrations\nVeltrix Software Ltd \u00b7 Paddington, London\n\nVeltrix is the UK arm of a global logistics-software group. Our London team builds carrier integrations for the European parcel network: label generation, customs documents, tracking webhooks.\n\nDay to day\n- Ship and maintain integrations with UK and EU carriers (Java/Kotlin)\n- Debug live parcel-flow incidents with our Rotterdam operations centre\n- Improve our integration test harness, which currently replays 1.2m real events nightly\n\nWe're looking for 2-4 years of JVM experience and comfort reading other people's specs.\n\nThe package is \u00a346,000 plus a 10% group bonus. Visa sponsorship available. Start date flexible for the right person."
+          }
+        },
+        {
+          "case_id": "case-09-salary-below-both",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The advertised salary of \u00a329,500 is below both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Quillstone Apps Ltd is found on the Home Office sponsor register with an A rating for the Worker route.",
+                "evidence": {
+                  "quote": "Quillstone Apps Ltd \u00b7 Old Street, London",
+                  "register_row": {
+                    "organisation_name": "Quillstone Apps Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The register entry explicitly covers the Skilled Worker route, which is the route required for this role.",
+                "evidence": {
+                  "quote": "We can support Skilled Worker visa sponsorship.",
+                  "register_row": {
+                    "organisation_name": "Quillstone Apps Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer can support Skilled Worker visa sponsorship.",
+                "evidence": {
+                  "quote": "We can support Skilled Worker visa sponsorship.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "The advertised salary of \u00a329,500 falls below the general Skilled Worker threshold of \u00a333,400 and well below the SOC 2134 new entrant going rate of \u00a338,300. Both thresholds must be met and neither is satisfied.",
+                "evidence": {
+                  "quote": "Salary \u00a329,500.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The exact SOC code has not been confirmed by the employer; SOC 2134 (programmers and software development professionals) is assumed as the most applicable code for a junior software engineer role. If a different SOC code applied with a lower going rate, the salary check outcome could differ, though the general threshold failure alone is sufficient to render the role non-sponsorable at this salary.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 576,
+              "output_tokens": 631
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "At \u00a329,500 the advertised salary is below the Skilled Worker general threshold, so this role cannot be sponsored regardless of the licence or the stated willingness.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "below_general_threshold"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Quillstone Apps Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "We can support Skilled Worker visa sponsorship",
+              "salary_text": "\u00a329,500"
+            }
+          },
+          "seconds": 9.8311923337169,
+          "error": null,
+          "payload": {
+            "requisition_text": "Junior Software Engineer\nQuillstone Apps Ltd \u00b7 Old Street, London\n\nQuillstone builds white-label loyalty apps for independent coffee chains. Small team, real users, your code in production in week one.\n\nThe work: React Native features, a Node.js API, and the occasional dashboard for a franchise owner who wants to know which flat white sells best.\n\nWe hire for trajectory over polish: 0-2 years of experience, a project you can demo, and evidence you finish things.\n\nSalary \u00a329,500. 24 days holiday. We can support Skilled Worker visa sponsorship. Coffee, obviously, is free."
+          }
+        },
+        {
+          "case_id": "case-11-salary-below-going-rate",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Tarnbrook Software Ltd holds an A-rated Skilled Worker licence, explicitly offers visa sponsorship, and the \u00a335,500 salary meets the general threshold of \u00a333,400 but must be checked against the SOC 2134 new entrant going rate of \u00a338,300.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Tarnbrook Software Ltd appears on the sponsor register with an A rating covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Tarnbrook Software Ltd \u00b7 Liverpool Street, London",
+                  "register_row": {
+                    "organisation_name": "Tarnbrook Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The licence explicitly covers the Skilled Worker route, which is the appropriate route for a software engineering role.",
+                "evidence": {
+                  "quote": "We offer visa sponsorship.",
+                  "register_row": {
+                    "organisation_name": "Tarnbrook Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is offered for this role.",
+                "evidence": {
+                  "quote": "We offer visa sponsorship.",
+                  "register_row": {
+                    "organisation_name": "Tarnbrook Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "The advertised salary of \u00a335,500 exceeds the general threshold of \u00a333,400 but falls below the SOC 2134 new entrant going rate of \u00a338,300. For a candidate with 1-3 years of experience who would likely qualify as a new entrant, the salary is insufficient.",
+                "evidence": {
+                  "quote": "Salary for this opening is \u00a335,500.",
+                  "register_row": {
+                    "organisation_name": "Tarnbrook Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              }
+            },
+            "uncertainty": "The exact SOC code has not been confirmed by the employer; if the role is classified under a different SOC code with a lower going rate, the salary check could pass. Additionally, it is unclear whether the candidate would definitively qualify as a new entrant, which affects which going rate applies. The profit share averaging 6% is not guaranteed and cannot be counted toward the salary threshold.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 600,
+              "output_tokens": 755
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "\u00a335,500 clears the general threshold but falls below the SOC 2134 going rate of \u00a338,300, and the applicable floor is the higher of the two \u2014 the role cannot be sponsored at this salary.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "below_going_rate"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Tarnbrook Software Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "We offer visa sponsorship",
+              "salary_text": "\u00a335,500"
+            }
+          },
+          "seconds": 10.956809042021632,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Client Reporting\nTarnbrook Software Ltd \u00b7 Liverpool Street, London\n\nTarnbrook supplies portfolio-reporting software to 90 UK wealth managers. The reporting engine renders 40,000 client documents a night; you would work on the pipeline that makes that boringly reliable.\n\nStack: Python, Celery, Postgres, a front end in Vue you'd touch occasionally. The team is nine engineers, median tenure four years.\n\nWe're after 1-3 years of backend experience and a low tolerance for flaky tests.\n\nSalary for this opening is \u00a335,500. We offer visa sponsorship. 25 days holiday, pension matched at 4%, annual profit share averaging 6% over the last five years."
+          }
+        },
+        {
+          "case_id": "case-13-wrapper-salary-contradiction",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The advertised salary of \u00a329,000 is below both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Nordwick Data Ltd appears on the sponsor register with an A-rated Worker licence covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Nordwick Data Ltd \u00b7 Farringdon, London",
+                  "register_row": {
+                    "organisation_name": "Nordwick Data Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The licence explicitly covers the Skilled Worker route, which is the route required for a software engineer role.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": {
+                    "organisation_name": "Nordwick Data Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer is willing to sponsor Skilled Worker visas.",
+                "evidence": {
+                  "quote": "We are happy to sponsor Skilled Worker visas.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "The advertised salary of \u00a329,000 falls below the general Skilled Worker threshold of \u00a333,400 and also below the SOC 2134 new entrant going rate of \u00a338,300. Both thresholds must be met and neither is satisfied.",
+                "evidence": {
+                  "quote": "Salary: \u00a329,000 per annum.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The exact SOC code has not been confirmed by the employer; SOC 2134 (programmers and software development professionals) is assumed as the most applicable code for a software engineer role. If a different SOC code applied with a lower going rate, the general threshold of \u00a333,400 would still not be met at \u00a329,000.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 643,
+              "output_tokens": 621
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The posting body states \u00a329,000, below the general threshold; the aggregator's \u00a345,000 salary field contradicts the primary source and does not change what the employer is offering.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "below_general_threshold"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Nordwick Data Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "We are happy to sponsor Skilled Worker visas",
+              "salary_text": "\u00a329,000 per annum"
+            }
+          },
+          "seconds": 9.648997458163649,
+          "error": null,
+          "payload": {
+            "requisition_text": "Jobsprint \u203a Engineering \u203a London\nSoftware Engineer, ETL \u2014 Nordwick Data Ltd\nLondon, UK (Hybrid) \u00b7 Full-time \u00b7 Entry level \u00b7 \u00a345,000\nPosted 2 days ago \u00b7 87 applicants\n[ Apply on Jobsprint ]\n\nSoftware Engineer, ETL\nNordwick Data Ltd \u00b7 Farringdon, London\n\nNordwick cleans and standardises property data for UK mortgage lenders. Our ETL platform ingests 300+ source formats; you'd build and harden connectors in Python.\n\nAbout you: 0-2 years of experience, strong SQL, and the temperament to find missing commas in other people's CSVs genuinely satisfying.\n\nSalary: \u00a329,000 per annum. We are happy to sponsor Skilled Worker visas. 24 days holiday plus bank holidays, cycle-to-work scheme, Friday team lunch on the company."
+          }
+        },
+        {
+          "case_id": "case-15-absent-offered",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Copperwaite Studio does not appear on the Home Office sponsor register, so it cannot legally sponsor a Skilled Worker visa regardless of its stated willingness.",
+            "checks": {
+              "register": {
+                "status": "fail",
+                "reason": "A search of the register snapshot dated 2026-08-28 returned no matching rows for 'Copperwaite Studio' or any recognisable variant, meaning the employer holds no sponsor licence.",
+                "evidence": {
+                  "quote": "Copperwaite Studio \u00b7 Hackney, London",
+                  "register_row": null
+                }
+              },
+              "route": {
+                "status": "fail",
+                "reason": "Because the employer is not on the register at all, there is no licence of any kind and therefore no Skilled Worker route coverage.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": null
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer is willing to sponsor visas for international candidates.",
+                "evidence": {
+                  "quote": "We are happy to sponsor visas for international candidates.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a341,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a341,000 plus meaningful equity.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It is possible that Copperwaite Studio holds a licence under a slightly different registered name, or has applied for one very recently and is not yet listed. The register snapshot may also not capture very new licences. However, on the evidence available the employer cannot sponsor.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 586,
+              "output_tokens": 500
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Copperwaite Studio appears on no row of the sponsor register under any name or alias \u2014 without a licence, no Certificate of Sponsorship can be issued, whatever the posting promises.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "fail",
+                "reason": "no_match"
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "no_entity"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "willingness_quote": "We are happy to sponsor visas for international candidates",
+              "salary_text": "\u00a341,000"
+            }
+          },
+          "seconds": 8.551889999769628,
+          "error": null,
+          "payload": {
+            "requisition_text": "Founding Engineer\nCopperwaite Studio \u00b7 Hackney, London\n\nCopperwaite is a two-founder studio building collaborative tooling for architecture practices: drawing review, issue tracking on plans, client sign-off. Four design partners, first paying customer last month, pre-seed closed.\n\nAs the first engineering hire you'd own the stack end to end: Rails API, React front end, Postgres, deployed on Render. You'd talk to users weekly.\n\nWe want 2+ years somewhere you shipped fast, comfort with ambiguity, and the instinct to delete code.\n\n\u00a341,000 plus meaningful equity. We are happy to sponsor visas for international candidates. Coffee walks along Regent's Canal count as meetings."
+          }
+        },
+        {
+          "case_id": "case-17-clean-positive",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Thornber Computing Ltd holds an A-rated Skilled Worker licence, explicitly offers visa sponsorship, and the \u00a345,000 salary exceeds both the general threshold (\u00a333,400) and the SOC 2134 new entrant going rate (\u00a338,300).",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Thornber Computing Ltd appears on the Home Office sponsor register with an A rating under the Worker licence.",
+                "evidence": {
+                  "quote": "Thornber Computing Ltd \u00b7 Victoria, London",
+                  "register_row": {
+                    "organisation_name": "Thornber Computing Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The register entry explicitly covers the Skilled Worker route, which is the route required for this role.",
+                "evidence": {
+                  "quote": "We will sponsor a Skilled Worker visa for the successful applicant",
+                  "register_row": {
+                    "organisation_name": "Thornber Computing Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer will sponsor a Skilled Worker visa and that their HR team handles the Certificate of Sponsorship process routinely.",
+                "evidence": {
+                  "quote": "We will sponsor a Skilled Worker visa for the successful applicant; our HR team handles the CoS process and has done so dozens of times.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a345,000 exceeds both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a345,000, pension matched to 6%, 27 days holiday.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The exact SOC code assigned to this role has not been confirmed; it has been assumed to fall under SOC 2134 (Programmers and software development professionals) based on the job description. If UKVI assigns a different SOC code with a higher going rate, the salary check would need to be revisited.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 622,
+              "output_tokens": 661
+            }
+          },
+          "expected": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Thornber Computing Ltd is an A-rated Skilled Worker sponsor, the posting commits to sponsorship, and \u00a345,000 clears both thresholds \u2014 all four checks pass with evidence.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Thornber Computing Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "We will sponsor a Skilled Worker visa for the successful applicant",
+              "salary_text": "\u00a345,000"
+            }
+          },
+          "seconds": 10.796069333329797,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Scheduling Systems\nThornber Computing Ltd \u00b7 Victoria, London\n\nThornber builds workforce-scheduling software for NHS trusts: safe staffing levels, skill-mix rules, audit trails that survive inspection. 70 trusts, 15 years, profitable throughout.\n\nThe role sits in the rules-engine team (Java 21, a well-tended codebase with 85% meaningful coverage). You would implement new rostering constraints with clinicians in the room.\n\nWe need 1-3 years of JVM experience and the patience to model rules written by committees.\n\n\u00a345,000, pension matched to 6%, 27 days holiday. We will sponsor a Skilled Worker visa for the successful applicant; our HR team handles the CoS process and has done so dozens of times. Two interviews, one week turnaround."
+          }
+        },
+        {
+          "case_id": "case-18-clean-positive-range",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Redegate Software Ltd holds an A-rated Skilled Worker licence, explicitly offers visa sponsorship, and the advertised salary of \u00a340,000\u2013\u00a348,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Redegate Software Ltd appears on the Home Office sponsor register with an A rating.",
+                "evidence": {
+                  "quote": "Redegate Software Ltd \u2014 Edinburgh or remote (UK)",
+                  "register_row": {
+                    "organisation_name": "Redegate Software Ltd",
+                    "town_city": "Edinburgh",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The licence explicitly covers the Skilled Worker route, which is the correct route for a backend software engineering role (SOC 2134).",
+                "evidence": {
+                  "quote": "Redegate Software Ltd,Edinburgh,,Worker (A rating),Skilled Worker",
+                  "register_row": {
+                    "organisation_name": "Redegate Software Ltd",
+                    "town_city": "Edinburgh",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is available and that the company currently sponsors three team members.",
+                "evidence": {
+                  "quote": "Visa sponsorship is available; we currently sponsor three of the team.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised band of \u00a340,000\u2013\u00a348,000 exceeds both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300; even the bottom of the band clears both thresholds.",
+                "evidence": {
+                  "quote": "The band is \u00a340,000-\u00a348,000 depending on level.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The exact SOC code has not been formally confirmed by the employer; it is assumed to be 2134 (Programmers and software development professionals) based on the job description. If UKVI assigned a different SOC code with a higher going rate, the salary check would need to be revisited. Additionally, 'remote (UK)' working arrangements do not affect sponsorship eligibility but the candidate must have the right to work or obtain a visa before starting.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 608,
+              "output_tokens": 702
+            }
+          },
+          "expected": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Redegate Software Ltd holds an A-rated Skilled Worker licence, sponsorship is offered, and the whole band (\u00a340,000-\u00a348,000) clears both thresholds.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Redegate Software Ltd",
+                "town_city": "Edinburgh",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "Visa sponsorship is available; we currently sponsor three of the team",
+              "salary_text": "\u00a340,000-\u00a348,000"
+            }
+          },
+          "seconds": 12.27099841600284,
+          "error": null,
+          "payload": {
+            "requisition_text": "Backend Engineer (Go)\nRedegate Software Ltd \u2014 Edinburgh or remote (UK)\n\nRedegate runs the booking infrastructure behind 300 UK tour and activity operators. August is our Black Friday, every day.\n\nYou'd join a six-person backend team working in Go and Postgres on availability search, payments reconciliation and the public API. We deploy on merge and keep a written decision log.\n\nRequirements: 2+ years of production backend work in any typed language, and a worked example of an API you made faster or simpler.\n\nThe band is \u00a340,000-\u00a348,000 depending on level. Visa sponsorship is available; we currently sponsor three of the team. 33 days holiday including public holidays. One pairing interview, one systems conversation, offers within a week."
+          }
+        },
+        {
+          "case_id": "case-20-clean-silent",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Ostermere Technologies Ltd holds an A-rated Skilled Worker sponsor licence, the \u00a342,000 salary exceeds both the general threshold (\u00a333,400) and the SOC 2134 new entrant going rate (\u00a338,300), but the posting does not explicitly mention sponsorship.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Ostermere Technologies Ltd appears on the Home Office sponsor register with an A rating.",
+                "evidence": {
+                  "quote": "Ostermere Technologies Ltd \u00b7 Bank, London",
+                  "register_row": {
+                    "organisation_name": "Ostermere Technologies Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The licence explicitly covers the Skilled Worker route, which is the correct route for a software engineering role (SOC 2134).",
+                "evidence": {
+                  "quote": "Ostermere Technologies Ltd \u00b7 Bank, London",
+                  "register_row": {
+                    "organisation_name": "Ostermere Technologies Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "The posting makes no mention of visa sponsorship, relocation support, or right-to-work requirements, so willingness to sponsor cannot be confirmed or denied from the text alone.",
+                "evidence": {
+                  "quote": "Apply with a CV; cover letters read, not required."
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a342,000 exceeds both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a342,000"
+                }
+              }
+            },
+            "uncertainty": "The posting does not state whether the employer is willing to sponsor a Skilled Worker visa; a candidate would need to confirm this directly with Ostermere Technologies Ltd before applying on that basis.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 606,
+              "output_tokens": 605
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "Register, route and salary all pass with evidence, but the posting is silent on sponsorship \u2014 willingness cannot be established from the requisition, so the honest verdict is UNVERIFIABLE: ask before applying.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "silent"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Ostermere Technologies Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "salary_text": "\u00a342,000"
+            }
+          },
+          "seconds": 9.420082208234817,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Payments\nOstermere Technologies Ltd \u00b7 Bank, London\n\nOstermere processes direct-debit collections for UK utilities and councils: 9 million mandates, files that must be right the first time.\n\nThe payments team (seven engineers) owns submission, reconciliation and exception handling in a modern Java service estate with a strict change process, because BACS does not do second chances.\n\nWhat we need: 1-3 years with a typed backend language, care under pressure, and the humility to follow a runbook at 2am and improve it at 10am.\n\n\u00a342,000. 25 days holiday, hybrid 2 days in office, pension matched at 5%. Apply with a CV; cover letters read, not required."
+          }
+        },
+        {
+          "case_id": "case-22-salary-absent-offered",
+          "output": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "Salary cannot be verified as no figure is stated, and the SOC 2134 new entrant going rate of \u00a338,300 may not be met by an unspecified 'competitive salary'.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Pellbrook Digital Ltd appears on the sponsor register with an A-rating under the Worker licence.",
+                "evidence": {
+                  "quote": "Pellbrook Digital Ltd \u00b7 Manchester or London",
+                  "register_row": {
+                    "organisation_name": "Pellbrook Digital Ltd",
+                    "town_city": "Manchester",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The register entry explicitly covers the Skilled Worker route, which is the route required for this software engineering role.",
+                "evidence": {
+                  "quote": "Pellbrook Digital Ltd \u00b7 Manchester or London",
+                  "register_row": {
+                    "organisation_name": "Pellbrook Digital Ltd",
+                    "town_city": "Manchester",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states the employer sponsors Skilled Worker visas and notes that several current platform team members joined via that route.",
+                "evidence": {
+                  "quote": "We sponsor Skilled Worker visas \u2014 several of the platform team joined us that way.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "No salary figure is given; 'competitive salary' is unverifiable. The role maps to SOC 2134 (software engineers), where the new entrant going rate is \u00a338,300 and the general threshold is \u00a333,400. Without a stated figure it cannot be confirmed that either threshold is met.",
+                "evidence": {
+                  "quote": "Competitive salary and benefits.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The actual salary offered is not disclosed. It is impossible to confirm whether the pay meets the \u00a338,300 SOC 2134 new entrant going rate or even the \u00a333,400 general threshold. The posting also does not clarify whether the role would be treated as a new entrant (potentially attracting the lower 70% going-rate discount) or an experienced hire, which affects the applicable minimum.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 596,
+              "output_tokens": 658
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "The employer is licensed and offers sponsorship, but the posting states no salary figure \u2014 the floor comparison cannot be made, so sponsorability cannot be established from the requisition.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "indeterminate",
+                "reason": "absent"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Pellbrook Digital Ltd",
+                "town_city": "Manchester",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "We sponsor Skilled Worker visas",
+              "salary_text": "Competitive salary and benefits"
+            }
+          },
+          "seconds": 12.344027874991298,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer (Platform)\nPellbrook Digital Ltd \u00b7 Manchester or London\n\nPellbrook runs e-commerce infrastructure for UK homeware brands: catalogue, checkout, fulfilment integrations. 130 brands at last count.\n\nThe platform team keeps 400 services honest: golden paths, deploy tooling, cost dashboards the CFO actually reads. You'd write Go and Terraform daily.\n\nWe ask for 2+ years of production experience and a view on what platform teams owe product teams.\n\nCompetitive salary and benefits. We sponsor Skilled Worker visas \u2014 several of the platform team joined us that way. Hybrid, either office, 25 days holiday. One technical interview, one team conversation, decision in five working days."
+          }
+        },
+        {
+          "case_id": "case-24-ambiguous-group-diverging",
+          "output": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "No matching entry for 'Halcyon Group' was found in the Home Office sponsor register snapshot dated 2026-08-28, so it cannot be confirmed the employer holds a valid Skilled Worker sponsorship licence.",
+            "checks": {
+              "register": {
+                "status": "fail",
+                "reason": "A naive name search of the register returned no rows matching 'Halcyon Group'. Without a confirmed licence entry the employer cannot legally sponsor a Skilled Worker visa.",
+                "evidence": {
+                  "quote": "Halcyon Group \u00b7 London",
+                  "register_row": null
+                }
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "Because no register entry was found, it is impossible to determine whether any licence held covers the Skilled Worker route.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": null
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship can be arranged for the right candidate.",
+                "evidence": {
+                  "quote": "Visa sponsorship can be arranged for the right candidate.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a344,000 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new-entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "Package: \u00a344,000, discretionary bonus, 26 days holiday.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It is unknown whether Halcyon Group holds a Home Office Skilled Worker sponsorship licence under this or any alternative trading name. A manual search of the register using variant names, company registration number, or direct confirmation from the employer would be needed to resolve this. The SOC code has also not been formally confirmed; SOC 2134 (programmers and software development professionals) is assumed based on the role description.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 583,
+              "output_tokens": 537
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "Halcyon Group matches two registered entities whose licences diverge \u2014 Halcyon Technologies Ltd (Skilled Worker) and Halcyon Consulting (UK) Ltd (Global Business Mobility only) \u2014 and the posting does not establish which one employs this role.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "indeterminate",
+                "reason": "ambiguous_group"
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "no_entity"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "willingness_quote": "Visa sponsorship can be arranged for the right candidate",
+              "salary_text": "\u00a344,000"
+            }
+          },
+          "seconds": 9.7754993326962,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Client Solutions\nHalcyon Group \u00b7 London\n\nHalcyon Group is a UK technology group serving the insurance sector: a product arm building claims-automation software and a consulting arm delivering integrations for carriers.\n\nThis role sits with the group's engineering function in London, building claims-triage workflows in Python and TypeScript for household-name insurers. Visa sponsorship can be arranged for the right candidate.\n\nWe're looking for 2+ years of software delivery experience; insurance knowledge is a bonus, not a requirement.\n\nPackage: \u00a344,000, discretionary bonus, 26 days holiday. Offices at Fenchurch Street; hybrid by team agreement. Apply with CV to careers@ the group domain."
+          }
+        },
+        {
+          "case_id": "case-25-ambiguous-group-same-route",
+          "output": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "The posting is from 'Merrivale' but two distinct entities on the register match plausibly (Merrivale Studios Ltd in Brighton and Merrivale Software Ltd in London), and the legal name of the hiring employer cannot be confirmed from the posting alone.",
+            "checks": {
+              "register": {
+                "status": "indeterminate",
+                "reason": "Two register entries could correspond to this employer: Merrivale Studios Ltd (Brighton) and Merrivale Software Ltd (London). The posting mentions both London and Brighton offices but does not state the registered legal entity name, so it is impossible to confirm which \u2014 if either \u2014 is the correct match.",
+                "evidence": {
+                  "quote": "Merrivale \u00b7 London / Brighton",
+                  "register_row": {
+                    "organisation_name": "Merrivale Studios Ltd",
+                    "town_city": "Brighton",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "Both plausible register matches hold a Skilled Worker route licence at A rating, so if either is the correct entity the route requirement would be met. However, because the legal employer cannot be confirmed, this remains indeterminate.",
+                "evidence": {
+                  "quote": "Merrivale \u00b7 London / Brighton",
+                  "register_row": {
+                    "organisation_name": "Merrivale Software Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "The posting makes no mention of visa sponsorship, the Skilled Worker route, or any willingness to support immigration applications. Absence of any such statement means sponsorship willingness cannot be assumed.",
+                "evidence": {
+                  "quote": "Apply with something you built."
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a341,500 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300, so the pay requirement is satisfied.",
+                "evidence": {
+                  "quote": "\u00a341,500, 25 days holiday, annual company week in the Brighton office."
+                }
+              }
+            },
+            "uncertainty": "The legal registered name of the hiring entity is not stated in the posting, making it impossible to confirm which register entry (if any) corresponds to this employer. Additionally, the posting does not indicate any willingness to sponsor visas, which is a separate barrier regardless of register status.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 640,
+              "output_tokens": 691
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "Merrivale matches two registered entities and the posting does not establish which one would employ this role; without the employing entity, the licence backing any CoS cannot be identified.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "indeterminate",
+                "reason": "ambiguous_group"
+              },
+              "route": {
+                "status": "indeterminate",
+                "reason": "no_entity"
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "silent"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "salary_text": "\u00a341,500"
+            }
+          },
+          "seconds": 12.084570290986449,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Developer\nMerrivale \u00b7 London / Brighton\n\nMerrivale makes creative production software: a render-farm scheduler used by UK animation studios and a review tool for episodic TV. Two products, two offices, one engineering culture built on short feedback loops.\n\nThe role is product engineering in TypeScript and Rust (the scheduler's core is Rust; the review tool is a TypeScript monorepo). You'd choose a home team after onboarding in both.\n\nWe want 1-3 years of experience and a portfolio, side project or contribution we can actually run.\n\n\u00a341,500, 25 days holiday, annual company week in the Brighton office. Kit budget on day one. Apply with something you built."
+          }
+        },
+        {
+          "case_id": "case-26-rtw-boilerplate",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The posting explicitly states 'All applicants must have the right to work in the UK,' indicating the employer will not sponsor visas for this role.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Duncastle Tech Ltd appears on the sponsor register with an A-rated Worker licence covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Duncastle Tech Ltd \u00b7 Soho, London",
+                  "register_row": {
+                    "organisation_name": "Duncastle Tech Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The employer holds a Skilled Worker route licence, which is the appropriate route for a software engineering role (SOC 2134).",
+                "evidence": {
+                  "quote": "Duncastle Tech Ltd \u00b7 Soho, London",
+                  "register_row": {
+                    "organisation_name": "Duncastle Tech Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "The posting requires all applicants to already have the right to work in the UK, explicitly ruling out visa sponsorship.",
+                "evidence": {
+                  "quote": "All applicants must have the right to work in the UK.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a341,500 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a341,500",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It cannot be confirmed whether 'right to work' language is a blanket policy or whether exceptions might be made; the SOC code has not been formally confirmed as 2134 but is assumed based on the role description.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 610,
+              "output_tokens": 586
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "The right-to-work line is standard boilerplate that neither offers nor refuses sponsorship \u2014 sponsorship itself confers the right to work, so the sentence does not settle the employer's stance.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "boilerplate_ambiguous"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Duncastle Tech Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "All applicants must have the right to work in the UK",
+              "salary_text": "\u00a341,500"
+            }
+          },
+          "seconds": 10.071564459241927,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Integrations\nDuncastle Tech Ltd \u00b7 Soho, London\n\nDuncastle connects UK restaurant tech: POS to delivery platforms to accounting. 3,000 venues run their order flow through our integrations.\n\nYou'd own connectors end to end in a Node/TypeScript estate: new platform integrations, version migrations, and the conformance suite that keeps partners honest.\n\nRequirements\n- 1-3 years of backend experience\n- Evidence you've debugged an integration you didn't write\n- All applicants must have the right to work in the UK.\n\n\u00a341,500 \u00b7 25 days holiday \u00b7 hybrid (2 days Soho) \u00b7 annual conference budget. Interview: portfolio chat, then a paired debugging session on a real (sanitised) incident."
+          }
+        },
+        {
+          "case_id": "case-27-rtw-boilerplate-plus-refusal",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The posting explicitly states the employer cannot provide visa sponsorship, now or during the tenure of the role.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Wrexfell Digital Ltd appears on the sponsor register with an A-rated Worker licence covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Wrexfell Digital Ltd \u2014 Glasgow (hybrid)",
+                  "register_row": {
+                    "organisation_name": "Wrexfell Digital Ltd",
+                    "town_city": "Glasgow",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The employer holds an A-rated Skilled Worker licence, which is the correct route for a software engineering role (SOC 2134).",
+                "evidence": {
+                  "quote": "Wrexfell Digital Ltd \u2014 Glasgow (hybrid)",
+                  "register_row": {
+                    "organisation_name": "Wrexfell Digital Ltd",
+                    "town_city": "Glasgow",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "The posting explicitly rules out visa sponsorship at any point during employment.",
+                "evidence": {
+                  "quote": "we are unable to provide visa sponsorship, now or during the tenure of this role",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a342,500 exceeds both the general threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "Salary \u00a342,500",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The specific SOC code has not been formally confirmed; however, a software engineering role would almost certainly fall under SOC 2134. The salary and register checks are moot given the explicit refusal to sponsor.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 626,
+              "output_tokens": 578
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The posting contains an explicit refusal \u2014 unable to provide visa sponsorship \u2014 which settles the stance regardless of the right-to-work boilerplate earlier in the text.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "refused"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Wrexfell Digital Ltd",
+                "town_city": "Glasgow",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "we are unable to provide visa sponsorship",
+              "salary_text": "\u00a342,500"
+            }
+          },
+          "seconds": 8.822348874993622,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer, Reporting\nWrexfell Digital Ltd \u2014 Glasgow (hybrid)\n\nWrexfell builds financial-reporting software for UK housing associations: regulatory returns, board packs, audit files. Unglamorous and essential.\n\nCandidates must have the right to work in the UK. The team is twelve engineers across Glasgow and remote; the codebase is C# with a disciplined service layer and tests that mean something.\n\nWhat you'd do: build the next generation of our returns engine as regulators move to quarterly digital submission.\n\nWhat we need: 1-3 years with C# or Java and an eye for numbers that don't add up.\n\nSalary \u00a342,500. Please note we are unable to provide visa sponsorship, now or during the tenure of this role. 33 days holiday total, flexible core hours, annual profit share."
+          }
+        },
+        {
+          "case_id": "case-28-rating-blocks-cos",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Stonebridge Softworks Ltd holds a Worker licence covering the Skilled Worker route, explicitly offers visa sponsorship, and the \u00a344,000 salary exceeds both the general threshold (\u00a333,400) and the SOC 2134 new entrant going rate (\u00a338,300).",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Stonebridge Softworks Ltd appears on the sponsor register with a Worker licence (B rating) covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Stonebridge Softworks Ltd \u00b7 Borough, London",
+                  "register_row": {
+                    "organisation_name": "Stonebridge Softworks Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (B rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The licence explicitly covers the Skilled Worker route, which is the appropriate route for a software engineer role (SOC 2134).",
+                "evidence": {
+                  "quote": "Stonebridge Softworks Ltd \u00b7 Borough, London",
+                  "register_row": {
+                    "organisation_name": "Stonebridge Softworks Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (B rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is offered for this role.",
+                "evidence": {
+                  "quote": "Visa sponsorship offered.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised salary of \u00a344,000 exceeds both the general Skilled Worker threshold of \u00a333,400 and the SOC 2134 new entrant going rate of \u00a338,300.",
+                "evidence": {
+                  "quote": "\u00a344,000 base.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The employer holds a B rating rather than an A rating, which may indicate a probationary or previously downgraded licence status; this could affect the employer's ability to assign Certificates of Sponsorship in practice, but does not on its own disqualify sponsorship. The specific SOC code has not been confirmed by the employer, and the role's classification as SOC 2134 is an assessor inference.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 596,
+              "output_tokens": 659
+            }
+          },
+          "expected": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "Stonebridge Softworks Ltd has a Skilled Worker route row, but its licence rating means no new Certificate of Sponsorship can be issued while the rating stands.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "fail",
+                "reason": "rating_blocks_cos"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "above_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Stonebridge Softworks Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (B rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "Visa sponsorship offered",
+              "salary_text": "\u00a344,000"
+            }
+          },
+          "seconds": 11.359764874912798,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer \u2014 Core Product\nStonebridge Softworks Ltd \u00b7 Borough, London\n\nStonebridge builds inspection-management software for UK construction: snagging, handover, compliance evidence. Site managers use us on 2,000 active projects.\n\nThe core team works in Kotlin and PostgreSQL on the offline-first sync engine that makes the product work in a basement with no signal.\n\nWe're after 2+ years of backend experience; mobile sync experience is a strong plus.\n\n\u00a344,000 base. Visa sponsorship offered. 25 days holiday, hybrid (2 days Borough), quarterly hack weeks that ship. Process: intro call, technical deep-dive on a sync problem, team lunch."
+          }
+        },
+        {
+          "case_id": "case-29-salary-straddles",
+          "output": {
+            "verdict": "SPONSORABLE",
+            "determining_fact": "Quenby Applications Ltd holds an A-rated Skilled Worker licence, explicitly offers visa sponsorship, and the salary range of \u00a336,000\u2013\u00a341,000 meets both the general threshold (\u00a333,400) and the new entrant going rate for SOC 2134 (\u00a338,300) at the upper end.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Quenby Applications Ltd appears on the sponsor register with a Worker A-rating covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Quenby Applications Ltd \u00b7 Clerkenwell, London",
+                  "register_row": {
+                    "organisation_name": "Quenby Applications Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The register entry explicitly lists the Skilled Worker route, which is the correct route for a software engineering role (SOC 2134).",
+                "evidence": {
+                  "quote": "Quenby Applications Ltd \u00b7 Clerkenwell, London",
+                  "register_row": {
+                    "organisation_name": "Quenby Applications Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "The posting explicitly states that visa sponsorship is available for this role.",
+                "evidence": {
+                  "quote": "Visa sponsorship is available for this role.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "pass",
+                "reason": "The advertised range is \u00a336,000\u2013\u00a341,000. The lower bound (\u00a336,000) exceeds the general threshold (\u00a333,400) but falls below the SOC 2134 new entrant going rate (\u00a338,300); however, the upper bound (\u00a341,000) exceeds both thresholds. A candidate offered \u00a338,300 or above within the stated range would satisfy all salary requirements.",
+                "evidence": {
+                  "quote": "The range is \u00a336,000-\u00a341,000 depending on experience.",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "The exact salary offered to a specific candidate is not fixed \u2014 offers at the lower end of the range (\u00a336,000\u2013\u00a338,299) would fail the SOC 2134 new entrant going rate of \u00a338,300, making sponsorship ineligible at those figures. The SOC code assignment (2134) is inferred and not confirmed. The register row lacks a town/city entry, which could indicate a data gap, though the name and route match.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 612,
+              "output_tokens": 739
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "The advertised range straddles the \u00a338,300 going rate: an offer in the lower part of the band could not be sponsored and one in the upper part could \u2014 sponsorability depends on the actual offer, which the posting does not fix.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "pass",
+                "reason": "offered"
+              },
+              "salary": {
+                "status": "indeterminate",
+                "reason": "straddles_floor"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Quenby Applications Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "Visa sponsorship is available for this role",
+              "salary_text": "\u00a336,000-\u00a341,000"
+            }
+          },
+          "seconds": 12.580544666852802,
+          "error": null,
+          "payload": {
+            "requisition_text": "Software Engineer\nQuenby Applications Ltd \u00b7 Clerkenwell, London\n\nQuenby builds citizen-reporting tools for UK local councils: potholes, fly-tipping, streetlights. Residents report; our routing gets the right crew there with the right kit.\n\nYou'd work across a Django backend and a React Native app used by 60 councils' field teams, with a fortnightly release train and real accessibility requirements.\n\nWe'd like 1-3 years of experience and one example of making software humane for non-technical users.\n\nThe range is \u00a336,000-\u00a341,000 depending on experience. Visa sponsorship is available for this role. 26 days holiday, civic-tech conference budget, bikes in the basement. Two interviews and a reference chat."
+          }
+        },
+        {
+          "case_id": "case-30-salary-day-rate",
+          "output": {
+            "verdict": "NOT_SPONSORABLE",
+            "determining_fact": "The role is a contract/self-employed engagement (outside IR35, requiring own limited company or umbrella), not an employment relationship, so it cannot be sponsored under the Skilled Worker route regardless of register status.",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "Larchdown Consulting Ltd appears on the sponsor register with a Worker licence rated A, covering the Skilled Worker route.",
+                "evidence": {
+                  "quote": "Larchdown Consulting Ltd \u2014 City of London",
+                  "register_row": {
+                    "organisation_name": "Larchdown Consulting Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "route": {
+                "status": "pass",
+                "reason": "The Skilled Worker route is present on the licence, which is the route a backend/data-engineering role (SOC 2134) would require.",
+                "evidence": {
+                  "quote": null,
+                  "register_row": {
+                    "organisation_name": "Larchdown Consulting Ltd",
+                    "town_city": "London",
+                    "type_rating": "Worker (A rating)",
+                    "route": "Skilled Worker"
+                  }
+                }
+              },
+              "willingness": {
+                "status": "fail",
+                "reason": "The posting is for a self-employed outside-IR35 contract requiring the worker's own limited company or umbrella; sponsorship is mentioned only for hypothetical future permanent conversions, not for this engagement. A Skilled Worker visa requires genuine employment, which this arrangement does not constitute.",
+                "evidence": {
+                  "quote": "Rate: \u00a3350 per day (outside IR35), six-month initial term with likely extension. Start within a month. You'll need 3+ years of data-engineering experience, previous delivery in a regulated environment, and your own limited company or umbrella arrangement. Visa sponsorship considered for permanent conversions.",
+                  "register_row": null
+                }
+              },
+              "salary": {
+                "status": "fail",
+                "reason": "The role is paid as a day rate to a contractor, not as an employment salary; there is no annualised PAYE salary to compare against the \u00a333,400 general threshold or the \u00a338,300 SOC 2134 new-entrant going rate. Even if converted (\u00a3350 \u00d7 ~230 days \u2248 \u00a380,500), this is contractor revenue, not an employment salary, so the threshold test is moot given the engagement structure.",
+                "evidence": {
+                  "quote": "Rate: \u00a3350 per day (outside IR35)",
+                  "register_row": null
+                }
+              }
+            },
+            "uncertainty": "It is unclear whether Larchdown ever converts contractors to permanent employees and what salary such a role would carry; if a permanent offer were made in future, the salary and sponsorship willingness checks would need to be re-evaluated at that time.",
+            "register_snapshot_date": "2026-08-28",
+            "_usage": {
+              "model": "claude-sonnet-4-6",
+              "input_tokens": 602,
+              "output_tokens": 758
+            }
+          },
+          "expected": {
+            "verdict": "UNVERIFIABLE",
+            "determining_fact": "The role is priced as a \u00a3350 day rate on a six-month term \u2014 an annual salary meeting the Skilled Worker floor cannot be established from a short-term day rate, and the engagement model itself is unresolved.",
+            "register_snapshot_date": "2026-08-28",
+            "checks": {
+              "register": {
+                "status": "pass",
+                "reason": "legal_name_exact"
+              },
+              "route": {
+                "status": "pass",
+                "reason": "skilled_worker"
+              },
+              "willingness": {
+                "status": "indeterminate",
+                "reason": "boilerplate_ambiguous"
+              },
+              "salary": {
+                "status": "indeterminate",
+                "reason": "non_annual_unclear"
+              }
+            },
+            "evidence_anchors": {
+              "register_row": {
+                "organisation_name": "Larchdown Consulting Ltd",
+                "town_city": "London",
+                "type_rating": "Worker (A rating)",
+                "route": "Skilled Worker"
+              },
+              "willingness_quote": "Visa sponsorship considered for permanent conversions",
+              "salary_text": "\u00a3350 per day (outside IR35), six-month initial term"
+            }
+          },
+          "seconds": 13.381831333041191,
+          "error": null,
+          "payload": {
+            "requisition_text": "Backend Engineer (Contract)\nLarchdown Consulting Ltd \u2014 City of London\n\nLarchdown delivers data-platform projects for UK insurers. We are staffing a 6-month engagement modernising a quoting pipeline (Python, Snowflake, dbt) for a specialty insurer.\n\nRate: \u00a3350 per day (outside IR35), six-month initial term with likely extension. Start within a month.\n\nYou'll need 3+ years of data-engineering experience, previous delivery in a regulated environment, and your own limited company or umbrella arrangement. Visa sponsorship considered for permanent conversions.\n\nRemote-first with roughly one client day per fortnight in EC3. Interviews this week: one technical, one delivery-fit."
+          }
+        }
+      ]
+    }
+  ],
+  "variance": {
+    "baseline": {
+      "verdict_utility": {
+        "mean": 0.265,
+        "stdev": 0.048989794855663564,
+        "min": 0.225,
+        "max": 0.325,
+        "runs": [
+          0.325,
+          0.225,
+          0.325,
+          0.225,
+          0.225
+        ]
+      },
+      "confident_wrong_rate": {
+        "mean": 0.44000000000000006,
+        "stdev": 0.03265986323710903,
+        "min": 0.4,
+        "max": 0.4666666666666667,
+        "runs": [
+          0.4,
+          0.4666666666666667,
+          0.4,
+          0.4666666666666667,
+          0.4666666666666667
+        ]
+      },
+      "decisive_accuracy": {
+        "mean": 0.5599999999999999,
+        "stdev": 0.03265986323710903,
+        "min": 0.5333333333333333,
+        "max": 0.6,
+        "runs": [
+          0.6,
+          0.5333333333333333,
+          0.6,
+          0.5333333333333333,
+          0.5333333333333333
+        ]
+      },
+      "decisive_rate": {
+        "mean": 0.8461538461538461,
+        "stdev": 0.0,
+        "min": 0.8461538461538461,
+        "max": 0.8461538461538461,
+        "runs": [
+          0.8461538461538461,
+          0.8461538461538461,
+          0.8461538461538461,
+          0.8461538461538461,
+          0.8461538461538461
+        ]
+      },
+      "check_accuracy": {
+        "mean": 0.8074999999999999,
+        "stdev": 0.020310096011589906,
+        "min": 0.7875,
+        "max": 0.8375,
+        "runs": [
+          0.8,
+          0.825,
+          0.8375,
+          0.7875,
+          0.7875
+        ]
+      },
+      "grounding_rate": {
+        "mean": 0.9643518215899259,
+        "stdev": 0.007984024345705972,
+        "min": 0.95,
+        "max": 0.9702970297029703,
+        "runs": [
+          0.97,
+          0.9611650485436893,
+          0.95,
+          0.9702970297029703,
+          0.9702970297029703
+        ]
+      },
+      "cost_per_case_usd": {
+        "mean": 0.011242049999999998,
+        "stdev": 7.309418581528874e-05,
+        "min": 0.011168099999999999,
+        "max": 0.011331599999999999,
+        "runs": [
+          0.011197349999999998,
+          0.011330099999999997,
+          0.0111831,
+          0.011168099999999999,
+          0.011331599999999999
+        ]
+      },
+      "exact_match": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "runs": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "error_rate": {
+        "mean": 0.0,
+        "stdev": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "runs": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "p50_seconds": {
+        "mean": 10.125539729138836,
+        "stdev": 0.5130711020481502,
+        "min": 9.506527666701004,
+        "max": 10.956517125014216,
+        "runs": [
+          10.956517125014216,
+          10.341816832777113,
+          9.683340854011476,
+          9.506527666701004,
+          10.139496167190373
+        ]
+      },
+      "p95_seconds": {
+        "mean": 19.67791031654924,
+        "stdev": 11.37397479315235,
+        "min": 11.966569082811475,
+        "max": 42.22635345766321,
+        "runs": [
+          16.647859792225063,
+          42.22635345766321,
+          13.940221750177443,
+          11.966569082811475,
+          13.608547499869019
+        ]
+      }
+    }
+  }
+}

@@ -255,3 +255,25 @@ use today" baseline, qualifying literally.
 repo outside the trajectory record of this correction.
 **Evidence.** To be produced Sunday as the timing evidence file; until then no
 human-time number appears in any judged document.
+
+### 2026-08-29 — Re-gate ruling applied: case-13 re-designated; the accepted baseline
+**Context.** The acceptance criterion recorded before the rerun: a gate case the fixed
+baseline answers correctly with correct evidence is a finding about current models, not
+a defect, and is re-designated a check-level discriminator. On the rerun
+(eval/results/20260829-002003.json) case-13 was answered NOT_SPONSORABLE with the
+correct evidence chain throughout: the model chose the posting body's £29,000 over the
+aggregator wrapper's £45,000 unprompted, twice now, under two different prompts.
+**Options.** Per the pre-registered criterion — no options were open. This entry
+records the application, not a choice.
+**Chosen.** Wrapper-metadata poisoning (docs/PLAN.md §3 failure 8) is not a live
+failure mode for the pinned model at baseline prompt strength. Case-13 converts from a
+verdict-level trap to a regression guard: any variant that gets it wrong has regressed
+below today's manual process. Cases 07 (route conflation via the Type & Rating column,
+false SPONSORABLE), 11 (failing salary check waved through to SPONSORABLE without
+combination rules), and 26 (right-to-work boilerplate read as refusal) fired as
+designed and stay verdict-level discriminators; case-01 stays check-level per its own
+entry. The rerun is the accepted baseline per Condition A: no second pass.
+**Rejected.** Nothing — the bar was set before the number, which is the point of
+setting it first.
+**Evidence.** eval/results/20260829-002003.json; acceptance criterion in the
+2026-08-28-1833 trajectory, recorded before the rerun launched.

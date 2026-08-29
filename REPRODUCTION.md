@@ -18,8 +18,11 @@ Re-verify this document from a fresh clone before submitting — do not assume i
 | API access | Anthropic API | Model `claude-sonnet-4-6` (pinned, both variants — see DECISIONS.md). Env var `ANTHROPIC_API_KEY`. **No key is included in this repo.** |
 | Disk | ~50 MB | Repo incl. the gzipped register snapshot (~2 MB). |
 
-Approximate cost of a full evaluation run: **TODO** (model calls: TODO, tokens: TODO).
-Approximate wall-clock time: **TODO**.
+Approximate cost of a full evaluation run (dev split, all three variants): **~$0.25**
+(20 model calls for the baseline at ~$0.011/case; `always_abstain` and the eval itself
+make no model calls). A `--repeats 5` variance run adds ~120 calls ≈ **$1.35**.
+Approximate wall-clock time: **~4 minutes** for a single pass, **~25 minutes** with
+`--repeats 5` (calls are sequential).
 
 ---
 

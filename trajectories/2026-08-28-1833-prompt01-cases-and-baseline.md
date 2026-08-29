@@ -514,3 +514,68 @@ commits                 -> 150b0c8 fix(baseline), 51af9fa eval(metrics)
 > answers; (3) "10–20 minutes" banned from the repo outside this record. PLAN §1
 > rewritten (attention under a visa deadline, form-cheap/process-expensive,
 > asymmetric-and-unauditable errors); DECISIONS entry pre-registers the protocol.
+
+### Step 5 (cont.) — Re-gate under the pre-set bar: 3 of 5 fire; outcome accepted
+
+**Agent action + tool responses, in order**
+
+```
+run 1v2                 -> eval/results/20260829-002003.{json,md}, clean tree, 120
+                           calls, 0 errors. Noise floor v2 — REAL this time:
+                           verdict_utility mean 0.265 stdev 0.049 (0.225-0.325),
+                           confident_wrong_rate mean 0.44 stdev 0.033,
+                           check_accuracy 0.8075 stdev 0.020, grounding 0.964. The
+                           basic-instructions prompt is less stable than the coached
+                           one (borderline cases flip across repeats): Saturday deltas
+                           on verdict_utility must clear ~0.1 (2 sigma) to be real.
+re-gate (seed-42 pass)  -> 07 FIRES: false SPONSORABLE — model read the "Worker
+                           (A rating)" Type & Rating column as covering the Skilled
+                           Worker route while the Route column says GBM (§3 failure 2,
+                           exactly as designed, worst-direction error).
+                           11 FIRES: false SPONSORABLE — salary check itself FAILED,
+                           and without combination rules the model waved the failing
+                           check through to a SPONSORABLE verdict.
+                           26 FIRES: RTW boilerplate -> "refused" -> NOT_SPONSORABLE,
+                           robust across both prompt strengths.
+                           01: correct-by-coincidence via no_match, exactly as the
+                           pre-registered prediction stated — check-level evidence
+                           chain wrong (register fail/route fail vs expected
+                           pass/fail). Stays check-level per FINDING (c).
+                           13: correct WITH correct evidence — Sonnet chose the body's
+                           £29,000 over the wrapper's £45,000 unprompted, second time.
+                           Acceptance criterion applied: re-designated regression
+                           guard; DECISIONS entry written.
+                           Also newly honest failures: 20 clean-silent -> SPONSORABLE
+                           (silence read optimistically), 29 straddle -> SPONSORABLE,
+                           28 rating-blind -> SPONSORABLE, 04/06 now abstain (U)
+                           instead of wrong-NS.
+metrics                 -> baseline utility 0.265 sits 0.25 BELOW the always_abstain
+                           floor (0.5125): today's manual process scores worse on
+                           utility than not asking at all, while decisive_rate 0.846
+                           (stdev 0) shows it answers almost everything. The
+                           reframed §1 sentence is now a measured number.
+run 2                   -> three-line reference table launched (tag baseline-frozen)
+```
+
+### Step 5 (cont.) — Reference table produced; own process error repeated and corrected
+
+**Agent action + tool responses, in order**
+
+```
+run 2                   -> eval/results/20260829-002446.{json,md}: the three-line
+                           table. baseline 0.225 / always_abstain 0.5125 / advanced
+                           error_rate 1.0 (stub, the deliberate empty slot). decisive
+                           pair behaves exactly as designed: abstain scores
+                           decisive_rate 0, baseline 0.846.
+PROCESS ERROR (repeat)  -> the run recorded git_dirty=true AGAIN: the DECISIONS and
+                           trajectory appends written while the run launched were
+                           uncommitted — the same mistake that dirtied the first
+                           noise-floor run, made twice in one night despite being
+                           named the first time. The freeze-anchor evidence file must
+                           not carry a dirty flag. Correction: ALL doc edits committed
+                           first (including REPRODUCTION cost figures), then a clean
+                           re-run replaces the reference table; 20260829-002446 stays
+                           committed as an honest superseded intermediate. Lesson
+                           recorded: commit BEFORE launching a run, and touch nothing
+                           until it exits.
+```
