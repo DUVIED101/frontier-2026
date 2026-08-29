@@ -37,6 +37,35 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [8] Ambiguous resolutions name their candidates — and the register answered back
+`acdfdd3` · 2026-08-29 19:12 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** No metric movement — renderer and evidence only. The pipeline knew
+which entities matched and that their licences diverge; the report said only "ask
+which legal entity". Second same-day instance of a stage knowing more than the report
+said.
+
+**Change.** `Ambiguous` carries its candidates' register rows; the register check
+cites them as candidate rows (real snapshot content, grounded by construction); an
+uncertainty note names each entity with its routes. One new test: an ambiguous
+resolution produces a report naming every candidate entity. No new reason values, no
+verdict logic.
+
+**Measurement.** Evidence: `eval/results/20260829-191227.json` — verdict_utility
+0.9, exact_match 0.95, check_accuracy 0.9875, grounding 1.0: all identical to the
+prior run, as required.
+
+**Verdict.** KEPT. And the disclosure taught something the fixtures did not design:
+against the real register, "Halcyon Group" is ambiguous across ELEVEN entities — the
+two fictional ones plus nine real organisations named Halcyon. The report now shows
+the real shape of the problem, including that exactly one candidate (Halcyon
+Consulting (UK) Ltd) is Global Business Mobility-only. Readability of an 11-entity
+note is a Sunday hardening item (group by route rather than enumerate), flagged to
+the operator rather than restyled outside tonight's scope.
+
+**What this told me to do next.** Sunday opens with QREPRO from a fresh clone, then
+the final `--split all` run — nothing before those two.
+
 ### [7] Code-review fixes: the report tells the whole truth; reasons carry their path
 `04f516e` · 2026-08-29 18:59 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

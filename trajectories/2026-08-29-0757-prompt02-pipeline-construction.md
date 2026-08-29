@@ -268,3 +268,66 @@ measured run            -> 20260829-185907.json (clean, 04f516e): exact_match 0.
                            report now shows the B-rating row verbatim AND the caveat.
                            83/83 tests, mypy clean. CHANGELOG [7].
 ```
+
+### Step 10 — Ambiguity disclosure; a pattern named; the register answers back
+
+> **HUMAN: redirected** — do it tonight; the reading of the gap is right. And the
+> finding outranks the fix: TWICE in one day the pipeline knew more than the report
+> said — once is an oversight, twice in the same layer is a pattern. Principle,
+> recorded as ordered: **the evidence a stage produces must reach the user unless
+> there is a reason it should not.** These systems leak at the seam between what a
+> stage computes and what the surface repeats; every reduction (a status summarising
+> rows, a sentence summarising a struct) is a place where knowledge silently drops.
+> Goes into README's engineering section tomorrow as one line.
+
+```
+TDD                     -> red test: an ambiguous resolution produces a report naming
+                           every candidate entity.
+implement               -> Ambiguous carries its candidates' rows (resolver builds
+                           them at return); register check cites candidate rows;
+                           assemble writes an uncertainty note naming each entity
+                           with its routes. 84/84 green; mypy clean.
+regression run          -> 20260829-191227.json (clean, acdfdd3): verdict_utility
+                           0.9, exact_match 0.95, check_accuracy 0.9875, grounding
+                           1.0 — identical to the digit, acceptance condition held.
+the register answers    -> the fixtures designed a 2-entity ambiguity; the REAL
+                           register makes "Halcyon Group" ambiguous across 11
+                           entities (2 fictional + 9 real Halcyons), exactly one of
+                           them GBM-only. The disclosure is honest about the real
+                           shape of the problem; the 11-entity note's readability
+                           (group by route rather than enumerate) is flagged for
+                           Sunday hardening, not restyled outside tonight's scope.
+```
+
+---
+
+## Close (TR-5)
+
+**Shipped.** The advanced pipeline end to end (extract → resolve → rules → verifier)
+with the alias layer; the deterministic verification-report renderer (§5b, six named
+properties); the self-consistency experiment module (kept runnable); REPRODUCTION.md
+filled with literal commands and recorded outputs, verified by a fresh-clone QREPRO;
+the Docker path fixed (COPY-context bug, .env-in-layer hazard) and exercised
+in-container; CHANGELOG [1]–[8]; the operator code-review fixes (uncertainty carried
+to the report, resolution-path reasons, non_annual_unclear, row dedup); ambiguity
+disclosure. 84 tests, mypy --strict clean, every run from a clean tree.
+
+**Metric moved.** verdict_utility: baseline band 0.225–0.425 → advanced 0.9
+(conservative delta +0.475 against the band top; three identical 0.9 runs).
+confident_wrong_rate 0.4667 → 0.0769. decisive_rate 1.0 with decisive_accuracy
+0.9231 — the pre-registered target met without abstention drift. exact_match 0 →
+0.95. grounding_rate 1.0. cost_per_case −72%, p50 −78%. Evidence:
+eval/results/20260829-191227.json (current), 20260829-092222.json (rejected
+experiment), and the day's chain of tagged runs.
+
+**Discarded.** Self-consistency voting — rejected by its own numbers (worse than the
+baseline it samples at 3.07× the cost; two NEW wrong verdicts from temperature
+diversity). The "most specific first" extraction ordering (would have mislabelled
+trading-name cases). verify.py's promised register-row gate (a check that cannot
+fail). The renderer's independent uncertainty derivation (the serious review defect:
+it dropped what the pipeline knew).
+
+**Next.** Sunday, in order and nothing before them: QREPRO from a fresh clone, the
+final --split all run. Then README (including the leak-pattern line in engineering
+and the case-01 limitation), the 11-entity note readability item, the
+time-to-a-trustworthy-answer measurement, trajectories audit, the video, submit.
