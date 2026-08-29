@@ -37,6 +37,43 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [7] Code-review fixes: the report tells the whole truth; reasons carry their path
+`04f516e` · 2026-08-29 18:59 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** Operator code review found four defects. The serious one: the renderer
+rebuilt its unresolved list from check statuses and silently dropped the solver's own
+uncertainty disclosures — the B-rating caveat loop 1 added and the salary-as-stated
+note never reached the user, so case-28's report claimed "nothing material left
+unresolved" while its JSON said otherwise. The others: register reason hardcoded to
+legal_name_exact regardless of resolution path; non_annual_unclear never produced;
+the same register row printed twice. Expected effect of the reason fixes: exact_match
+up, verdict_utility unchanged at 0.9 — any movement there would mean something else
+was touched.
+
+**Change.** `assemble` emits structured `uncertainty_notes`; the report renders them
+and claims completeness only when nothing remains (pinned by a test that fails on any
+report contradicting its result). `resolve_entity` restructured into three phases —
+exact over all posting-stated strings, token-subset over all, then the alias pass —
+and `Match` carries how it matched (legal_name_exact / trading_name_stated /
+alias_lookup), which `_register_check` now emits. `salary_clears_floor` reads the
+extraction note: a figure-bearing note means pay was stated but not as guaranteed
+annual basic → non_annual_unclear. Shared register rows cite once. verify.py's
+docstring no longer promises a register-row gate that could never fail.
+
+**Measurement.** Evidence: `eval/results/20260829-185907.json` — **exact_match 0.75 →
+0.95**; verdict_utility exactly 0.9, check_accuracy 0.9875, grounding 1.0, all
+unchanged, as required. Cases 01/04 now read `alias_lookup`, 06 `trading_name_stated`,
+30 `non_annual_unclear` — each the exact labelled reason. The one remaining
+exact_match miss is case-28, whose verdict is the B-rating cut's known price; its
+report now displays the B-rating row verbatim AND the rating caveat, so a user
+reading it has everything needed to catch what the checks do not.
+
+**Verdict.** KEPT. The acceptance condition held precisely: the target metric moved,
+nothing else did.
+
+**What this told me to do next.** Sunday as planned: hardening/QREPRO re-verify,
+final `--split all`, README, timing measurement, video.
+
 ### [6] Verification report renderer — the user-facing instrument
 `ae87f44` · 2026-08-29 09:35 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

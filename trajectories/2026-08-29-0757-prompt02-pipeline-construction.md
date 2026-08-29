@@ -226,3 +226,45 @@ render coverage         -> all 20 dev cases render without error straight from t
                            evidence, salary UNRESOLVED with the concrete ask.
                            CHANGELOG [6] (BP-4: no metric, E2E Quality target).
 ```
+
+### Step 9 — Operator code review: four defects, one serious; all fixed and measured
+
+> **HUMAN: redirected** — review verdict: architecture right (pure combinator,
+> thresholds only from floor_config, extraction asks what the posting says); four
+> defects. (1) SERIOUS: the renderer discarded result uncertainty entirely — the
+> B-rating caveat and salary note existed in JSON and never reached the user; the
+> report claimed the exact completeness sentence loop 1 was built to prevent. A
+> regression at the layer a judge reads. (2) register reason hardcoded to
+> legal_name_exact. (3) non_annual_unclear never produced. (4) register row printed
+> twice. Plus: delete verify.py's promise of register-row gates rather than build a
+> check that cannot fail; append a band note to CHANGELOG [1] pointing at [4]'s
+> conservative recomputation. Fix 1 first; 2+3 together with one re-run — exact_match
+> should move and nothing else.
+
+```
+fix 1+4 (renderer)      -> red tests first: report-contradicts-result completeness
+                           test; shared-row-once test. assemble emits structured
+                           uncertainty_notes (salary note + rating caveat); report
+                           renders them, claims completeness only when nothing
+                           remains; shared row cited once, route references it.
+fix 2 (via-path)        -> resolver restructured into three phases (exact over all
+                           stated strings, subset over all, THEN aliases — the
+                           posting's own words outrank fixtures); Match.via carries
+                           legal_name_exact / trading_name_stated / alias_lookup.
+                           Boundary pins updated to assert via explicitly; new pin:
+                           stated legal name wins BEFORE any alias. Extraction
+                           prompt: primary name first (was "most specific first" —
+                           which would have mislabelled 06 as legal_name_exact).
+fix 3 (salary note)     -> salary_clears_floor(note=...): figure-bearing note ->
+                           non_annual_unclear; wordy note stays absent. 2 red tests.
+fix 5                   -> band note appended to CHANGELOG [1], no rewrite.
+measured run            -> 20260829-185907.json (clean, 04f516e): exact_match 0.75
+                           -> 0.95; verdict_utility EXACTLY 0.9, check_accuracy and
+                           grounding unchanged — the acceptance condition ("if
+                           verdict_utility moves, something else was touched") held.
+                           01/04 alias_lookup, 06 trading_name_stated, 30
+                           non_annual_unclear — exact labelled reasons. Remaining
+                           exact_match miss: case-28, the cut's known price; its
+                           report now shows the B-rating row verbatim AND the caveat.
+                           83/83 tests, mypy clean. CHANGELOG [7].
+```
