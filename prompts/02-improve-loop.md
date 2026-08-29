@@ -31,6 +31,10 @@ Then in order:
    The conservative delta is computed against the WORST committed baseline figure
    (top of its observed band), never against whichever baseline landed in the same run.
 4. QLOG — CHANGELOG entry citing the results file. Numbers must match it exactly.
+   Before citing any results file anywhere, read its `git_dirty` field: no number
+   reaches README, CHANGELOG or the video from a run recorded against a dirty tree
+   (operator ruling 2026-08-29). The harness now refuses tagged runs from a dirty
+   tree, but the rule also covers files that predate the guard.
 5. QTRACE — trajectory file including the failures and retries.
 6. Re-verify REPRODUCTION.md §§4–6 against the newest committed results files. If the
    loop changed any number a judge would see, update the pasted expected output in the

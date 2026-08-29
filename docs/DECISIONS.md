@@ -279,3 +279,34 @@ entry. The rerun is the accepted baseline per Condition A: no second pass.
 setting it first.
 **Evidence.** eval/results/20260829-002003.json; acceptance criterion in the
 2026-08-28-1833 trajectory, recorded before the rerun launched.
+
+### 2026-08-29 — Tagged runs refuse a dirty tree; no citation from a git_dirty file
+**Context.** Third dirty-tree incident of the weekend: eval/results/20260829-210352.json
+— the flag-less three-variant run pasted into REPRODUCTION §6 — records
+git_dirty=true, so it does not reproduce from fd25c6e, which is the point of the
+field. An audit of all twenty committed results files found six recording git_dirty,
+including 20260829-205909 (the §5 paste; same SHA as the clean §4 run 205818, so the
+tree went dirty between the two runs — the §4 output was being pasted into
+REPRODUCTION.md while §5 ran). Every one of the six was tagged. The existing
+behaviour warned after the run — after the money was spent.
+**Options.** (A) Keep the warning and remember the lesson — already failed twice.
+(B) Refuse tagged runs from a dirty tree before any model call. Within B: refuse on
+any porcelain output, or exempt untracked files under eval/results/.
+**Chosen.** B with the exemption. `--tag` marks a run as a source of record; the
+harness now refuses to start when the tree carries anything beyond untracked files
+under eval/results/. The exemption is forced by CN-2: a fresh-clone verifier
+following REPRODUCTION in order accumulates untracked results files from §§4–6
+before reaching the tagged final command, and those files are the harness's own
+outputs, never inputs — refusing on them would break the reproduction guide the
+guard exists to protect. The recorded git_dirty field keeps its raw meaning (any
+porcelain output), so a verifier's tagged run may still truthfully record dirty
+while being allowed to start. Standing rule to submission, recorded in prompts/02:
+no number reaches README, CHANGELOG or the video from a results file recording
+git_dirty — the guard prevents new such files; the rule covers the six that predate
+it.
+**Rejected.** Refusing on any dirt (breaks CN-2 as above). Refusing untagged runs —
+the dev loop legitimately runs mid-edit and the warning suffices there.
+**Evidence.** tests/test_run_eval.py (six tests, red before the guard existed); the
+audit list in the 2026-08-29-0757 trajectory, checkpoint 9; the refusal exercised
+live against this change's own dirty tree before commit — exit 2, no results file,
+no model call.

@@ -204,6 +204,12 @@ python eval/run_eval.py --split all --seed 42 --tag final
 
 Results are written to `eval/results/<UTC timestamp>.json` and `.md`.
 
+**Tagged runs demand a clean tree.** With `--tag` set the harness refuses to start —
+before any model call — if the working tree is dirty with anything beyond your own
+previous runs' untracked results files. A tagged results file is a source of record
+and must reproduce from its commit. Untagged runs (the commands in §§4–6 above) only
+warn.
+
 **Determinism and variance.** With `--seed 42` the harness is deterministic except for
 model output at temperature 0. The dev split grew from 20 to 22 cases on 2026-08-29
 (cases 31 and 32, added after live inputs exposed fixture blind spots — CHANGELOG
@@ -231,7 +237,7 @@ python -m mypy --strict src
 python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
-All 94 tests pass on a clean clone in ~5 s; no API key needed.
+All 101 tests pass on a clean clone in ~5 s; no API key needed.
 
 ---
 
@@ -245,3 +251,4 @@ All 94 tests pass on a clean clone in ~5 s; no API key needed.
 | `No cases with split=...` from `run_eval.py` | `--split` filter matched nothing | Use `--split dev` during development, `--split all` for the final run |
 | `Cannot connect to the Docker daemon` | Docker Desktop not running | Start Docker Desktop, or use the local venv path (Option A) |
 | `WARNING: working tree is dirty` after a run | Your previous run's results files are untracked in your clone | Expected; harmless for verification (see §6) |
+| `REFUSED: --tag is set and the working tree is dirty` | Tagged runs must reproduce from their commit; a file beyond your own untracked results files is modified or new | Commit or stash the files it lists — prior results files alone never trigger this |

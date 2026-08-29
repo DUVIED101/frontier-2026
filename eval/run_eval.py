@@ -150,14 +150,35 @@ def git_sha() -> str:
         return "unknown"
 
 
-def git_dirty() -> bool:
+def git_status_porcelain() -> str:
     try:
-        out = subprocess.check_output(
+        return subprocess.check_output(
             ["git", "status", "--porcelain"], cwd=ROOT, text=True
         )
-        return bool(out.strip())
     except Exception:
-        return False
+        return ""
+
+
+def git_dirty() -> bool:
+    return bool(git_status_porcelain().strip())
+
+
+def blocking_dirt(porcelain: str) -> list[str]:
+    """Dirt that makes a tagged run non-reproducible from its commit.
+
+    Untracked files under eval/results/ are exempt: they are the harness's own
+    prior outputs, never inputs, and a fresh-clone verifier accumulates them by
+    following REPRODUCTION.md in order — refusing on those would break CN-2.
+    """
+    dirt = []
+    for line in porcelain.splitlines():
+        if not line.strip():
+            continue
+        path = line[2:].strip().strip('"')
+        if line.startswith("??") and path.startswith("eval/results/"):
+            continue
+        dirt.append(line)
+    return dirt
 
 
 def run_variant(name: str, cases: list[Case], seed: int) -> dict[str, Any]:
@@ -257,6 +278,19 @@ def main() -> int:
         "(docs/PLAN.md §7 holdout discipline)",
     )
     args = ap.parse_args()
+
+    if args.tag:
+        dirt = blocking_dirt(git_status_porcelain())
+        if dirt:
+            print(
+                "REFUSED: --tag is set and the working tree is dirty. A tagged run "
+                "is a source of\nrecord and must reproduce from its commit. Commit "
+                "or stash these first:"
+            )
+            for line in dirt:
+                print(f"  {line}")
+            print("No results file was written and no model call was made.")
+            return 2
 
     variants = args.variant or ["baseline", "always_abstain", "advanced"]
     cases = load_cases(args.limit, args.split)

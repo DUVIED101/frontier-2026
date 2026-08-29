@@ -609,3 +609,33 @@ timing measurement 3, trajectories audit, video, submit.
 > test_committed_documents_state_the_true_case_counts pins present-tense counts in
 > DATA.md and REPRODUCTION.md to the artifacts (red on the stale DATA.md, green after
 > the fix). 95 tests.
+
+### Post-close checkpoint 9 — Third dirty-tree incident: the guard
+
+> **HUMAN: redirected** — tonight the guard only; everything under the README REVIEW
+> heading is Sunday work after the final run. 20260829-210352 was produced with a
+> dirty tree — the harness says so in the file — and is therefore unusable as a
+> source of record: it does not reproduce from fd25c6e. Ordered: run_eval refuses to
+> write a results file when the tree is dirty and --tag is set, printing the refusal
+> before any model call is made rather than warning after the money is spent.
+> Standing rule to submission: no number reaches README, CHANGELOG or the video from
+> a run whose results file records git_dirty; check the field before citing any file.
+>
+> Audit before implementing: SIX of twenty committed results files record git_dirty —
+> 20260828-224144 (Friday incident 1), 20260829-002446, 083304, 090655, and the two
+> currently pasted into REPRODUCTION: 205909 (§5) and 210352 (§6). All six were
+> tagged; the guard would have refused every one. 205818 (the §4 paste) is clean at
+> the same SHA as the dirty 205909, so the tree went dirty between the §4 and §5
+> runs — the §4 output was being pasted into REPRODUCTION.md while §5 ran. Sunday
+> consequence queued: refresh the §5/§6 pastes from clean-tree runs after the final
+> run lands.
+>
+> Red first: tests/test_run_eval.py, six tests, all failing (blocking_dirt did not
+> exist). Implementation: blocking_dirt(porcelain) as a pure function; untracked
+> files under eval/results/ are exempt because a fresh-clone verifier accumulates
+> them by following REPRODUCTION in order, and refusing on the harness's own outputs
+> would break CN-2 (DECISIONS entry, same date). Guard placed before load_cases, so
+> refusal precedes any case read or model call. Exercised live against this change's
+> own dirty tree before commit: exit 2, no results file written, no model call. 101
+> tests green. Standing citation rule recorded in prompts/02 step 4; REPRODUCTION §6
+> documents the refusal and §8 carries the troubleshooting row.
