@@ -6,7 +6,7 @@ Only public or synthetic data is used (CLAUDE.md CN-7). Generated fixtures are p
 |---|---|---|---|---|
 | Register of licensed sponsors: workers (snapshot 2026-08-28) | [Publication page](https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers) · [CSV asset](https://assets.publishing.service.gov.uk/media/6a91566801bbff0bf8f97b48/SP_-_Worker_and_Temporary_Worker_Web_Register_-_2026-08-28.csv) | OGL v3.0 | `curl` on 2026-08-28 | `register` and `route` checks; entity resolution |
 | Skilled Worker salary thresholds | [How much you'll be paid](https://www.gov.uk/skilled-worker-visa/how-much-youll-be-paid) · [Going rates table](https://www.gov.uk/government/publications/skilled-worker-visa-going-rates-for-eligible-occupations/skilled-worker-visa-going-rates-for-eligible-occupation-codes) | OGL v3.0 | GOV.UK content API on 2026-08-28 | `salary` check (`floor_config.json`) |
-| Synthetic requisition fixtures (30 cases) | Authored in-repo | Original work | See "Synthetic fixtures" | All four checks |
+| Synthetic requisition fixtures (32 cases) | Authored in-repo | Original work | See "Synthetic fixtures" | All four checks |
 | Synthetic alias fixtures | Authored in-repo | Original work | `eval/cases/fixtures/aliases.json` | Trading-name resolution |
 
 Contains public sector information licensed under the
@@ -111,9 +111,12 @@ derivation and why the verification report cites which rules snapshot it applied
 
 ## Synthetic fixtures
 
-Authored, not generated: the 30 requisition cases were written by hand against the
-archetype matrix in `docs/PLAN.md` §7 and label-verified at two human gates (schema
-review and label-correction — see the trajectory), satisfying CLAUDE.md T-7. They are
+Authored, not generated: the 32 requisition cases were written by hand — 30 on
+2026-08-28 against the archetype matrix in `docs/PLAN.md` §7 and label-verified at two
+human gates (schema review and label-correction — see the trajectory), satisfying
+CLAUDE.md T-7; cases 31 and 32 added 2026-08-29 after live inputs exposed shapes no
+fixture had (a line-wrapped sponsorship quote and a multi-route entity — CHANGELOG
+[10]/[11]). They are
 committed and never regenerated, so no seed or generator is required to reproduce any
 result. Company names, postings, people and brands are fictional; structural patterns
 (trading-name gaps, GBM-only licences, refusal wording, threshold-straddling salaries)

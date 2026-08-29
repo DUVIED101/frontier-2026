@@ -252,3 +252,22 @@ def test_fixture_rows_sit_in_sorted_position_under_the_files_own_order(
             assert name.casefold() <= names[i + 1].casefold(), (
                 f"row {i}: {name!r} sorts after its successor {names[i + 1]!r}"
             )
+
+
+def test_committed_documents_state_the_true_case_counts(
+    manifest: dict[str, Any],
+) -> None:
+    """Sixth-instance guard (2026-08-29): a present-tense count in a committed
+    document must match the artifact it describes. Dated historical passages are
+    exempt by not matching these exact present-tense phrasings."""
+    case_files = sorted(CASES_DIR.glob("case-*.json"))
+    n = len(case_files)
+    dev = sum(
+        1 for f in case_files if json.loads(f.read_text())["meta"]["split"] == "dev"
+    )
+    data_md = (ROOT / "docs" / "DATA.md").read_text()
+    assert f"({n} cases)" in data_md
+    assert f"the {n} requisition cases" in data_md
+    assert f"**{len(manifest['rows'])} fictional sponsor rows**" in data_md
+    repro = (ROOT / "REPRODUCTION.md").read_text()
+    assert f"{n} hand-labelled cases ({dev} dev / {n - dev} holdout)" in repro

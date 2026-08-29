@@ -582,3 +582,30 @@ from a fresh clone, final --split all. Then README fill, ambiguity-note grouping
 timing measurement 3, trajectories audit, video, submit.
 
 **Session cost.** ~$7.90 today across ~25 runs and live demos (~$11.00 total).
+
+### Post-close checkpoint 8 — Sixth instance: the run of record vs the DECISIONS claim
+
+> **HUMAN: redirected** — three discrepancies. (1) eval/results/20260829-204901.md
+> (the [11] run of record) carries two variants with a pairwise Delta while the
+> always_abstain DECISIONS entry says the variant runs "by default alongside baseline
+> and advanced". RESOLVED BY THE ARTIFACTS: 204901 was invoked with explicit
+> "--variant baseline --variant advanced" flags (the G-4-literal habit used for every
+> loop run); the flag-less default still runs all three — 20260829-210352, the same
+> evening, shows three columns. The default never changed; the DECISIONS claim holds
+> for default invocations. Standing orders: the final --split all run is flag-less so
+> the trivial-abstention floor stands beside both solutions in the README headline
+> table, and future measured runs use the default three-variant invocation — abstain
+> costs nothing and its absence quietly removes the strongest part of the measurement
+> story. (2) DATA.md said "30 cases" twice, present tense — same class as the
+> manifest's sorted-positions claim; fixed to 32 with dated history. (3) The
+> always_abstain entry's 30-case arithmetic stays as historical record; the current
+> figure gets APPENDED once the final run lands, and every README floor number comes
+> from that run, not the entry.
+>
+> Sweep executed across DATA.md, DECISIONS.md, PLAN.md, REPRODUCTION.md: two
+> present-tense misses (both DATA.md, fixed); all other number hits are dated history
+> or plan-era approximations, left intact by design. Guard added so the seventh
+> instance fails the suite instead of waiting for eyes:
+> test_committed_documents_state_the_true_case_counts pins present-tense counts in
+> DATA.md and REPRODUCTION.md to the artifacts (red on the stale DATA.md, green after
+> the fix). 95 tests.
