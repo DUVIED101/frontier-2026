@@ -37,6 +37,34 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [15] Empty posting is UNVERIFIABLE, not a register fail
+`63546d0` · 2026-08-30 10:54 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** No dev metric movement — no dev case states no employer. Prompt 03
+adversarial pass finding: an empty posting produced a confident NOT_SPONSORABLE,
+because `NoMatch` with nothing searched carried the same definitive weight as a
+confirmed absence. C1's "NoMatch after the full alias pass is definitive"
+presupposes an employer was stated; with none, there is no absence claim to make —
+and a confident wrong NOT_SPONSORABLE from degenerate input is the class-B failure
+(silently discarded role) pointed at nothing. Second finding, same pass: a binary
+file surfaced a raw UnicodeDecodeError traceback from the CLI.
+
+**Change.** `_register_check`: NoMatch with no non-empty searched string is
+`indeterminate/no_employer_stated`, with its own action line in the report
+("identify the employing legal entity first…"). CLI: undecodable input exits 2
+with a typed message before any model call. Both red-first
+(`test_no_stated_employer_is_not_a_register_fail`,
+`test_cli_rejects_a_non_text_file_without_calling_the_model`).
+
+**Measurement.** Evidence: `eval/results/20260830-105501.json` — advanced identical
+on every metric (verdict_utility 0.9091, check_accuracy 0.9886, grounding 1.0,
+exact_match 0.9545), as hypothesised. Live re-fire: empty file renders UNVERIFIABLE
+with all four checks unresolved; binary file exits 2 cleanly.
+
+**Verdict.** KEPT. Found by the hardening pass's adversarial step, not by the
+fixture set — the same lesson as cases 31 and 32: the eval measures the failure
+modes its fixtures contain, and boundary inputs live outside them.
+
 ### [14] Ambiguity note grouped by licence route
 `8438913` · 2026-08-30 10:35 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

@@ -763,3 +763,29 @@ Saturday's; this close is the file's final entry.
 video, and submission. Approximate session cost 2026-08-30: ~$2.10 (QREPRO clone
 runs, the final run, three clean-tree paste runs, the note-grouping run, one live
 case-24 render); ~$13 for the competition to date.
+
+### Post-close checkpoint 14 — Operator re-review applied; prompt 03 executed
+
+> **HUMAN: redirected** — three orders. (1) The holdout caveat sharpened to the
+> precise finding: baseline holdout is higher on verdicts (0.725 vs 0.4773) and
+> LOWER on evidence quality (check_accuracy 0.75 vs 0.8409, grounding 0.9149 vs
+> 0.9464) — easier at verdict level, harder at check level; README and CHANGELOG
+> [13] now carry it. (2) PLAN.md gained a dated status block near the top: built as
+> planned, contingencies that fired (B-rating cut priced by case-28; alias layer
+> restored Saturday morning and shipped as synthetic fixtures, NOT the "cached
+> Companies House lookups" the plan body describes — DATA.md authoritative), scope
+> growth to 32 cases, final numbers; plan body deliberately unedited ("a plan that
+> records its own divergence is worth more than one edited to look prescient").
+> (3) Prompt 03 in full, then 04 and the video.
+>
+> Prompt 03 findings: secrets clean; effects clean (no network beyond the pinned
+> model API, no writes outside the repo); baseline history clean (the one fix
+> commit at 23:53 UTC precedes the 00:28 UTC freeze; zero commits after);
+> determinism OK (three same-seed runs today, advanced identical); evidence
+> integrity OK after tightening. TWO adversarial defects found and fixed red-first
+> (CHANGELOG [15]): an empty posting produced a confident NOT_SPONSORABLE — NoMatch
+> with nothing searched read as confirmed absence — now indeterminate/
+> no_employer_stated; a binary file dumped a raw traceback — CLI now exits 2 typed.
+> Post-fix run 20260830-105501: advanced identical on every metric. One WARNING
+> stands: no input-size cap — an oversized posting is an oversized token bill;
+> fix is a boundary cap in the CLI, priced but not built on final day.
