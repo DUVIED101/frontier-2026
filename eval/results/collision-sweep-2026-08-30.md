@@ -1,6 +1,6 @@
 # Collision sweep — designed employer strings vs the committed snapshot
 
-Snapshot: `sponsor-register-2026-08-28.csv.gz` (143020 rows). Recorded-path column (dev only): `20260829-210352.json`. Mechanical throughout — no model call. Holdout cases: counts and booleans only.
+Snapshot: `sponsor-register-2026-08-28.csv.gz` (143020 rows). Recorded-path column (dev only): `20260830-101148.json`. Mechanical throughout — no model call. Holdout cases: counts and booleans only.
 
 - `case-01-compound-aggregator-gbm` (dev): orgs 1/1 exact-self · aliases 1/1 alias_lookup · label pass/alias_lookup; recorded MATCH
 - `case-02-refusal-licensed` (dev): orgs 1/1 exact-self · label pass/legal_name_exact; recorded MATCH
