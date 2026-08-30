@@ -42,20 +42,21 @@ The verdict comes first, with the one sentence that determines it. Then the four
 checks, each with evidence I can check myself: the sponsorship quote carries
 character offsets into the posting — byte-verbatim, or it doesn't count. The
 register row is reproduced field-for-field from a committed snapshot of the real
-Home Office register — one hundred forty-three thousand rows. The snapshot date is
+Home Office register — a hundred and forty-three thousand rows. The snapshot date is
 printed with a warning, because licences get revoked weekly and a verdict is only
 as fresh as its snapshot. And when something can't be established, the report says
 exactly what and exactly what I'd have to do about it — ask which legal entity
 issues the Certificate, ask for the guaranteed basic salary in writing.
 
-Here's the architecture in one sentence: a model extracts typed claims — employer
-names, salary, stance quote — and then deterministic code does everything else:
-three-phase entity resolution against the register, a pure rules engine with the
-salary floor as versioned data, mechanical verification that every quote exists in
-the source and every row exists in the snapshot, and a renderer with no model in
-it. Code decides; the model extracts. This case is the trap: the entity IS on the
-register, but the licence is the wrong route. One-prompt tools say yes. This says
-NOT SPONSORABLE, and cites the row.
+The architecture in one sentence: a model extracts typed claims, and deterministic
+code does everything else — entity resolution against the register, a pure rules
+engine with the floor as versioned data, mechanical verification of every quote
+and row, a renderer with no model in it. Code decides; the model extracts. One
+choice is worth naming: the verifier bought no measured improvement on our cases —
+and stayed, because it bounds the direction of failure: unsupported evidence can
+only move a verdict toward abstention, never toward confidence. This case is the
+trap: the entity IS on the register, but the licence is the wrong route.
+One-prompt tools say yes. This says NOT SPONSORABLE, and cites the row.
 
 ## 3:00 — The comparison (~40 s / ~100 words)
 
@@ -67,7 +68,8 @@ and the floor at point four eight matters — always abstaining scores points, s
 beating the baseline isn't enough. Confident-wrong: four and a half percent versus
 twenty-six. Grounding: one hundred percent — every citation survives mechanical
 verification. Three point six times cheaper, more than four times faster. And the ten
-held-out cases, never opened during development: perfect on every metric.
+held-out cases, never opened during development: perfect on every metric —
+that subset contains none of the class we fail on.
 
 ## 3:40 — The changelog, and the change that mattered most (~40 s / ~100 words)
 
@@ -86,9 +88,8 @@ had passed a green test suite.
 
 [Screen: CHANGELOG.md entry [5], the self-consistency table]
 
-One experiment was removed, by its own numbers. Self-consistency voting — sample
-the baseline three times at temperature one, majority vote. It scored *worse* than
-the single-shot baseline at three times the cost, because when a model
+One experiment was removed, by its own numbers: self-consistency voting. It scored
+*worse* than the single-shot baseline at three times the cost, because when a model
 systematically substitutes world knowledge for evidence, sampling it three times
 votes the same error in. That's the thesis of the whole project: you don't fix
 ungrounded confidence by asking for it three times. You fix it by making code
@@ -99,3 +100,6 @@ decide, and letting the model do only what it's good at — reading.
 Everything you just saw reproduces from a clean clone with one guide. Thanks.
 
 ## — total ≈ 4:55
+
+**Production note:** read once against a stopwatch before recording. If it
+overruns, cut from the 1:20 architecture sentence — never from the close.
