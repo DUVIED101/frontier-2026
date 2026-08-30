@@ -37,6 +37,30 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [14] Ambiguity note grouped by licence route
+`8438913` · 2026-08-30 10:35 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** No metric movement — note layer only, and `eval/metrics.py` never
+reads `uncertainty_notes`. Operator-queued presentation fix, unblocked by the
+collision sweep validating the resolution it presents: case-24's ambiguity
+genuinely surfaces eleven candidates, and enumerating each entity with its routes
+buried the one split the user actually weighs.
+
+**Change.** `assemble` groups ambiguity candidates under their licence route
+(largest group first, all entities still named); failing test first
+(`test_ambiguity_note_groups_candidates_by_licence_route`, exact-string assertion).
+Case-24 now reads: "11 register entities match the posted employer. By licence
+route — Skilled Worker: [ten names]; Global Business Mobility: Senior or
+Specialist Worker: Halcyon Consulting (UK) Ltd."
+
+**Measurement.** Evidence: `eval/results/20260830-103559.json` — advanced identical
+to the pre-change run on every verdict-level metric (verdict_utility 0.9091,
+exact_match 0.9545, grounding 1.0), as required.
+
+**Verdict.** KEPT. The run also confirms the change landed after the final run of
+record deliberately: README numbers all trace to `20260830-101148.json`, which this
+change cannot and does not alter.
+
 ### [13] Final full-set run: the holdout answers
 `c369b97` · 2026-08-30 10:11 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 

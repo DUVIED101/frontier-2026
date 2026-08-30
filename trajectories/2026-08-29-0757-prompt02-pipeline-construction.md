@@ -716,3 +716,15 @@ timing measurement 3, trajectories audit, video, submit.
 > weekend's pattern; corrected against the artifact, with the entry-[1] figures
 > (0.8, not the final 0.9091) likewise verified against the CHANGELOG before
 > commit.
+
+### Post-close checkpoint 13 — Ambiguity note grouped by route
+
+> Operator-queued presentation fix, gated behind the sweep by design and executed
+> after it validated the resolution: red test first (exact-string assertion on a
+> 3-entity, 2-route synthetic), then assemble groups candidates under their licence
+> route, largest group first, every entity still named — the disclosure principle
+> from checkpoint [8] holds, the enumeration noise goes. Case-24 rendered live: ten
+> Skilled Worker entities in one group, the GBM-only fixture alone in the other.
+> Metrics provably unread (eval/metrics.py never touches uncertainty_notes) and
+> measured unchanged anyway: 20260830-103559.json, advanced identical on every
+> verdict-level metric. CHANGELOG [14].
