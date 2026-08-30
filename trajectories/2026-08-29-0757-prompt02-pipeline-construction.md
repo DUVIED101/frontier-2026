@@ -665,3 +665,22 @@ timing measurement 3, trajectories audit, video, submit.
 > real shape of the problem). Both design premises survive: routes still diverge
 > across case-24's full set; case-25's candidates all hold Skilled Worker. Resolver
 > untouched. Evidence: eval/results/collision-sweep-2026-08-30.md.
+
+### Post-close checkpoint 11 — QREPRO from a fresh clone (2026-08-30)
+
+> Executed literally in /tmp from a clone of dc7bc0c: python3.12 venv, pip install,
+> cp .env.example (one variable, as documented), §7 gates first — 101 tests, mypy,
+> ruff all green on the clean clone. §4 baseline: 0.3864 (paste says 0.2955; the doc
+> predicts the difference and the committed band covers it). §5 advanced: every
+> verdict-level metric identical to the paste — 0.9091 / 0.06667 / 0.9333 / 1 /
+> 0.9886 / 1 / 0.9545. Demo CLI exercised on an improvised posting: end-to-end
+> model→resolve→rules→render, register FAIL because the invented employer is
+> genuinely absent — correct behaviour, not a defect. §6 flag-less: three columns,
+> always_abstain 0.4886 exactly as pasted. The documented dirty-tree warning
+> appeared from the second run onward exactly as §6 says.
+>
+> One finding, fixed: "expect your advanced column to match its paste exactly"
+> overpromised — cost_per_case_usd moved in its final digit (0.00317 vs 0.003158,
+> token-count jitter) and latency is the machine's. Sentence now scoped to
+> verdict-level metrics. The §6 final command was not executed in the clone: it is
+> the one-time official run, executed next in the main repo per the Sunday order.

@@ -221,7 +221,9 @@ cases, and conservative delta claims in `CHANGELOG.md` are computed against the 
 committed baseline figure. The **advanced** variant has reproduced identical numbers
 across every independent run at each case-set size, including one from a fresh clone.
 Expect your baseline column to differ from the paste above; expect your advanced
-column to match its paste exactly.
+column to match its paste exactly on every verdict-level metric —
+`cost_per_case_usd` can shift in its final digit with token-count jitter, and the
+latency rows are your machine's (verified from a fresh clone, 2026-08-30).
 
 **Expected warning.** From your second run onward the harness prints
 `WARNING: working tree is dirty` — it is seeing your own previous run's results files,
