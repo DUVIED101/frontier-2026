@@ -34,7 +34,7 @@ priced at $3/$15 per MTok):
 ## 1. Clone and set up
 
 ```bash
-git clone <REPO_URL>
+git clone https://github.com/DUVIED101/frontier-2026
 cd frontier-2026
 ```
 
