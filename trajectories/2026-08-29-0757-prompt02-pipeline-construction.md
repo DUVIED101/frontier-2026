@@ -805,3 +805,24 @@ case-24 render); ~$13 for the competition to date.
 > (0.9091 dev), baseline 0.2955 within its band. The package is assembled;
 > remaining with the operator: timing measurement 3, recording the video,
 > submission.
+
+### Post-close checkpoint 16 — Fourth baseline value; band widened, delta recomputed
+
+> **HUMAN: redirected** — operator's fresh afternoon baseline run
+> (eval/results/20260830-125243.json, clean tree, dev n=22) scored 0.4773, above
+> the documented 0.225–0.425 band; the same figure the final run's dev subset
+> recorded, so not a fluke. Orders: widen the operative band to 0.225–0.4773,
+> recompute the conservative delta against the new top, append rather than edit,
+> add the value to REPRODUCTION §6's variance paragraph, re-run nothing.
+>
+> Applied: band-update paragraph appended to CHANGELOG [4] (the entry that defines
+> the conservative rule) — dev pairing +0.4318 (0.9091 − 0.4773), full-set +0.4602,
+> the 2026-08-29 +0.475 left standing as record. README updated in three places
+> (baseline failure profile: four distinct values; determinism finding: four values,
+> band 0.225–0.4773; changelog summary: current conservative +0.4318 on the dev
+> pairing, stated as such) plus one pointer fix (entry [1] → [4] for where the
+> conservative comparison lives). REPRODUCTION §6 names the fourth value so a judge
+> landing near 0.48 sees a document that predicted their result. The video script's
+> spoken band updated to "wanders between point two two and point four eight" —
+> the row-count lesson applied unprompted. Advanced numbers untouched; run of
+> record remains 20260830-101148.

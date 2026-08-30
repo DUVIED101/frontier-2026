@@ -107,7 +107,7 @@ its verdict_utility rose (0.725 vs 0.4773 dev) while its evidence quality fell
 (check_accuracy 0.75 vs 0.8409; grounding 0.9149 vs 0.9464), so its extra right
 answers rest on worse evidence chains. The honest comparison is the full-set delta
 of +0.38, and the conservative dev-band comparison in
-[`CHANGELOG.md`](CHANGELOG.md) entry [1].
+[`CHANGELOG.md`](CHANGELOG.md) entry [4].
 
 *Reading `grounding_rate` for the trivial-abstention floor: it scores 0 because that
 variant issues no citations at all — the metric verifies citations issued, and zero
@@ -153,9 +153,10 @@ rolled back to what a person actually types, and the change is recorded with num
 **Measured failure profile** (final run, baseline column): confidently wrong on 26% of
 its definitive verdicts; 6.3% of citations fail mechanical verification (fabricated or
 paraphrased quotes, rows not in the snapshot); verdict_utility unstable across
-identical invocations — committed n=20 runs produced three distinct values (0.225 /
-0.325 / 0.425, including a 5-repeat noise floor) because single-prompt judgment flips
-on borderline cases; exact_match 0 — it never produces a
+identical invocations — committed runs have produced four distinct values (0.225 /
+0.325 / 0.425 at n=20, including a 5-repeat noise floor; 0.4773 at dev n=22), an
+operative band of 0.225–0.4773, because single-prompt judgment flips on borderline
+cases; exact_match 0 — it never produces a
 fully label-consistent evidence chain, even when its verdict is right. On live input it
 exhibited the designed failure mode 1: substituting a market estimate for a salary the
 posting does not state (docs/TIMING.md).
@@ -191,8 +192,9 @@ One pipeline, five stages, one model call:
 Two findings worth more than the architecture:
 
 **Determinism is a measured property here, not a claim.** The baseline — one model
-call that judges everything — produced three different verdict_utility values across
-committed runs. The advanced pipeline has produced *identical* verdict-level numbers
+call that judges everything — has produced four different verdict_utility values
+across committed runs (band 0.225–0.4773). The advanced pipeline has produced
+*identical* verdict-level numbers
 across every independent run at every case-set size, including from a fresh clone on
 each of two days, and moved by exactly the hypothesised amount when its one prompt was
 deliberately changed. Replacing model judgment with deterministic stages removed the
@@ -230,11 +232,13 @@ evidence file before writing it down.
 Full log with evidence per entry: [`CHANGELOG.md`](CHANGELOG.md).
 
 The iteration that mattered most was the first one: wiring extract → resolve → rules
-into a measured pipeline took verdict_utility to 0.8 against a baseline band of
-0.225–0.425 (entry [1]); the Saturday loops carried it to 0.9091 on dev, with the
-conservative delta always computed against the band's best figure — **+0.475** at
-minimum — never against whichever baseline landed in the same run (entry [4]
-appendix). Everything after was smaller and half of it was honesty work: a verifier
+into a measured pipeline took verdict_utility to 0.8 against a baseline whose
+committed band now spans 0.225–0.4773 (entry [1]; a fourth value, 0.4773, landed
+2026-08-30); the Saturday loops carried it to 0.9091 on dev, with the conservative
+delta always computed against the band's best figure — currently **+0.4318** on the
+dev pairing (0.9091 − 0.4773) — never against whichever baseline landed in the same
+run (entry [4] appendix). Everything after was smaller and half of it was honesty
+work: a verifier
 kept despite moving nothing (entry [3]), a self-consistency experiment rejected by
 its own numbers at 3× the cost (entry [5]), and five separate fixes for places where
 an artifact contradicted a claim made about it (entries [7]–[12]).

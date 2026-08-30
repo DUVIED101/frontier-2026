@@ -236,9 +236,12 @@ model output at temperature 0. The dev split grew from 20 to 22 cases on 2026-08
 [10]/[11]), so aggregates across different case counts are not directly comparable;
 per-case verdicts are. Measured at n=20, the **baseline's** verdict_utility took three
 values — 0.225, 0.325, 0.425 (5-repeat noise floor in
-`eval/results/20260829-002003.json`); single-prompt judgment flips on borderline
-cases, and conservative delta claims in `CHANGELOG.md` are computed against the worst
-committed baseline figure. The **advanced** variant has reproduced identical numbers
+`eval/results/20260829-002003.json`); a later dev n=22 run recorded **0.4773**
+(`eval/results/20260830-125243.json`, the same figure the final run's dev subset
+shows), so the operative band across all committed runs is **0.225–0.4773** — expect
+your baseline column anywhere in or around it. Single-prompt judgment flips on
+borderline cases, and conservative delta claims in `CHANGELOG.md` are computed
+against the worst committed baseline figure. The **advanced** variant has reproduced identical numbers
 across every independent run at each case-set size, including one from a fresh clone.
 Expect your baseline column to differ from the paste above; expect your advanced
 column to match its paste exactly on every verdict-level metric —

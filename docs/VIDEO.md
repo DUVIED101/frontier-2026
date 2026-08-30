@@ -77,9 +77,10 @@ that subset contains none of the class we fail on.
 
 Fifteen logged iterations, each citing its results file. The one that mattered
 most was the first: wiring extraction, resolution and rules into a measured
-pipeline — verdict utility went from a baseline band of point two two to point
-four two, up to point eight, and the conservative delta is computed against the
-band's best figure, never against whichever baseline landed in the same run.
+pipeline — verdict utility went from a baseline that wanders between point two two
+and point four eight, up to point eight, and the conservative delta is computed
+against the band's best figure, never against whichever baseline landed in the
+same run.
 Almost everything after was smaller — and half of it was honesty work: fixes for
 places where an artifact contradicted a claim made about it. Every one of those
 had passed a green test suite.

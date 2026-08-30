@@ -463,6 +463,16 @@ same-run comparison above shows. The advanced side needs no band: five runs at 0
 deliberate change — the deterministic stages removed the run-to-run variance the
 baseline still has.
 
+**Band update (appended 2026-08-30).** A fourth committed baseline value landed
+above the band: **0.4773** at dev n=22 (`eval/results/20260830-125243.json` — the
+same figure the final run's dev subset independently recorded, so it is not a
+fluke). The operative band across all committed runs is now **0.225–0.4773**, and
+the standing conservative figure recomputes against its top, on the dev pairing
+this entry already uses: **+0.4318** (0.9091 − 0.4773); against the full-set
+advanced figure it is +0.4602 (0.9375 − 0.4773). The +0.475 above stands as the
+2026-08-29 record. Advanced numbers untouched; the run of record remains
+`20260830-101148.json`.
+
 ### [3] Verifier gates model-sourced quotes ahead of the combinator
 `7c85ed0` · 2026-08-29 08:47 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
