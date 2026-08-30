@@ -216,3 +216,42 @@ def test_assemble_cites_the_row_the_verdict_rests_on_for_multi_route_entities() 
     register_ev = out["checks"]["register"]["evidence"]
     assert register_ev["register_row"]["route"] == "Skilled Worker"
     assert register_ev["routes_held"] == ["Creative Worker", "Skilled Worker"]
+
+
+def test_ambiguity_note_groups_candidates_by_licence_route() -> None:
+    from src.advanced.resolve import Ambiguous
+
+    rows = (
+        RegisterRow(
+            "Zephyr Data Ltd", "Leeds", "", "Worker (A rating)", "Skilled Worker"
+        ),
+        RegisterRow(
+            "Zephyr Labs Ltd", "York", "", "Worker (A rating)", "Skilled Worker"
+        ),
+        RegisterRow(
+            "Zephyr Mobility Ltd",
+            "Hull",
+            "",
+            "Worker (A rating)",
+            "Global Business Mobility: Senior or Specialist Worker",
+        ),
+    )
+    claims = ExtractedClaims(
+        employer_strings=("Zephyr",),
+        stance=StanceClaim("offered", "We offer visa sponsorship"),
+        salary=SalaryClaim(46_000, 46_000, None),
+    )
+    out = assemble(
+        claims,
+        Ambiguous(("Zephyr Data Ltd", "Zephyr Labs Ltd", "Zephyr Mobility Ltd"), rows),
+        FLOOR,
+        SNAPSHOT_DATE,
+        POSTING,
+    )
+    assert out["uncertainty_notes"][0] == (
+        "3 register entities match the posted employer. By licence route — "
+        "Skilled Worker: Zephyr Data Ltd, Zephyr Labs Ltd; "
+        "Global Business Mobility: Senior or Specialist Worker: "
+        "Zephyr Mobility Ltd. Which one would issue the Certificate of "
+        "Sponsorship decides whether this role can sponsor at all"
+    )

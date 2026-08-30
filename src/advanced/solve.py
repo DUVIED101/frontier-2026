@@ -212,13 +212,22 @@ def assemble(
         routes_of: dict[str, list[str]] = {}
         for row in resolution.rows:
             routes_of.setdefault(row.organisation_name, []).append(row.route)
-        described = " and ".join(
-            f"{org} (routes: {', '.join(routes)})" for org, routes in routes_of.items()
+        # Grouped by route, not enumerated per entity: against the real register an
+        # ambiguity can surface eleven candidates (collision sweep 2026-08-30), and
+        # the route split is what the user actually needs to weigh.
+        by_route: dict[str, list[str]] = {}
+        for org, routes in routes_of.items():
+            by_route.setdefault(" + ".join(sorted(set(routes))), []).append(org)
+        grouped = "; ".join(
+            f"{label}: {', '.join(sorted(orgs))}"
+            for label, orgs in sorted(
+                by_route.items(), key=lambda kv: (-len(kv[1]), kv[0])
+            )
         )
         notes.append(
-            f"{len(routes_of)} register entities match the posted employer: "
-            f"{described}. Which one would issue the Certificate of Sponsorship "
-            "decides whether this role can sponsor at all"
+            f"{len(routes_of)} register entities match the posted employer. "
+            f"By licence route — {grouped}. Which one would issue the Certificate "
+            "of Sponsorship decides whether this role can sponsor at all"
         )
     if claims.salary.note:
         notes.append(f"salary as stated: {claims.salary.note}")
