@@ -789,3 +789,19 @@ case-24 render); ~$13 for the competition to date.
 > Post-fix run 20260830-105501: advanced identical on every metric. One WARNING
 > stands: no input-size cap — an oversized posting is an oversized token bill;
 > fix is a boundary cap in the CLI, priced but not built on final day.
+
+### Post-close checkpoint 15 — Prompt 04 executed; package assembled
+
+> TODO scan across all judged documents: clean (the one remaining TODO is
+> docs/TIMING.md measurement 3 — the operator's manual protocol, flagged rather
+> than removed). Pre-existing-work declaration verified against history: exactly
+> one pre-kickoff commit, a91f4b4 at 13:58 UTC, matching the README list.
+> REPRODUCTION §7 test count corrected to 104 after the hardening-pass tests.
+> Video script written to docs/VIDEO.md — timed sections totalling ≈4:55, every
+> spoken number traceable to a committed file, the [1] iteration and the removed
+> experiment called out as the brief requires. Final verification per prompt 04
+> §5: third fresh clone, 104 tests, mypy clean, and the specified
+> baseline-vs-advanced command — advanced identical to every prior run
+> (0.9091 dev), baseline 0.2955 within its band. The package is assembled;
+> remaining with the operator: timing measurement 3, recording the video,
+> submission.
