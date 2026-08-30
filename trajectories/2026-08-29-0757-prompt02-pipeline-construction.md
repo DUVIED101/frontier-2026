@@ -639,3 +639,29 @@ timing measurement 3, trajectories audit, video, submit.
 > own dirty tree before commit: exit 2, no results file written, no model call. 101
 > tests green. Standing citation rule recorded in prompts/02 step 4; REPRODUCTION §6
 > documents the refusal and §8 carries the troubleshooting row.
+
+### Post-close checkpoint 10 — Sunday opens: the collision sweep
+
+> **HUMAN: approved/ordered** — Sunday order as agreed, nothing before these three:
+> collision sweep across the 32 cases, QREPRO from a fresh clone, flag-less
+> --split all --tag final. Report the sweep before moving on. Standing constraint:
+> a case whose resolution differs from its design assumption is repaired by renaming
+> the fixture or correcting the label, never by tuning the resolver — that is the
+> one repair that would invalidate the eval.
+>
+> Sweep built (eval/collision_sweep.py) and run: all 32 cases, mechanical, no model
+> call. Clean on every dangerous class — 32/32 fixture orgs exact-self against
+> 143,020 rows, 2/2 alias keys via alias_lookup (nothing preempted the alias pass),
+> 3/3 asserted-absent names NoMatch, 22/22 dev recorded register paths MATCH their
+> labels, holdout label-consistent (booleans only; trading_name_stated is
+> final-run-only by nature). Two findings, one class: the group stems of the
+> ambiguity cases match real register organisations — case-24 surfaces 11 candidates
+> (2 fixture + 9 real 'Halcyon'), case-25 surfaces 3 (2 fixture + 1 real
+> 'Merrivale'). Labels verified correct for the labelled reason in both.
+>
+> Repair: corrected the design record per the ruling — titles said "two entities",
+> resolution says otherwise; renaming the fixtures was rejected (second snapshot
+> rebuild on submission day, and CHANGELOG [8] already framed the collision as the
+> real shape of the problem). Both design premises survive: routes still diverge
+> across case-24's full set; case-25's candidates all hold Skilled Worker. Resolver
+> untouched. Evidence: eval/results/collision-sweep-2026-08-30.md.

@@ -310,3 +310,35 @@ the dev loop legitimately runs mid-edit and the warning suffices there.
 audit list in the 2026-08-29-0757 trajectory, checkpoint 9; the refusal exercised
 live against this change's own dirty tree before commit — exit 2, no results file,
 no model call.
+
+### 2026-08-30 — Collision sweep: labels hold; the design record corrected, not the fixtures
+**Context.** Pre-final-run gate: every case's designed employer strings run through
+the real resolver against the committed snapshot (eval/collision_sweep.py,
+mechanical, no model call). The dangerous classes all came back clean — every
+fixture organisation resolves exact-uniquely to exactly its manifest rows against
+143,020 rows; both alias keys resolve via alias_lookup (nothing preempts the alias
+pass at the exact or token-subset phase, where a hit on a real organisation would
+silently resolve the wrong entity); all three asserted-absent names stay NoMatch;
+all 22 dev cases' recorded register paths match their labels. Two findings, one
+class: the ambiguity cases surface more candidates than designed. Case-24's group
+stem matches 9 real register organisations besides the 2 fixtures (11 candidates);
+case-25's matches 1 (3 candidates). Operator ruling, standing: never adjust the
+resolver to make a case pass — rename the fixture or correct the label.
+**Options.** (A) Rename the Halcyon/Merrivale fixtures to unique stems, restoring
+the two-entity design. (B) Correct the design record: the expected labels are
+verifiably right (both cases resolve indeterminate/ambiguous_group for the labelled
+reason, recorded MATCH), so what is false is the case titles' "two entities" claim.
+**Chosen.** B. The extra candidates are real register content — a user pasting
+"Halcyon Group" genuinely faces eleven candidates, and CHANGELOG [8] already named
+this "the real shape of the problem" when disclosure first surfaced it. Renaming
+would engineer away realistic behaviour and force a second snapshot rebuild on
+submission day. Both premises survive the intruders: case-24's routes still diverge
+across the full set (ten Skilled Worker, one GBM-only), case-25's same-route probe
+holds across all three (all Skilled Worker). Titles now say "multiple entities";
+design_notes carry the measured composition with the sweep reference.
+**Rejected.** A, as above. Also rejected: encoding the measured candidate counts
+into expected labels — the count is a property of the live register, not of the
+verdict contract the labels pin.
+**Evidence.** eval/results/collision-sweep-2026-08-30.md (committed sweep output);
+eval/collision_sweep.py; recorded-path column from eval/results/20260829-210352.json,
+to be regenerated against the final run's results file.

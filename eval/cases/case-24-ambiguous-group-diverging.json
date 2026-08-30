@@ -2,7 +2,7 @@
   "id": "case-24-ambiguous-group-diverging",
   "meta": {
     "archetype": "ambiguous_group",
-    "title": "Group name matches two entities whose routes diverge",
+    "title": "Group name matches multiple entities whose routes diverge",
     "authored": "2026-08-28",
     "split": "dev",
     "register_fixture_orgs": [
@@ -40,5 +40,5 @@
       "salary_text": "£44,000"
     }
   },
-  "design_notes": "The resolution genuinely decides the verdict: one candidate entity would make this sponsorable-shaped, the other kills it. Guessing either way is confident-wrong by construction. The uncertainty statement should tell the user exactly what to ask: which legal entity issues the contract."
+  "design_notes": "The resolution genuinely decides the verdict: one candidate entity would make this sponsorable-shaped, the other kills it. Guessing either way is confident-wrong by construction. The uncertainty statement should tell the user exactly what to ask: which legal entity issues the contract. Collision sweep 2026-08-30 (eval/results/collision-sweep-2026-08-30.md): the group stem also matches nine real register organisations, so resolution surfaces eleven candidates, not the two designed — ten hold Skilled Worker and one (the fixture Halcyon Consulting (UK) Ltd) is Global Business Mobility-only, so the diverging-routes premise holds across the full candidate set. Labels confirmed unchanged and correct for the labelled reason. First observed at the ambiguity-disclosure loop (CHANGELOG [8]); the fixtures were deliberately not renamed to restore the two-entity design — the extra candidates are real register content and renaming would have engineered away a realistic behaviour (DECISIONS 2026-08-30)."
 }

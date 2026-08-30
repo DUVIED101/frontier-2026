@@ -2,7 +2,7 @@
   "id": "case-25-ambiguous-group-same-route",
   "meta": {
     "archetype": "ambiguous_group",
-    "title": "Brand matches two entities, both Skilled Worker licensed",
+    "title": "Brand matches multiple entities, all Skilled Worker licensed",
     "authored": "2026-08-28",
     "split": "dev",
     "register_fixture_orgs": [
@@ -39,5 +39,5 @@
       "salary_text": "£41,500"
     }
   },
-  "design_notes": "Deliberate policy probe: BOTH candidate entities hold Skilled Worker licences, so one could argue route passes by any path. The C1 policy still labels register indeterminate on one ground only: a Certificate of Sponsorship is issued by one specific licensed entity, so an unidentifiable employer means the licence backing any CoS cannot be established. This convention was reviewed and confirmed at the label gate; overriding it would change the C1 policy, not just this case."
+  "design_notes": "Deliberate policy probe: BOTH candidate entities hold Skilled Worker licences, so one could argue route passes by any path. The C1 policy still labels register indeterminate on one ground only: a Certificate of Sponsorship is issued by one specific licensed entity, so an unidentifiable employer means the licence backing any CoS cannot be established. This convention was reviewed and confirmed at the label gate; overriding it would change the C1 policy, not just this case. Collision sweep 2026-08-30 (eval/results/collision-sweep-2026-08-30.md): the brand stem also matches one real register organisation (KPT Merrivale Wine Store, Skilled Worker), so resolution surfaces three candidates, not the two designed — all three hold Skilled Worker, so the policy probe's premise holds across the full candidate set. Labels confirmed unchanged; fixtures deliberately not renamed (DECISIONS 2026-08-30)."
 }
