@@ -125,6 +125,11 @@ pairwise delta at three columns — deltas for README come from the results JSON
 archetype coverage.
 **Evidence.** Arithmetic from the labels: (10 × 1.0 + 20 × 0.25) / 30 = 0.5. Recorded
 before the baseline freeze.
+**Appended 2026-08-30, after the final run.** The arithmetic above is the 30-case
+plan-era figure and stays as the historical record. The measured floor on the final
+full-set run of record is **0.4844** (`eval/results/20260830-101148.json`, 32 cases:
+0.4886 dev / 0.475 holdout per `final-breakdown-2026-08-30.md`). Every floor number
+in README comes from that run, not from this entry.
 
 ### 2026-08-28 — Holdout enforced mechanically via --split, default dev
 **Context.** All 30 cases including the 10 holdout were necessarily read at authoring.
