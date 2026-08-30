@@ -4,6 +4,32 @@ This is the recovery point. A session resuming this project needs `CLAUDE.md`, t
 and `docs/DECISIONS.md` — no chat history. Every MUST rule in `CLAUDE.md` binds all work
 described here.
 
+## Status — 2026-08-30, after the final run
+
+The body below is the approved 2026-08-28 plan, unedited. Reality diverged from it in
+places; this block records the divergence rather than editing the plan to look
+prescient. Reasoning for every item: `docs/DECISIONS.md`.
+
+- **Built as planned:** pipeline A (extract → resolve → rules → verify → render), the
+  §5b verification report as a pure renderer, the self-consistency removed experiment
+  (rejected by its own numbers, CHANGELOG [5]), the 10-case holdout held untouched
+  until the final run, the frozen baseline.
+- **Contingencies that fired:** cut-order item 1 — the B-rating sub-check was cut and
+  folded into the uncertainty statement exactly as §8 provides; case-28 prices that
+  cut and is the one wrong verdict in the final run. Item 2 (the alias layer) was
+  provisionally out and restored to scope on Saturday morning — and it shipped as
+  **synthetic alias fixtures** (`aliases.json`), not the "cached Companies House name
+  lookups" the §5 table describes. No Companies House data exists in this repo; where
+  this plan and `docs/DATA.md` disagree about that artifact, DATA.md is correct.
+- **Scope the plan did not contain:** a demo CLI (`python -m src.advanced.cli`,
+  CHANGELOG [9]); a dirty-tree guard on tagged eval runs; the collision sweep
+  (`eval/collision_sweep.py`); two dev cases added from live-input blind spots
+  (CHANGELOG [10]/[11]) — so §7's "~30 total" and §8's "full 30" ended at **32 cases
+  (22 dev / 10 holdout)**.
+- **Where it ended:** final run of record `eval/results/20260830-101148.json` —
+  advanced verdict_utility 0.9375 (holdout 1.0), baseline 0.5547, trivial abstention
+  0.4844.
+
 ## Context
 
 micro1 Agentic Workflows Hackathon (kickoff 16:00 London, Fri 28 Aug 2026; submission

@@ -88,9 +88,12 @@ file, per the standing rule.
 Advanced on the holdout: every metric at its ceiling — verdict_utility 1.0,
 confident_wrong_rate 0, check_accuracy 1.0, grounding 1.0, exact_match 1.0,
 decisive_rate 1.0. The one imperfection in the full set remains dev case-28, the
-deliberately priced B-rating cut. Baseline: 0.5547 full-set — its holdout subset
-(0.725) was its friendliest, stated plainly; the full-set delta of +0.3828 is
-same-run, and the conservative dev-band comparison in entry [1] still stands.
+deliberately priced B-rating cut. Baseline: 0.5547 full-set — and the holdout was
+easier for it at verdict level while harder at check level: verdict_utility 0.725
+vs 0.4773 dev, but check_accuracy 0.75 vs 0.8409 and grounding 0.9149 vs 0.9464 —
+its extra right answers rest on worse evidence chains. The full-set delta of
++0.3828 is same-run, and the conservative dev-band comparison in entry [1] still
+stands.
 Advanced cost $0.003142/case (3.6× cheaper than baseline), p50 2.1 s, grounding
 1.0 across all 32.
 

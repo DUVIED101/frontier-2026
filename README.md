@@ -102,8 +102,11 @@ verdict_utility 1.0, confident_wrong 0, check_accuracy 1.0, grounding 1.0,
 exact_match 1.0. The one imperfection in the full set is dev case-28, a deliberately
 priced design cut (a licence-rating sub-check folded into the uncertainty statement
 instead of the verdict; the report carries the caveat). Stated against that: the
-baseline's holdout subset (0.725) was also *its* friendliest — the honest comparison
-is the full-set delta of +0.38, and the conservative dev-band comparison in
+holdout was *easier for the baseline at verdict level and harder at check level* —
+its verdict_utility rose (0.725 vs 0.4773 dev) while its evidence quality fell
+(check_accuracy 0.75 vs 0.8409; grounding 0.9149 vs 0.9464), so its extra right
+answers rest on worse evidence chains. The honest comparison is the full-set delta
+of +0.38, and the conservative dev-band comparison in
 [`CHANGELOG.md`](CHANGELOG.md) entry [1].
 
 *Reading `grounding_rate` for the trivial-abstention floor: it scores 0 because that
