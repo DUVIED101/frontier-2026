@@ -16,7 +16,7 @@ Re-verify this document from a fresh clone before submitting — do not assume i
 | Docker | 28.x (tested 28.4.0, 2026-08-29) | Optional alternative path. Image `python:3.12-slim-bookworm`; build + full test suite + eval harness verified in-container. |
 | Node.js | — | Not used; the solution is Python-only. The `docker/Dockerfile.node` scaffold is unused and declared in README. |
 | API access | Anthropic API | Model `claude-sonnet-4-6` (pinned, both variants — DECISIONS.md 2026-08-28). Env var `ANTHROPIC_API_KEY`. **No key is included in this repo.** |
-| Disk | ~60 MB | Repo (~2.4 MB archive incl. the gzipped register snapshot) + venv. |
+| Disk | ~200 MB | Repo (~7.5 MB `git archive`, ~2.9 MB gzipped, incl. the register snapshot) + venv (~135 MB measured with the pinned toolchain). |
 
 Measured cost and wall-clock per command (from the committed results files, model calls
 priced at $3/$15 per MTok):
