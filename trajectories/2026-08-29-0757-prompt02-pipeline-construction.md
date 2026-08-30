@@ -684,3 +684,35 @@ timing measurement 3, trajectories audit, video, submit.
 > token-count jitter) and latency is the machine's. Sentence now scoped to
 > verdict-level metrics. The §6 final command was not executed in the clone: it is
 > the one-time official run, executed next in the main repo per the Sunday order.
+
+### Post-close checkpoint 12 — Final run, breakdown, README
+
+> Final run executed flag-less from a clean tree at ceb194d: all 32 cases, three
+> variants, git_dirty=false, tag=final — eval/results/20260830-101148.json is the
+> run of record. Advanced 0.9375 / baseline 0.5547 / floor 0.4844. The 10 held-out
+> cases, never opened during development: verdict_utility 1.0 and every other
+> metric at ceiling (final-breakdown-2026-08-30.md, derived mechanically from the
+> per-case records by eval/split_breakdown.py — nothing re-run). The full set's one
+> imperfection remains dev case-28, the priced B-rating cut. Baseline holdout 0.725
+> was its friendliest subset — stated in README rather than hidden.
+>
+> Bookkeeping per the standing orders: abstention floor appended to the 2026-08-28
+> DECISIONS entry (historical arithmetic untouched); REPRODUCTION §4/§5/§6 pastes
+> refreshed from three fresh clean-tree runs with commits between them (101719,
+> 101815, 102249 — all git_dirty=false; the superseded §5/§6 pastes had recorded
+> dirty), final-run table added to §6; collision sweep regenerated against the run
+> of record (22/22 recorded paths still MATCH). CHANGELOG [13] written.
+>
+> README filled with the four ordered corrections applied: sections reordered
+> (user → bottleneck → value → prior art), headline table carries the floor beside
+> both solutions with every number from 101148, hot take inverted to one paragraph
+> leading with the invariance script, "and package.json" removed (no such file —
+> checked), Licence picked (MIT + LICENSE file, register stays OGL v3), Agent setup
+> table filled with the disclosure that the project was built through a coding
+> agent under CLAUDE.md. One claim caught BEFORE commit this time: the dependency
+> line initially said "anthropic, pydantic, rapidfuzz" from the plan's approval
+> record — requirements.txt pins anthropic only (the implementation used
+> dataclasses and its own token matching). The first pre-commit catch of the
+> weekend's pattern; corrected against the artifact, with the entry-[1] figures
+> (0.8, not the final 0.9091) likewise verified against the CHANGELOG before
+> commit.

@@ -102,7 +102,7 @@ Provenance and licence for everything: [`docs/DATA.md`](docs/DATA.md).
 python eval/run_eval.py --variant baseline --split dev --seed 42
 ```
 
-Output of this exact command as recorded in `eval/results/20260829-205818.json`
+Output of this exact command as recorded in `eval/results/20260830-101719.json`
 (your timestamps will differ; on run-to-run variance see §6):
 
 ```
@@ -113,12 +113,12 @@ Output of this exact command as recorded in `eval/results/20260829-205818.json`
 | decisive_accuracy | 0.5882 |
 | decisive_rate | 0.8667 |
 | check_accuracy | 0.8409 |
-| grounding_rate | 0.9478 |
-| cost_per_case_usd | 0.01134 |
+| grounding_rate | 0.9561 |
+| cost_per_case_usd | 0.01137 |
 | exact_match | 0 |
 | error_rate | 0 |
-| p50_seconds | 9.901 |
-| p95_seconds | 12.29 |
+| p50_seconds | 9.832 |
+| p95_seconds | 13.11 |
 ```
 
 Runtime: ~4 minutes, ~$0.25.
@@ -131,7 +131,7 @@ Runtime: ~4 minutes, ~$0.25.
 python eval/run_eval.py --variant advanced --split dev --seed 42
 ```
 
-Output as recorded in `eval/results/20260829-205909.json`:
+Output as recorded in `eval/results/20260830-101815.json`:
 
 ```
 | Metric | advanced |
@@ -142,18 +142,19 @@ Output as recorded in `eval/results/20260829-205909.json`:
 | decisive_rate | 1 |
 | check_accuracy | 0.9886 |
 | grounding_rate | 1 |
-| cost_per_case_usd | 0.003158 |
+| cost_per_case_usd | 0.003161 |
 | exact_match | 0.9545 |
 | error_rate | 0 |
-| p50_seconds | 2.136 |
-| p95_seconds | 3.121 |
+| p50_seconds | 2.238 |
+| p95_seconds | 2.885 |
 ```
 
 Runtime: ~1 minute, ~$0.07. The advanced pipeline reproduces its verdict-level
 numbers identically across independent runs at every case-set size it has been
-measured on (three runs at dev n=20, three at n=22 — e.g. `20260829-204901.json`,
-`20260829-205909.json`, `20260829-210352.json`) — one small extraction call plus
-deterministic stages.
+measured on (dev n=20, dev n=22, and the dev columns of the full-set final run —
+e.g. `20260830-101815.json`, `20260830-102249.json`, `20260830-101148.json`, and a
+fresh-clone run on 2026-08-30) — one small extraction call plus deterministic
+stages.
 
 ### Demo: one pasted posting (the video walkthrough path)
 
@@ -178,7 +179,7 @@ With no `--variant` flag it runs all three: baseline, `always_abstain`, advanced
 python eval/run_eval.py --split dev --seed 42
 ```
 
-Output of this exact command as recorded in `eval/results/20260829-210352.json`:
+Output of this exact command as recorded in `eval/results/20260830-102249.json`:
 
 ```
 | Metric | baseline | always_abstain | advanced |
@@ -187,19 +188,38 @@ Output of this exact command as recorded in `eval/results/20260829-210352.json`:
 | confident_wrong_rate | 0.4118 | 0 | 0.06667 |
 | decisive_accuracy | 0.5882 | 0 | 0.9333 |
 | decisive_rate | 0.8667 | 0 | 1 |
-| check_accuracy | 0.8295 | 0 | 0.9886 |
+| check_accuracy | 0.8409 | 0 | 0.9886 |
 | grounding_rate | 0.9561 | 0 | 1 |
-| cost_per_case_usd | 0.01132 | 0 | 0.003161 |
+| cost_per_case_usd | 0.01118 | 0 | 0.003166 |
 | exact_match | 0 | 0 | 0.9545 |
 | error_rate | 0 | 0 | 0 |
-| p50_seconds | 9.831 | 1.455e-07 | 2.155 |
-| p95_seconds | 12.9 | 2.5e-07 | 3.204 |
+| p50_seconds | 10.02 | 1.67e-07 | 2.049 |
+| p95_seconds | 11.88 | 3.34e-07 | 3.53 |
 ```
 
-The final full-set run (all 32 cases including the 10-case holdout, Sunday only):
+The final full-set run (all 32 cases including the 10-case holdout, run once):
 
 ```bash
 python eval/run_eval.py --split all --seed 42 --tag final
+```
+
+Its output as recorded in the run of record, `eval/results/20260830-101148.json`
+(dev/holdout breakdown: `eval/results/final-breakdown-2026-08-30.md`):
+
+```
+| Metric | baseline | always_abstain | advanced |
+|---|---|---|---|
+| verdict_utility | 0.5547 | 0.4844 | 0.9375 |
+| confident_wrong_rate | 0.2609 | 0 | 0.04545 |
+| decisive_accuracy | 0.7391 | 0 | 0.9545 |
+| decisive_rate | 0.8636 | 0 | 1 |
+| check_accuracy | 0.8125 | 0 | 0.9922 |
+| grounding_rate | 0.9371 | 0 | 1 |
+| cost_per_case_usd | 0.01118 | 0 | 0.003142 |
+| exact_match | 0 | 0 | 0.9688 |
+| error_rate | 0 | 0 | 0 |
+| p50_seconds | 9.652 | 1.67e-07 | 2.099 |
+| p95_seconds | 12.36 | 5e-07 | 3.38 |
 ```
 
 Results are written to `eval/results/<UTC timestamp>.json` and `.md`.

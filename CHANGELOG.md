@@ -37,6 +37,44 @@ Is the delta larger than run-to-run variance? State the variance.
 
 ## Log
 
+### [13] Final full-set run: the holdout answers
+`c369b97` · 2026-08-30 10:11 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
+
+**Hypothesis.** The pre-registered target from the pipeline build (2026-08-29
+trajectory header): beat the baseline on verdict_utility AND beat always_abstain
+while staying decisive — on the 10 held-out cases never opened during development.
+
+**Change.** No code. Two gates ran before the measurement: the collision sweep
+(`eval/results/collision-sweep-2026-08-30.md` — all 32 cases resolve for their
+labelled reasons; the two ambiguity cases surface real register namesakes, design
+records corrected, resolver untouched) and QREPRO from a fresh clone (101 tests,
+§§4–6 executed literally, advanced identical to its paste on every verdict-level
+metric). The run itself: flag-less, tagged, clean tree — `git_dirty: false` in the
+file, per the standing rule.
+
+**Measurement.** Evidence: `eval/results/20260830-101148.json`, breakdown in
+`eval/results/final-breakdown-2026-08-30.md`.
+
+| verdict_utility | all (32) | dev (22) | holdout (10) |
+|---|---|---|---|
+| advanced | 0.9375 | 0.9091 | **1.0** |
+| baseline | 0.5547 | 0.4773 | 0.725 |
+| always_abstain | 0.4844 | 0.4886 | 0.475 |
+
+Advanced on the holdout: every metric at its ceiling — verdict_utility 1.0,
+confident_wrong_rate 0, check_accuracy 1.0, grounding 1.0, exact_match 1.0,
+decisive_rate 1.0. The one imperfection in the full set remains dev case-28, the
+deliberately priced B-rating cut. Baseline: 0.5547 full-set — its holdout subset
+(0.725) was its friendliest, stated plainly; the full-set delta of +0.3828 is
+same-run, and the conservative dev-band comparison in entry [1] still stands.
+Advanced cost $0.003142/case (3.6× cheaper than baseline), p50 2.1 s, grounding
+1.0 across all 32.
+
+**Verdict.** Target met on the holdout with nothing left on the table: decisive on
+every case it should be decisive on, abstaining only where the truth is
+unverifiable, zero unverified citations. This is the run of record for every
+number in README.md.
+
 ### [12] Salary-note advice corrected; live timing recorded; guide refreshed to n=22
 `(committed with this entry)` · 2026-08-29 21:05 UTC · trajectory: `trajectories/2026-08-29-0757-prompt02-pipeline-construction.md`
 
