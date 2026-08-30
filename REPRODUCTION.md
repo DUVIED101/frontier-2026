@@ -259,7 +259,7 @@ python -m mypy --strict src
 python -m ruff format --check src/ tests/ eval/*.py conftest.py
 ```
 
-All 101 tests pass on a clean clone in ~5 s; no API key needed.
+All 104 tests pass on a clean clone in ~5 s; no API key needed.
 
 ---
 
