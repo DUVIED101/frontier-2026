@@ -26,7 +26,11 @@ def main(argv: list[str] | None = None) -> int:
     if not path.is_file():
         print(f"error: no such file: {path}", file=sys.stderr)
         return 2
-    text = path.read_text()
+    try:
+        text = path.read_text()
+    except UnicodeDecodeError:
+        print(f"error: not a UTF-8 text file: {path}", file=sys.stderr)
+        return 2
     result = solve({"requisition_text": text})
     print(render_report(result, text))
     return 0

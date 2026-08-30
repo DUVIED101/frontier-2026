@@ -58,6 +58,10 @@ _ACTIONS = {
         "ask which legal entity would employ you and issue the Certificate of "
         "Sponsorship, then check that entity's register entry"
     ),
+    ("register", "no_employer_stated"): (
+        "identify the employing legal entity first — the posting names no "
+        "employer, so there is nothing to check against the register"
+    ),
     ("route", "no_entity"): (
         "resolve the employing legal entity first — the route can only be read "
         "from that entity's register rows"

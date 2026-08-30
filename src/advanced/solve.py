@@ -112,6 +112,12 @@ def _register_check(resolution: Resolution) -> tuple[CheckOutcome, dict[str, Any
             CheckOutcome("indeterminate", "ambiguous_group"),
             {"register_rows": [_row_evidence(r) for r in resolution.rows]},
         )
+    # NoMatch is definitive only after something was actually searched (C1). With
+    # no employer stated at all there is no absence claim to make — an empty
+    # posting must not produce a confident NOT_SPONSORABLE (prompt 03 adversarial
+    # finding, 2026-08-30).
+    if not any(s.strip() for s in resolution.searched):
+        return CheckOutcome("indeterminate", "no_employer_stated"), {}
     return CheckOutcome("fail", "no_match"), {}
 
 

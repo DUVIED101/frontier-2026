@@ -255,3 +255,19 @@ def test_ambiguity_note_groups_candidates_by_licence_route() -> None:
         "Zephyr Mobility Ltd. Which one would issue the Certificate of "
         "Sponsorship decides whether this role can sponsor at all"
     )
+
+
+def test_no_stated_employer_is_not_a_register_fail() -> None:
+    from src.advanced.resolve import NoMatch
+
+    claims = ExtractedClaims(
+        employer_strings=(),
+        stance=StanceClaim("silent", ""),
+        salary=SalaryClaim(None, None, None),
+    )
+    out = assemble(claims, NoMatch(()), FLOOR, SNAPSHOT_DATE, "")
+    assert out["checks"]["register"] == {
+        "status": "indeterminate",
+        "reason": "no_employer_stated",
+    }
+    assert out["verdict"] == "UNVERIFIABLE"
