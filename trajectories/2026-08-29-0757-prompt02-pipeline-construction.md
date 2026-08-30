@@ -728,3 +728,38 @@ timing measurement 3, trajectories audit, video, submit.
 > Metrics provably unread (eval/metrics.py never touches uncertainty_notes) and
 > measured unchanged anyway: 20260830-103559.json, advanced identical on every
 > verdict-level metric. CHANGELOG [14].
+
+---
+
+## Session close 2026-08-30 (TR-5, final — supersedes the two Saturday closes)
+
+**What changed since the last close.** The tagged-run dirty-tree guard (checkpoint
+9); the collision sweep and the two ambiguity design-record corrections (checkpoint
+10); QREPRO executed literally from a second fresh clone (checkpoint 11); the final
+full-set run of record and its dev/holdout breakdown, REPRODUCTION pastes refreshed
+from clean-tree runs, CHANGELOG [13], README completed with the four ordered
+corrections plus LICENSE (checkpoint 12); the ambiguity note grouped by licence
+route, CHANGELOG [14] (checkpoint 13).
+
+**Which metric moved.** None by code today — Sunday's delta is measurement: the
+final run (`eval/results/20260830-101148.json`, git_dirty=false, tag=final) put
+advanced at verdict_utility 0.9375 / grounding 1.0 / confident_wrong 0.0455 on all
+32 cases against baseline 0.5547 and the 0.4844 abstention floor, with the 10
+never-opened holdout cases at ceiling on every metric.
+
+**What was discarded and why.** Renaming the Halcyon/Merrivale fixtures to restore
+the two-entity ambiguity design — the collisions are real register content and
+renaming would have engineered away realistic behaviour at the cost of a second
+snapshot rebuild on submission day (DECISIONS 2026-08-30). Executing the §6 final
+command inside the QREPRO clone — it is the one-time official run and was executed
+once, in the main repo, from a clean tree. A CHANGELOG entry for the guard —
+harness tooling with no measured claim; DECISIONS and checkpoint 9 carry it.
+
+**TR-1 note, stated rather than hidden.** Sunday's work continued in this file as
+post-close checkpoints 9–13 because it is the same continued agent session as
+Saturday's; this close is the file's final entry.
+
+**Remaining, with the operator.** Timing measurement 3 (manual protocol), the
+video, and submission. Approximate session cost 2026-08-30: ~$2.10 (QREPRO clone
+runs, the final run, three clean-tree paste runs, the note-grouping run, one live
+case-24 render); ~$13 for the competition to date.
