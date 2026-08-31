@@ -17,7 +17,11 @@ the challenge requires shipping "the instructions that shape each agent". Keep i
   never "upgrade" it, never let it rot. The measured delta is the submission.
 - **CN-4 (MUST)** No credentials, API keys, tokens, `.env` contents, or personal data in the repo.
   Config comes from environment variables with documented names only.
-- **CN-5 (MUST)** Every agent session writes a trajectory to `trajectories/`. See section 6.
+- **CN-5 (MUST)** Every agent session that writes files records a trajectory in
+  `trajectories/`; a plan-only session (no file writes, no tool calls) records its
+  output as a committed document instead — `docs/PLAN.md` is that record for
+  prompt 00. See section 6. *(Amended 2026-08-30 to what the practice actually
+  became; the original read "every agent session writes a trajectory".)*
 - **CN-6 (MUST)** Consequential actions (network writes, filesystem outside the repo, payments,
   external side effects) run against a sandbox or simulation, behind an explicit
   `--allow-effects` flag that defaults to off.
@@ -57,7 +61,7 @@ the challenge requires shipping "the instructions that shape each agent". Keep i
 - **C-9 (MUST)** No dependency added without a one-line justification in the commit body.
   Every dependency is pinned to an exact version.
 
-### TypeScript-specific
+### TypeScript-specific *(unused — this submission is Python-only; kept from the pre-kickoff scaffold, no TS surface exists)*
 - **TS-1 (MUST)** Branded types for identifiers: `type JobId = Brand<string, 'JobId'>`.
 - **TS-2 (MUST)** `import type { … }` for type-only imports.
 - **TS-3 (SHOULD)** Default to `type`; use `interface` only for merging or readability.
@@ -98,22 +102,31 @@ frontier-2026/
 ├── README.md                 # submission narrative (judged)
 ├── REPRODUCTION.md           # clean-environment guide (qualification gate)
 ├── CHANGELOG.md              # Improvement Changelog (judged)
+├── LICENSE                   # MIT; register data stays OGL v3 (docs/DATA.md)
+├── conftest.py               # makes the repo root importable for pytest
 ├── src/
 │   ├── baseline/             # FROZEN after first green run. Never edited again.
-│   └── advanced/             # all improvement work lands here
+│   └── advanced/             # all improvement work lands here; cli.py is the demo entrypoint
 ├── tests/
 ├── eval/
-│   ├── run_eval.py           # single entrypoint, both variants, one command
+│   ├── run_eval.py           # single entrypoint; flag-less default runs all three variants
 │   ├── metrics.py            # metric definitions — the contract for every claim
+│   ├── verify_snapshot_invariance.py  # committed proof for the snapshot rebuild
+│   ├── collision_sweep.py    # designed employer strings vs the committed snapshot
+│   ├── split_breakdown.py    # dev/holdout re-aggregation of a results file
 │   ├── cases/                # test cases / fixtures
 │   └── results/              # committed JSON + markdown, one per run
 ├── trajectories/             # agent session records
 ├── docker/                   # pinned runtimes
 ├── prompts/                  # reusable agent prompts
 └── docs/
+    ├── PLAN.md               # approved plan + dated divergence status block
     ├── DECISIONS.md          # why, not what
-    └── DATA.md               # provenance and licence of any data used
+    ├── DATA.md               # provenance and licence of any data used
+    ├── TIMING.md             # time-to-a-trustworthy-answer measurements
+    └── VIDEO.md              # timed video script
 ```
+*(Layout updated 2026-08-30 to match the shipped tree.)*
 
 ---
 
@@ -122,8 +135,10 @@ frontier-2026/
 - **G-1 (MUST)** Formatter passes: `prettier --check .` and/or `ruff format --check .`
 - **G-2 (MUST)** Type check passes: `npx tsc --noEmit` and/or `mypy --strict src`
 - **G-3 (MUST)** Full test suite green before any commit that claims a result.
-- **G-4 (MUST)** `python eval/run_eval.py --variant baseline --variant advanced` runs to
-  completion before any `CHANGELOG.md` entry is written.
+- **G-4 (MUST)** `python eval/run_eval.py` — flag-less, so the default three-variant
+  run includes the trivial-abstention floor; the flagged two-variant form is exactly
+  what left `always_abstain` out of a run of record — runs to completion before any
+  `CHANGELOG.md` entry is written. *(Amended 2026-08-30.)*
 
 ---
 
@@ -209,7 +224,7 @@ Finish with exactly one of: OVERALL: APPROVED / OVERALL: CHANGES_REQUESTED
 
 ### QEVAL
 ```
-Run: python eval/run_eval.py --variant baseline --variant advanced
+Run: python eval/run_eval.py   # flag-less — the default includes the abstention floor (G-4)
 Report the metric table. State whether the delta is real or within run-to-run noise,
 and justify that judgment from the numbers.
 If the delta is noise, say so plainly and recommend reverting.

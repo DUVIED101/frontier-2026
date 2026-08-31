@@ -28,7 +28,7 @@ retries and human checkpoints are still there and were not tidied away.
 ## 5. Final verification
 ```
 git status                     # clean
-python eval/run_eval.py --variant baseline --variant advanced --seed 42
+python eval/run_eval.py --seed 42   # flag-less — all three variants (G-4, amended 2026-08-30)
 ```
 Run once more from a fresh clone in a clean container. If it does not run there, nothing
 else in this package matters.

@@ -250,7 +250,11 @@ therefore not an honest claim, and raw latency is not the bottleneck at all.
 time-to-a-trustworthy-answer: time until the user can act on the output, including the
 time to verify or refute a wrong or unsupported answer against the register.
 **Chosen.** B. The baseline produces text in a minute and is confidently wrong on
-roughly half its definitive verdicts, so acting on it requires re-deriving it — the
+26% of its definitive verdicts on the full set, 41% on dev
+(`eval/results/20260830-101148.json`, `20260830-102249.json`; originally written
+"roughly half" from pre-final-run dev figures, corrected 2026-08-30 — it was the
+one number in the submission rounded in our favour), so acting on it requires
+re-deriving it — the
 verification cost is part of its time. The advanced system's claim is that its output
 can be acted on without re-derivation because every check carries a mechanically
 grounded citation. Sunday protocol, fixed now: three requisitions, both variants, timed

@@ -24,7 +24,8 @@ After approval: QCODE. Implement in `src/advanced/` only. `src/baseline/` is fro
 
 Then in order:
 1. QCHECK — review your own change as a skeptical senior engineer.
-2. QEVAL — run the harness on both variants.
+2. QEVAL — run the harness flag-less: the default runs baseline, always_abstain and
+   advanced (G-4, amended 2026-08-30).
 3. Judge the delta honestly against the noise floor. **If it is inside the noise, say so and
    recommend reverting.** A reverted experiment is a changelog entry and video material; a
    fake improvement is a scoring risk under "connect every claim to the evidence".

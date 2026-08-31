@@ -248,9 +248,9 @@ an artifact contradicted a claim made about it (entries [7]–[12]).
 ## Reproduction
 
 See [`REPRODUCTION.md`](REPRODUCTION.md). Written for a clean environment with exact
-commands for the solution, the baseline, and the evaluation; executed literally from a
-fresh clone on both 2026-08-29 and 2026-08-30 (101 tests, both eval paths, the demo
-CLI, and the documented run-to-run variance behaving as documented).
+commands for the solution, the baseline, and the evaluation; executed literally from
+fresh clones on 2026-08-29 and (twice) 2026-08-30 — the full test suite, both eval
+paths, the demo CLI, and the documented run-to-run variance behaving as documented.
 
 The guide was verified a day early — executed literally, command by command, from a
 fresh clone on Saturday rather than trusted until Sunday. That verification is why it

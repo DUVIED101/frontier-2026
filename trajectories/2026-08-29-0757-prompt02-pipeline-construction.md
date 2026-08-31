@@ -826,3 +826,28 @@ case-24 render); ~$13 for the competition to date.
 > spoken band updated to "wanders between point two two and point four eight" —
 > the row-count lesson applied unprompted. Advanced numbers untouched; run of
 > record remains 20260830-101148.
+
+### Post-close checkpoint 17 — Five pre-deadline documentation fixes and the second sweep
+
+> **HUMAN: redirected** — five documentation fixes, no code, no re-runs, run of
+> record and video unchanged. (1) "Roughly half" — the one number in the submission
+> rounded in our favour — replaced in TIMING.md and DECISIONS.md with the measured
+> 26% full set / 41% dev, naming the results files; the DECISIONS replacement
+> records its own correction inline. (2) TIMING row 3 closed, not deleted: the
+> pre-registered protocol and what was actually done stay visible side by side;
+> scope line updated from "three requisitions illustrate" to match. (3)
+> trajectories/README: case count told as history (30 authored, 32 final), band
+> updated to 0.225–0.4773 in both rows, checkpoint range corrected to 1–16.
+> (4) Index now explains why two trajectories, not three: prompt 00 was plan-only
+> with docs/PLAN.md as its record; writing a Friday trajectory now would be
+> reconstruction, which TR-1 forbids. (5) CLAUDE.md amended, dated: CN-5 to the
+> practice it became; G-4 to the flag-less form with the reason in one clause;
+> the section-4 layout to the shipped tree; TypeScript rules marked unused.
+>
+> Second sweep across every shipped document found FOUR more of the same classes,
+> all fixed: the QEVAL shortcut in CLAUDE.md and prompt 04 §5 both still
+> prescribed the flagged two-variant invocation the amended G-4 forbids; prompt
+> 02 step 2 said "both variants"; README's reproduction section said "101 tests"
+> against a 104-test suite. Two near-hits inspected and left: REPRODUCTION §0's
+> "both variants" (correctly means both solvers share the pinned model) and its
+> historical "dev n=20, dev n=22" listing.
